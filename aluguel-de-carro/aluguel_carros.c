@@ -1,4 +1,5 @@
-//ENUNCIADO
+ 
+ //ENUNCIADO
 //Fa�a um programa para gerenciar loja aluguel carros.
 //O sistema ir� cadastrar:
 //    � Carro: modelo, cor, ano, quantidade, valor di�ria, placa;
@@ -6,7 +7,7 @@
 //O Sistema ir� realizar o aluguel dos carros:
 //    � O cliente cadastrado escolhe o carro dispon�vel e aluga de acordo com o tempo desejado, valor total.
 //O sistema ter� devolu��o:
-//    O funcion�rio pesquisa a placa, o sistema lista os dados do carro
+//    O funcion�rio pesquisa a placa, o sistema lista os dados do carro 
 //    e quando finalizar a devolu��o o carro volta a estar dispon�vel.
 //Observa��o: Limite de 5 (cinco) Carros e 5 (cinco) Clientes, estipulado pelo professor!.
 
@@ -25,10 +26,6 @@ typedef struct Carro
 	int disponivel;
 } Carro;
 
-typedef struct Endereco
-{
-
-} Endereco;
 
 typedef struct Cliente
 {
@@ -37,7 +34,7 @@ typedef struct Cliente
 	char cnh[50];
 	char rua[50];
 	int casa;
-	char bairo[50];
+	char bairro[50];
 
 } Cliente;
 
@@ -56,8 +53,8 @@ void statusCarrSimples(Carro carro);
 Cliente gerarCliente(int index);
 Carro gerarCarro(int index);
 
-void selectInfor(Cliente cliente, Carro carro);
-void selectInforSimples(Cliente cliente);
+void selectInfo(Cliente cliente, Carro carro);
+void selectInfoSimples(Cliente cliente);
 
 void salvarDadosClient(Cliente clientes[5]);
 int recuperarDadosClient(Cliente clientes[5]);
@@ -91,6 +88,8 @@ int main()
 	int continuar = 1;
 
 	int opMenu;
+	
+	int i=0;
 
 	printf("\n\n");
 	do
@@ -99,7 +98,7 @@ int main()
 
 		printf("1 - Gerar clientes e carros\n");
 		printf("2 - Cadastrar clientes e carros\n");
-		printf("3 - informações sobre os clientes e carros\n");
+		printf("3 - informacoes sobre os clientes e carros\n");
 		printf("4 - Sistema aluguel\n");
 		printf("5 - Devolucao do carro\n");
 		printf("6 - Salvar dados\n");
@@ -129,9 +128,10 @@ int main()
 					//1 - Gerar cadastros de carros
 					case 1:
 						limparTela();
-						for (int index = 0; index < 5; index++)
+						
+						for ( i = 0; i < 5; i++)
 						{
-							carros[index] = gerarCarro(index);
+							carros[i] = gerarCarro(i);
 						}
 						isValidCar = 1;
 						printf("\nCarros gerados Automaticamente\n");
@@ -140,9 +140,10 @@ int main()
 					//2 - Gerar cadastros de clientes
 					case 2:
 						limparTela();
-						for (int index = 0; index < 5; index++)
+					
+						for (i = 0; i < 5; i++)
 						{
-							clientes[index] = gerarCliente(index);
+							clientes[i] = gerarCliente(i);
 						}
 						isValidClient = 1;
 						printf("\nClientes gerados Automaticamente\n");
@@ -177,7 +178,8 @@ int main()
 					//1 - Cadastrar carros
 					case 1:
 						limparTela();
-						for (int i = 0; i < 5; i++)
+					
+						for (i = 0; i < 5; i++)
 						{
 							printf("\n------------------------------\n");
 							carros[i] = cadastrarCarro();
@@ -188,7 +190,7 @@ int main()
 					//2 - Cadastrar clientes
 					case 2:
 						limparTela();
-						for (int i = 0; i < 5; i++)
+						for ( i = 0; i < 5; i++)
 						{
 							printf("\n------------------------------\n");
 							clientes[i] = cadastrarCliente();
@@ -228,7 +230,8 @@ int main()
 							limparTela();
 							if (isValidClient)
 							{
-								for (int i = 0; i < 5; i++)
+							
+								for (i = 0; i < 5; i++)
 								{
 									infoCliente(clientes[i]);
 									printf("\n------------------------------\n");
@@ -259,7 +262,8 @@ int main()
 									//1 - Todos os carros
 									case 1:
 										limparTela();
-										for (int i = 0; i < 5; i++)
+									
+										for (i = 0; i < 5; i++)
 										{
 											printf("\n------------------------------\n");
 											infoCarro(carros[i]);
@@ -272,7 +276,8 @@ int main()
 										char placa[60];
 										printf("Pesquisar placa:");
 										scanf("%s", &placa);
-										for (int i = 0; i < 5; i++)
+										
+										for (i = 0; i < 5; i++)
 										{
 											if (strcmp(carros[i].placa, placa) == 0)
 											{
@@ -285,7 +290,7 @@ int main()
 									//3 - Status dos carros
 									case 3:
 										limparTela();
-										for (int i = 0; i < 5; i++)
+										for ( i = 0; i < 5; i++)
 										{
 											printf("\n------------------------------\n");
 											statusCarroSimples(carros[i]);
@@ -333,7 +338,7 @@ int main()
 				if (isValidClient && isValidCar)
 				{
 					printf("\nLista de Clientes\n");
-					for (int i = 0; i < 5; i++)
+					for ( i = 0; i < 5; i++)
 					{
 						printf("%d -> %s\n", i, clientes[i].nome);
 					}
@@ -346,13 +351,13 @@ int main()
 
 					limparTela();
 
-					selectInforSimples(clientes[clienteAtual]);
+					selectInfoSimples(clientes[clienteAtual]);
 
 					infoCliente(clientes[clienteAtual]);
 
 					limparPausarTela();
 					printf("\n\nLista de Carros\n");
-					for (int i = 0; i < 5; i++)
+					for (i = 0; i < 5; i++)
 					{
 						statusCarro(carros[i], i);
 					}
@@ -366,19 +371,19 @@ int main()
 					carros[carroAtual].disponivel = 0;
 
 					limparTela();
-					selectInfor(clientes[clienteAtual], carros[carroAtual]);
+					selectInfo(clientes[clienteAtual], carros[carroAtual]);
 
 					infoCarro(carros[carroAtual]);
 
 					limparPausarTela();
-					selectInfor(clientes[clienteAtual], carros[carroAtual]);
+					selectInfo(clientes[clienteAtual], carros[carroAtual]);
 
 					int dias;
 					printf("\nPor quantos dias deseja alugar? :");
 					scanf("%d", &dias);
 
 					limparTela();
-					selectInfor(clientes[clienteAtual], carros[carroAtual]);
+					selectInfo(clientes[clienteAtual], carros[carroAtual]);
 
 					printf("\nValor total do aluguel: %.2f\n", (carros[carroAtual].valor * dias));
 					printf("\nO carro deverar ser entregue em %d dias!!!", dias);
@@ -398,7 +403,7 @@ int main()
 				if (isValidCar)
 				{
 					isDevolucao = 0;
-					for (int i = 0; i < 5; i++)
+					for ( i = 0; i < 5; i++)
 					{
 						if (!carros[i].disponivel)
 						{
@@ -484,7 +489,7 @@ Cliente cadastrarCliente()
 	printf("Nº Casa (int)\t\t:");
 	scanf("%d", &cliente.casa);
 	printf("Bairro (char)\t\t:");
-	scanf("%s", &cliente.bairo);
+	scanf("%s", &cliente.bairro);
 	return cliente;
 }
 
@@ -532,7 +537,7 @@ void infoCliente(Cliente cliente)
 	printf("\nnome\t\t:%s", cliente.nome);
 	printf("\nrua\t\t:%s", cliente.rua);
 	printf("\ncasa\t\t:%d", cliente.casa);
-	printf("\nbairro\t\t:%s", cliente.bairo);
+	printf("\nbairro\t\t:%s", cliente.bairro);
 	printf("\ntelefone\t:%s", cliente.telefone);
 	printf("\ncnh\t\t:%s", cliente.cnh);
 }
@@ -554,7 +559,7 @@ Cliente gerarCliente(int index)
 	sprintf(cliente.nome, "%s %d", "nome", index);
 	sprintf(cliente.rua, "%s %d", "rua", index);
 	cliente.casa = index;
-	sprintf(cliente.bairo, "%s %d", "bairo", index);
+	sprintf(cliente.bairro, "%s %d", "bairro", index);
 	sprintf(cliente.telefone, "%s %d", "telefone", index);
 	sprintf(cliente.cnh, "%s %d", "cnh", index);
 
@@ -574,13 +579,13 @@ Carro gerarCarro(int index)
 	return carro;
 }
 
-void selectInfor(Cliente cliente, Carro carro)
+void selectInfo(Cliente cliente, Carro carro)
 {
 	printf("\nNome do cliente Selecionado -> %s\n", cliente.nome);
 	printf("Modelo do carro selecionado -> %s\n", carro.modelo);
 }
 
-void selectInforSimples(Cliente cliente)
+void selectInfoSimples(Cliente cliente)
 {
 	printf("\nNome do cliente Selecionado -> %s\n", cliente.nome);
 }
@@ -592,7 +597,8 @@ void salvarDadosClient(Cliente clientes[5])
 
 	if (arquivoClient != NULL)
 	{
-		for (int i = 0; i < 5; i++)
+		int i;
+		for ( i = 0; i < 5; i++)
 		{
 			fwrite(&clientes[i], sizeof(Cliente), sizeof(clientes[i]), arquivoClient);
 		}
@@ -612,7 +618,8 @@ int recuperarDadosClient(Cliente clientes[5])
 
 	if (arquivoClient != NULL)
 	{
-		for (size_t i = 0; i < 5; i++)
+		int i;
+		for ( i = 0; i < 5; i++)
 		{
 			Cliente cliente;
 
@@ -640,7 +647,8 @@ void salvarDadosCarros(Carro carros[5])
 	arquivoCarro = fopen("carro.bin", "wb");
 	if (arquivoCarro != NULL)
 	{
-		for (int i = 0; i < 5; i++)
+		int i;
+		for ( i = 0; i < 5; i++)
 		{
 			fwrite(&carros[i], sizeof(Carro), sizeof(carros[i]), arquivoCarro);
 		}
@@ -659,7 +667,8 @@ int recuperarDadosCarros(Carro carros[5])
 
 	if (arquivoCarro != NULL)
 	{
-		for (size_t i = 0; i < 5; i++)
+		int i;
+		for ( i = 0; i < 5; i++)
 		{
 			Carro carro;
 
