@@ -511,16 +511,26 @@ Carro cadastrarCarro()
 	return carro;
 }
 
+void limparTela()
+{
+	#ifdef WINDOWS
+    	system("cls");
+	#else
+    	system ("clear");
+	#endif
+}
 void limparPausarTela()
 {
 	printf("\n\n");
-	system("pause");
-	system("CLS");
+	#ifdef WINDOWS
+    	system("pause");
+	#else
+    	system("read -p \"Pressione enter para continuar\" saindo");
+	#endif
+	
+	limparTela();
 }
-void limparTela()
-{
-	system("CLS");
-}
+
 void infoCarro(Carro carro)
 {
 	printf("\nDados do carro:\n");
