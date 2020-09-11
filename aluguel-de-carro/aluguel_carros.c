@@ -48,7 +48,7 @@ void infoCarro(Carro carro);
 void infoCliente(Cliente cliente);
 
 void statusCarro(Carro carro, int index);
-void statusCarrSimples(Carro carro);
+void statusCarroSimples(Carro carro);
 
 Cliente gerarCliente(int index);
 Carro gerarCarro(int index);
