@@ -16,6 +16,9 @@
 //b)Procedimentos;
 //c)Vetor e registro;
 
+//cadastro de aluno
+//emprestimo de livro e devoluçao de livro
+
 //Alunos Pedro Marinho e Rayssa Carla
 
 #include <stdio.h>
@@ -23,16 +26,17 @@
 #include <string.h>
 #include <locale.h>
 
-#define MAX 2 // define a quantidade de dados que serão cadastrados
+#define MAX 2              // define a quantidade de dados que serão cadastrados
+#define MAX_LIVROS 6       // define a quantidade de livros que serão cadastrados
+#define MAX_LIVROS_ALUNO 3 // define a quantidade de livros que serão cadastrados
 
 typedef struct Funcionario
 {
-    char nomefuncionario[120];
+    char nomeFuncionario[120];
     int matricula;
     char login[60];
     char senha[60];
 } Funcionario;
-
 
 typedef struct Curso
 {
@@ -48,17 +52,16 @@ typedef struct Livro
     Curso curso;
 } Livro;
 
-
 typedef struct Aluno
 {
     char nomeAluno[120];
     int matricula;
     Curso curso;
-    Livro livros[MAX];
+    Livro livros[MAX_LIVROS_ALUNO];
 } Aluno;
 
 Funcionario funcionarios[MAX];
-Livro livros[MAX];
+Livro livros[MAX_LIVROS];
 Curso cursos[MAX];
 Aluno alunos[MAX];
 
@@ -68,7 +71,8 @@ void limparPausarTela(); // pausar e limpar tela
 void login(); //sistema login
 
 // menus de controle
-void menuLogin(); // menu do login
+void menuLogin();     // menu do login
+void menuRelatorio(); //menu de relatorio
 //menus do adm
 void menuAdm();         // menu principal do adm
 void menuAdmCadastro(); // menu de cadastrados do adm
@@ -94,7 +98,6 @@ void exibirCursos();   //exibir dados dos cursos
 //cadastro e exibição de livros
 void cadastrarLivros();     //cadastrar livros
 void gerarLivros();         //gerar dados livros
-void exibirLivros();        //exibir dados dos livros
 void exibirLivrosDisp();    //exibir dados dos livros disponíveis
 void exibirLivrosNaoDisp(); //exibir dados dos livros não disponíveis
 
@@ -103,11 +106,13 @@ void emprestimoLivro(); //sistemas de emprestimo livros
 void devolucaoLivro();  //sitema de devolução de livros
 
 //relatorio
-void relatorio();
+void relatorioAlunoLivros();
 
 int isValidCurso = 0;
 int isValidFuncionarios = 0;
 int isValidLogin = 0;
+int isValidAluno = 0;
+int isValidLivro = 0;
 
 main()
 {
@@ -121,12 +126,21 @@ main()
 
 void limparTela()
 {
+#ifdef __WIN32
     system("cls");
+#else
+    system("clear");
+#endif
 } //fim procedimento limparTela
 
 void limparPausarTela()
 {
+    printf("\n\n");
+#ifdef __WIN32
     system("pause");
+#else
+    system("read -p \"Pressione enter para continuar\" saindo");
+#endif
     limparTela();
 } //fim procedimento limparPausarTela
 
@@ -135,14 +149,14 @@ void menuLogin()
     do
     {
         int isValid = 1;
-        printf("\n#__________Tipo de Usuario__________#\n");
+        printf("\n_________Tipo de Usuario_________\n");
         printf("\n1 - Administrador");
         printf("\n2 - Funcionario");
         printf("\n0 - Sair");
         int op;
         do
         {
-            printf("\n#__________Selecione uma opcao__________#\n");
+            printf("\n_________Selecione uma opcao_________\n");
             printf(">");
             scanf("%d", &op);
             switch (op)
@@ -178,10 +192,9 @@ void menuAdm()
     int continuar = 1;
     do
     {
-        
-        
+
         int isValid = 1;
-        printf("\n#_________Sistema do Adm_________#\n");
+        printf("\n_________Sistema do Adm_________\n");
         printf("\n1 - Cadastros");
         printf("\n2 - Realizar Emprestimo");
         printf("\n3 - Realizar Devolução");
@@ -191,7 +204,7 @@ void menuAdm()
         int op;
         do
         {
-            printf("\n#_________Escolha uma opção_________#\n");
+            printf("\n_________Escolha uma opção_________\n");
             printf(">");
             scanf("%d", &op);
             switch (op)
@@ -215,7 +228,7 @@ void menuAdm()
                 //4 - Relatorio
             case 4:
                 limparTela();
-                relatorio();
+                menuRelatorio();
                 break;
             case 5:
                 limparTela();
@@ -238,7 +251,7 @@ void menuAdm()
 void menuAdmCadastro()
 {
     int isValid = 1;
-    printf("\n#_________Sistema de Cadastro do Adm_________#\n");
+    printf("\n_________Sistema de Cadastro do Adm_________\n");
     printf("\n1 - Funcionario");
     printf("\n2 - Curso");
     printf("\n3 - Livros");
@@ -247,7 +260,7 @@ void menuAdmCadastro()
     int op;
     do
     {
-        printf("\n#_________Escolha uma opção_________#\n");
+        printf("\n_________Escolha uma opção_________\n");
         printf(">");
         scanf("%d", &op);
         switch (op)
@@ -286,7 +299,7 @@ void menuAdmCadastro()
 void menuAdmGerar()
 {
     int isValid = 1;
-    printf("\n#_________Sistema de Gerar do Adm_________#\n");
+    printf("\n_________Sistema de Gerar do Adm_________\n");
     printf("\n1 - Funcionario");
     printf("\n2 - Curso");
     printf("\n3 - Livros");
@@ -296,7 +309,7 @@ void menuAdmGerar()
     int op;
     do
     {
-        printf("\n#_________Escolha uma opção_________#\n");
+        printf("\n_________Escolha uma opção_________\n");
         printf(">");
         scanf("%d", &op);
         switch (op)
@@ -347,7 +360,7 @@ void menuFuncionario()
     do
     {
         int isValid = 1;
-        printf("\n#_________Sistema do Funcionario_________#\n");
+        printf("\n_________Sistema do Funcionario_________\n");
         printf("\n1 - Cadastro aluno");
         printf("\n2 - Emprestimo");
         printf("\n3 - Devolucação");
@@ -355,7 +368,7 @@ void menuFuncionario()
         int op;
         do
         {
-            printf("\n#_________Escolha uma opção_________#\n");
+            printf("\n_________Escolha uma opção_________\n");
             printf(">");
             scanf("%d", &op);
             switch (op)
@@ -389,15 +402,65 @@ void menuFuncionario()
     } while (continuar);
 } //fim do procedimento
 
+void menuRelatorio()
+{
+    int isValid = 1;
+    printf("\n_________Sistema do Relatorios_________\n");
+    printf("\n1 - Pesquisar por aluno");
+    printf("\n2 - Todos os alunos com livros");
+    printf("\n3 - Todos os livros disponiveis");
+    printf("\n4 - Todos os livros não disponiveis");
+    printf("\n0 - Sair");
+    int op;
+    do
+    {
+        printf("\n_________Escolha uma opção_________\n");
+        printf(">");
+        scanf("%d", &op);
+        switch (op)
+        {
+        ///1 - Pesquisar por aluno
+        case 1:
+            limparTela();
+            break;
+
+        //2 - Todos os alunos com livros
+        case 2:
+            limparTela();
+            relatorioAlunoLivros();
+            break;
+        //3 - Todos os livros disponiveis
+        case 3:
+            limparTela();
+            exibirLivrosDisp();
+            limparPausarTela();
+            break;
+        //4 - Todos os livros não disponiveis
+        case 4:
+            limparTela();
+            exibirLivrosNaoDisp();
+            limparPausarTela();
+            break;
+        //0 - Sair
+        case 0:
+            limparTela();
+            break;
+        default:
+            isValid = 0;
+            break;
+        }
+    } while (!isValid);
+}
+
 void cadastrarFuncionarios()
 {
     int i;
     for (i = 0; i < MAX; i++)
     {
-        printf("\n#__________CADASTRO___________#\n");
+        printf("\n__________CADASTRO___________\n");
         printf("Nome:");
         fflush(stdin);
-        gets(funcionarios[i].nomefuncionario);
+        gets(funcionarios[i].nomeFuncionario);
 
         printf("\nMatricula:");
         scanf("%d", &funcionarios[i].matricula);
@@ -410,7 +473,7 @@ void cadastrarFuncionarios()
         fflush(stdin);
         gets(funcionarios[i].senha);
     } //fim for de cadastro de funcionario
-    isValidFuncionarios =1;
+    isValidFuncionarios = 1;
     limparPausarTela();
 
 } //fim do procedimento de cadastro de funcionario
@@ -420,15 +483,15 @@ void gerarFuncionarios()
     int i;
     for (i = 0; i < MAX; i++)
     {
-        sprintf(funcionarios[i].nomefuncionario, "Funcionario %d", i);
+        sprintf(funcionarios[i].nomeFuncionario, "Funcionario %d", i);
         funcionarios[i].matricula = i;
         sprintf(funcionarios[i].login, "login%d", i);
         sprintf(funcionarios[i].senha, "senha%d", i);
     }
-    printf("\n####________Dados do Funcionario gerados automaticamente________####\n");
+    printf("\n_________Dados do Funcionario gerados automaticamente_________\n");
 
     limparPausarTela();
-    isValidFuncionarios =1;
+    isValidFuncionarios = 1;
 
 } //fim do procedimento
 void exibirFuncionarios()
@@ -437,7 +500,7 @@ void exibirFuncionarios()
     int i;
     for (i = 0; i < MAX; i++)
     {
-        printf("%d - %s\n", i, funcionarios[i].nomefuncionario);
+        printf("%d - %s\n", i, funcionarios[i].nomeFuncionario);
     }
     printf("\n#-------------------------------------------------------#\n");
 }
@@ -450,6 +513,7 @@ void cadastrarAlunos()
         int i;
         for (i = 0; i < MAX; i++)
         {
+            printf("\n#-------------------------------------------------------#\n");
             printf("Nome:");
             fflush(stdin);
             gets(alunos[i].nomeAluno);
@@ -457,13 +521,20 @@ void cadastrarAlunos()
             printf("\nMatricula:");
             scanf("%d", &alunos[i].matricula);
 
-            // alunos[i].curso = 0; //arrumar
+            int op;
+            printf("Selecione um curso");
+            exibirCurso();
+            printf("\n>");
+            scanf("%d", &op);
+
+            alunos[i].curso = cursos[op];
 
         } //fim for de cadastro de funcionario
+        isValidAluno = 1;
     }
     else
     {
-        printf("\n###_____Nenhum dos Cursos cadastrado____###\n");
+        printf("\n_________Nenhum dos Cursos cadastrado_________\n");
     }
     limparPausarTela();
 } //fim do procedimento de cadastro de alunos
@@ -477,19 +548,21 @@ void gerarAlunos()
         {
             sprintf(alunos[i].nomeAluno, "Aluno %d", i);
             sprintf(alunos[i].matricula, "matricula%d", i);
-
+            alunos[i].curso = cursos[i];
             //alunos[i]. = 0; //arrumar
         }
-        printf("\n###_____Dados do Alunos gerados automaticamente_____###\n");
+        isValidAluno = 1;
+        printf("\n_________Dados do Alunos gerados automaticamente_________\n");
     }
     else
     {
-        printf("\n###_____Nenhum Curso cadastrado____###\n");
+        printf("\n_________Nenhum Curso cadastrado_________\n");
     }
     limparPausarTela();
 } //fim do procedimento
 
-void exibirAlunos(){
+void exibirAlunos()
+{
     printf("\n#-------------------------------------------------------#\n");
     int i;
     for (i = 0; i < MAX; i++)
@@ -538,7 +611,7 @@ void gerarCursos()
         sprintf(cursos[i].nomeCurso, "curso %d", i);
         sprintf(cursos[i].area, "area%d", i);
     }
-    printf("\nDados do Alunos gerados automaticamente\n");
+    printf("\n_________Dados do Cursos gerados automaticamente_________\n");
     isValidCurso = 1;
     limparPausarTela();
 } //fim do procedimento
@@ -548,7 +621,7 @@ void cadastrarLivros()
     if (isValidCurso)
     {
         int i;
-        for (i = 0; i < MAX; i++)
+        for (i = 0; i < MAX_LIVROS; i++)
         {
             printf("\n#-------------------------------------------------------#\n");
             printf("Nome do Livro:");
@@ -567,10 +640,11 @@ void cadastrarLivros()
 
             livros[i].disponivel = 1;
         }
+        isValidLivro = 1;
     }
     else
     {
-        printf("\n###_____Nenhum Curso cadastrado____###\n");
+        printf("\n_________Nenhum Curso cadastrado_________\n");
     }
     limparPausarTela();
 }
@@ -580,18 +654,19 @@ void gerarLivros()
     if (isValidCurso)
     {
         int i;
-        for (i = 0; i < MAX; i++)
+        for (i = 0; i < MAX_LIVROS; i++)
         {
             sprintf(livros[i].nomelivro, "Livro %d", i);
             livros[i].ISBN = i;
-            ///livros[i].cursos = cursos[i]; // corrigir
+            livros[i].curso = cursos[i];
             livros[i].disponivel = 1;
         }
-        printf("\n##____________Dados do livros gerados automaticamente____________##\n");
+        isValidLivro = 1;
+        printf("\n_________Dados do livros gerados automaticamente_________\n");
     }
     else
     {
-        printf("\nNenhum Curso cadastrado\n");
+        printf("\n_________Nenhum Curso cadastrado_________\n");
     }
     limparPausarTela();
 } //fim do procedimento
@@ -621,36 +696,38 @@ void login()
                     }
                 }
             }
-            if(!isValidLogin){
+            if (!isValidLogin)
+            {
                 printf("\nSenha incorreta\n");
-            }else
+            }
+            else
             {
                 limparTela();
                 menuFuncionario();
             }
-            
+
             int op;
             limparTela();
             printf("1 - Nova tentativa");
             printf("0 - Sair");
-            if(0==0){
+            if (0 == 0)
+            {
                 break;
             }
-            
-        } while(!isValidLogin);
+
+        } while (!isValidLogin);
     }
     else
     {
-        printf("\nNenhum funcionario Cadastrado\n");
+        printf("\n_________Nenhum funcionario Cadastrado_________\n");
     }
 }
-
 
 void exibirLivrosDisp()
 {
     printf("\n#-------------------------------------------------------#\n");
     int i;
-    for (i = 0; i < MAX; i++)
+    for (i = 0; i < MAX_LIVROS; i++)
     {
         if (livros[i].disponivel)
         {
@@ -663,7 +740,7 @@ void exibirLivrosNaoDisp()
 {
     printf("\n#-------------------------------------------------------#\n");
     int i;
-    for (i = 0; i < MAX; i++)
+    for (i = 0; i < MAX_LIVROS; i++)
     {
         if (!livros[i].disponivel)
         {
@@ -677,87 +754,121 @@ void exibirLivrosNaoDisp()
 void emprestimoLivro()
 {
 
-    int selectAluno;
-    printf("\nAlunos:\n");
-    exibirAlunos();
-    printf("\nSelecione um aluno:");
-    scanf("%d", &selectAluno);
-
-    limparTela();
-
-    int continuarSelecao = 1;
-
-    int i;
-    for (i = 0; i < MAX; i++)
+    if (isValidAluno && isValidLivro)
     {
-        int selectLivro;
-        printf("Livros:");
-        exibirLivrosDisp();
-        printf("\nSelecione um livro:");
-        scanf("%d", &selectLivro);
-       // alunos[selectAluno].livros[i] = livros[selectLivro];
 
-        //alunos[selectAluno].livrosEmprestados = i;
+        int selectAluno;
+        printf("\nAlunos:\n");
+        exibirAlunos();
+        printf("\nSelecione um aluno:");
+        scanf("%d", &selectAluno);
 
-        livros[selectLivro].disponivel = 0;
-
-        printf("\nDeseja emprestar outro livro? 1 -sim, 0- nao:");
-        scanf("%d", &continuarSelecao);
         limparTela();
-        if (!continuarSelecao)
+
+        int continuarSelecao = 1;
+
+        int i;
+        for (i = 0; i < MAX_LIVROS_ALUNO; i++)
         {
-            break;
+            int selectLivro;
+            printf("Livros:");
+            exibirLivrosDisp();
+            printf("\nSelecione um livro:");
+            scanf("%d", &selectLivro);
+            alunos[selectAluno].livros[i] = livros[selectLivro];
+
+            livros[selectLivro].disponivel = 0;
+
+            printf("\nDeseja emprestar outro livro? 1 -sim, 0- nao:\n");
+            scanf("%d", &continuarSelecao);
+            limparTela();
+
+            if (!continuarSelecao)
+            {
+                break;
+            }
         }
+    }
+    else
+    {
+        printf("\nDados insuficientes\n");
     }
 }
 void devolucaoLivro()
 {
-    int selectAluno;
-    int i, op, a, l;
-    //exibir livros emprestados
-    printf("Livros empretados:\n");
-
-    for (i = 0; i < MAX; i++)
+    if (isValidAluno && isValidLivro)
     {
-        if (!livros[i].disponivel)
-        {
-            printf("\n______________________________________________________\n");
-            printf("%d - %s", i, livros[i].nomelivro);
-        }
-    }
 
-    printf("Selecione o livro que deseja devolver:\n");
-    scanf("%d", &op);
+        int selectAluno;
+        int op;
+        //exibir livros emprestados
+        printf("Livros empretados:\n");
 
-    //for para copmpararação do aluno ao livro
-    for (a = 0; a < MAX; a++)
-    {
-        for (l = 0; l < MAX; l++)
+        exibirLivrosNaoDisp();
+
+        printf("_________Selecione o livro que deseja devolver:_________\n");
+        scanf("%d", &op);
+
+        livros[op].disponivel = 1;
+
+        int i;
+        //for para copmpararação do aluno ao livro
+        for (i = 0; i < MAX; i++)
         {
-            if (alunos[a].livros[l].nomelivro == livros[op].nomelivro)
+            int j;
+            for (j = 0; j < MAX; j++)
             {
-                strcpy(alunos[a].livros[l].nomelivro, " ");
-                alunos[a].livros[l].ISBN = 0;
-                alunos[a].livros[l].disponivel = 1;
-                strcpy(alunos[a].livros[l].curso.nomeCurso, " ");
-                strcpy(alunos[a].livros[l].curso.area, " ");
+                if (alunos[i].livros[j].nomelivro == livros[op].nomelivro)
+                {
+                    strcpy(alunos[i].livros[j].nomelivro, NULL);
+                    alunos[i].livros[j].ISBN = 0;
+                    alunos[i].livros[j].disponivel = 1;
+                    strcpy(alunos[i].livros[j].curso.nomeCurso, NULL);
+                    strcpy(alunos[i].livros[j].curso.area, NULL);
+                }
             }
         }
+        printf("Devolução realizada!");
     }
-    printf("Devolução realizada!");
+    else
+    {
+        printf("\nDados insuficientes\n");
+    }
     limparPausarTela();
 }
 
-void relatorio()
+void relatorioAlunoLivros()
 {
-    int i, l;
-    printf("Sistema de Relatorio");
+    if (isValidAluno)
+    {
 
-    for(i=0;i<MAX;i++){
-       for(l=0;l<3;l++){
-           //if(alunos[i].livrosEmprestados>0){
-               //printf("%d - %s - ");
-          // }
-       }
-   }
+        printf("\n_________Sistema de Relatorio_________\n");
+
+        int i;
+        for (i = 0; i < MAX; i++)
+        {
+            if (alunos[i].livros[i].nomelivro[1] != NULL)
+            {
+                printf("\n______________________________________________________\n");
+                printf("\nNome: %s", alunos[i].nomeAluno);
+                printf("\nMatricula: %d", alunos[i].matricula);
+                printf("\nCurso: %s", alunos[i].curso.nomeCurso);
+                printf("\nLivros:");
+                int j;
+                for (j = 0; j < MAX; j++)
+                {
+                    if (alunos[i].livros[i].nomelivro[j] != NULL)
+                    {
+                        printf("\n%s", alunos[i].livros[j].nomelivro);
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        printf("\n_________Nenhum aluno cadastrado_________\n");
+    }
+
+    limparPausarTela();
 }
