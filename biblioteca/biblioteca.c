@@ -190,7 +190,8 @@ void menuAdm()
         int op;
         do
         {
-            printf("\nEscolha uma opção:");
+            printf("\n#_________Escolha uma opção:_________#\n");
+            
             scanf("%d", &op);
             switch (op)
             {
@@ -236,7 +237,7 @@ void menuAdm()
 void menuAdmCadastro()
 {
     int isValid = 1;
-    printf("\nSistema de Cadastro do Adm\n");
+    printf("\n#_________Sistema de Cadastro do Adm_________#\n");
     printf("\n1 - Funcionario");
     printf("\n2 - Curso");
     printf("\n3 - Livros");
@@ -245,7 +246,7 @@ void menuAdmCadastro()
     int op;
     do
     {
-        printf("\nEscolha uma opção:");
+        printf("\n#_________Escolha uma opção:_________#\n");
         scanf("%d", &op);
         switch (op)
         {
@@ -283,7 +284,7 @@ void menuAdmCadastro()
 void menuAdmGerar()
 {
     int isValid = 1;
-    printf("\nSistema de Gerar do Adm\n");
+    printf("\n#_________Sistema de Gerar do Adm_________#\n");
     printf("\n1 - Funcionario");
     printf("\n2 - Curso");
     printf("\n3 - Livros");
@@ -293,7 +294,7 @@ void menuAdmGerar()
     int op;
     do
     {
-        printf("\nEscolha uma opção:");
+        printf("\n#_________Escolha uma opção:_________#\n");
         scanf("%d", &op);
         switch (op)
         {
@@ -343,7 +344,7 @@ void menuFuncionario()
     do
     {
         int isValid = 1;
-        printf("\nSistema do Funcionario\n");
+        printf("\n#_________Sistema do Funcionario_________#\n");
         printf("\n1 - Cadastro aluno");
         printf("\n2 - Emprestimo");
         printf("\n3 - Devolucação");
@@ -351,7 +352,7 @@ void menuFuncionario()
         int op;
         do
         {
-            printf("\nEscolha uma opção:");
+            printf("\n#_________Escolha uma opção:_________#\n");
             scanf("%d", &op);
             switch (op)
             {
@@ -389,7 +390,7 @@ void cadastrarFuncionarios()
     int i;
     for (i = 0; i < MAX; i++)
     {
-        printf("\n###__________CADASTRO___________###\n");
+        printf("\n#__________CADASTRO___________#\n");
         printf("Nome:");
         fflush(stdin);
         gets(funcionarios[i].nomefuncionario);
