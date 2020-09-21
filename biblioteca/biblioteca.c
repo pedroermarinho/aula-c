@@ -142,7 +142,8 @@ void menuLogin()
         int op;
         do
         {
-            printf("\n#__________Selecione uma opcao:__________#\n");
+            printf("\n#__________Selecione uma opcao__________#\n");
+            printf(">");
             scanf("%d", &op);
             switch (op)
             {
@@ -190,8 +191,8 @@ void menuAdm()
         int op;
         do
         {
-            printf("\n#_________Escolha uma opção:_________#\n");
-            
+            printf("\n#_________Escolha uma opção_________#\n");
+            printf(">");
             scanf("%d", &op);
             switch (op)
             {
@@ -246,7 +247,8 @@ void menuAdmCadastro()
     int op;
     do
     {
-        printf("\n#_________Escolha uma opção:_________#\n");
+        printf("\n#_________Escolha uma opção_________#\n");
+        printf(">");
         scanf("%d", &op);
         switch (op)
         {
@@ -294,7 +296,8 @@ void menuAdmGerar()
     int op;
     do
     {
-        printf("\n#_________Escolha uma opção:_________#\n");
+        printf("\n#_________Escolha uma opção_________#\n");
+        printf(">");
         scanf("%d", &op);
         switch (op)
         {
@@ -352,7 +355,8 @@ void menuFuncionario()
         int op;
         do
         {
-            printf("\n#_________Escolha uma opção:_________#\n");
+            printf("\n#_________Escolha uma opção_________#\n");
+            printf(">");
             scanf("%d", &op);
             switch (op)
             {
