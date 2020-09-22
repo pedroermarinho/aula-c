@@ -107,6 +107,7 @@ void devolucaoLivro();  //sitema de devolução de livros
 
 //relatorio
 void relatorioAlunoLivros();
+void pesquisarRelatorioAluno(); //pesquisar por relatorio do aluno
 
 int isValidCurso = 0;
 int isValidFuncionarios = 0;
@@ -309,7 +310,7 @@ void menuAdmGerar()
     int op;
     do
     {
-        printf("\n_________Escolha uma opção_______________\n");
+        printf("\n_________Escolha uma opção_________________\n");
         printf(">");
         scanf("%d", &op);
         switch (op)
@@ -368,7 +369,7 @@ void menuFuncionario()
         int op;
         do
         {
-            printf("\n_________Escolha uma opção_________\n");
+            printf("\n_________Escolha uma opção_____________\n");
             printf(">");
             scanf("%d", &op);
             switch (op)
@@ -422,6 +423,7 @@ void menuRelatorio()
         ///1 - Pesquisar por aluno
         case 1:
             limparTela();
+            pesquisarRelatorioAluno();
             break;
 
         //2 - Todos os alunos com livros
@@ -682,7 +684,7 @@ void login()
             printf("\nLogin:");
             fflush(stdin);
             gets(login);
-            printf("\nSenhar:");
+            printf("\nSenha:");
             fflush(stdin);
             gets(senha);
             int i;
@@ -701,7 +703,7 @@ void login()
                 printf("\nSenha incorreta\n");
                 limparPausarTela();
             }
-            else if(isValidLogin)
+            else if (isValidLogin)
             {
                 limparTela();
                 menuFuncionario();
@@ -712,13 +714,13 @@ void login()
             printf("\n1 - Nova tentativa");
             printf("\n0 - Sair");
             printf("\n>");
-            scanf("%d",&op);
+            scanf("%d", &op);
             if (op == 0)
             {
                 break;
             }
 
-        } while (isValidLogin ==0);
+        } while (isValidLogin == 0);
     }
     else
     {
@@ -824,7 +826,7 @@ void devolucaoLivro()
             {
                 if (alunos[i].livros[j].nomelivro == livros[op].nomelivro)
                 {
-                    strcpy(alunos[i].livros[j].nomelivro, NULL);
+                    strcpy(alunos[i].livros[j].nomelivro[0], NULL);
                     alunos[i].livros[j].ISBN = 0;
                     alunos[i].livros[j].disponivel = 1;
                     strcpy(alunos[i].livros[j].curso.nomeCurso, NULL);
@@ -874,5 +876,44 @@ void relatorioAlunoLivros()
         printf("\n_________Nenhum aluno cadastrado_________\n");
     }
 
+    limparPausarTela();
+}
+
+void pesquisarRelatorioAluno()
+{
+    char pesquisar[120];
+    
+    printf("\n_________Sistema de Pesquisa_________\n");
+    printf("\nDigite um nome:\n");
+    printf(">");
+    scanf("%s",&pesquisar);
+
+    if (isValidAluno)
+    {
+        int i;
+        for (i = 0; i < MAX; i++)
+        {
+            if (strcmp(alunos[i].nomeAluno,pesquisar)==0)
+            {
+                printf("\n______________________________________________________\n");
+                printf("\nNome: %s", alunos[i].nomeAluno);
+                printf("\nMatricula: %d", alunos[i].matricula);
+                printf("\nCurso: %s", alunos[i].curso.nomeCurso);
+                printf("\nLivros:");
+                int j;
+                for (j = 0; j < MAX_LIVROS_ALUNO; j++)
+                {
+                    if (alunos[i].livros[i].nomelivro[0] != NULL)
+                    {
+                        printf("\n%s", alunos[i].livros[j].nomelivro);
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        printf("\n_________Nenhum aluno cadastrado_________\n");
+    }
     limparPausarTela();
 }
