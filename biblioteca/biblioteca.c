@@ -149,7 +149,7 @@ void menuLogin()
     do
     {
         int isValid = 1;
-        printf("\n_________Tipo de Usuario_________\n");
+        printf("\n_________Tipo de Usuario_____________\n");
         printf("\n1 - Administrador");
         printf("\n2 - Funcionario");
         printf("\n0 - Sair");
@@ -194,7 +194,7 @@ void menuAdm()
     {
 
         int isValid = 1;
-        printf("\n_________Sistema do Adm_________\n");
+        printf("\n_________Sistema do Adm___________\n");
         printf("\n1 - Cadastros");
         printf("\n2 - Realizar Emprestimo");
         printf("\n3 - Realizar Devolução");
@@ -251,7 +251,7 @@ void menuAdm()
 void menuAdmCadastro()
 {
     int isValid = 1;
-    printf("\n_________Sistema de Cadastro do Adm_________\n");
+    printf("\n_________Sistema de Cadastro do Adm_____________\n");
     printf("\n1 - Funcionario");
     printf("\n2 - Curso");
     printf("\n3 - Livros");
@@ -299,7 +299,7 @@ void menuAdmCadastro()
 void menuAdmGerar()
 {
     int isValid = 1;
-    printf("\n_________Sistema de Gerar do Adm_________\n");
+    printf("\n_________Sistema de Gerar do Adm____________\n");
     printf("\n1 - Funcionario");
     printf("\n2 - Curso");
     printf("\n3 - Livros");
@@ -309,7 +309,7 @@ void menuAdmGerar()
     int op;
     do
     {
-        printf("\n_________Escolha uma opção_________\n");
+        printf("\n_________Escolha uma opção_______________\n");
         printf(">");
         scanf("%d", &op);
         switch (op)
@@ -330,12 +330,12 @@ void menuAdmGerar()
             gerarLivros();
             /* code */
             break;
-        //Aluno
+        //4 - Aluno
         case 4:
             limparTela();
             gerarAlunos();
             break;
-        //Aluno
+        //5 - Todos
         case 5:
             limparTela();
             gerarFuncionarios();
@@ -414,7 +414,7 @@ void menuRelatorio()
     int op;
     do
     {
-        printf("\n_________Escolha uma opção_________\n");
+        printf("\n_________Escolha uma opção____________\n");
         printf(">");
         scanf("%d", &op);
         switch (op)
@@ -496,13 +496,13 @@ void gerarFuncionarios()
 } //fim do procedimento
 void exibirFuncionarios()
 {
-    printf("\n#-------------------------------------------------------#\n");
+    printf("\n______________________________________________________\n");
     int i;
     for (i = 0; i < MAX; i++)
     {
         printf("%d - %s\n", i, funcionarios[i].nomeFuncionario);
     }
-    printf("\n#-------------------------------------------------------#\n");
+    printf("\n______________________________________________________\n");
 }
 
 void cadastrarAlunos()
@@ -513,7 +513,7 @@ void cadastrarAlunos()
         int i;
         for (i = 0; i < MAX; i++)
         {
-            printf("\n#-------------------------------------------------------#\n");
+            printf("\n______________________________________________________\n");
             printf("Nome:");
             fflush(stdin);
             gets(alunos[i].nomeAluno);
@@ -563,13 +563,13 @@ void gerarAlunos()
 
 void exibirAlunos()
 {
-    printf("\n#-------------------------------------------------------#\n");
+    printf("\n______________________________________________________\n");
     int i;
     for (i = 0; i < MAX; i++)
     {
         printf("\n%d - %s", i, alunos[i].nomeAluno);
     } //fim do for de exibição de aluno
-    printf("\n#-------------------------------------------------------#\n");
+    printf("\n______________________________________________________\n");
 }
 
 //cadastro e exibição de cursos
@@ -578,7 +578,7 @@ void cadastroCursos()
     int i;
     for (i = 0; i < MAX; i++)
     {
-        printf("\n#-------------------------------------------------------#\n");
+        printf("\n______________________________________________________\n");
         printf("Nome do Curso: ");
         fflush(stdin);
         gets(cursos[i].nomeCurso);
@@ -594,13 +594,13 @@ void cadastroCursos()
 
 void exibirCurso()
 {
-    printf("\n#-------------------------------------------------------#\n");
+    printf("\n______________________________________________________\n");
     int i;
     for (i = 0; i < MAX; i++)
     {
         printf("%d - %s - %s\n", i, cursos[i].nomeCurso, cursos[i].area);
     } //fim do for para exibir a lista de livros
-    printf("\n#-------------------------------------------------------#\n");
+    printf("\n______________________________________________________\n");
 } //fim do procedimento para exibição dos livros
 
 void gerarCursos()
@@ -623,7 +623,7 @@ void cadastrarLivros()
         int i;
         for (i = 0; i < MAX_LIVROS; i++)
         {
-            printf("\n#-------------------------------------------------------#\n");
+            printf("\n______________________________________________________\n");
             printf("Nome do Livro:");
             fflush(stdin);
             gets(livros[i].nomelivro);
@@ -658,7 +658,7 @@ void gerarLivros()
         {
             sprintf(livros[i].nomelivro, "Livro %d", i);
             livros[i].ISBN = i;
-            livros[i].curso = cursos[i];
+            livros[i].curso = cursos[1];
             livros[i].disponivel = 1;
         }
         isValidLivro = 1;
@@ -699,8 +699,9 @@ void login()
             if (!isValidLogin)
             {
                 printf("\nSenha incorreta\n");
+                limparPausarTela();
             }
-            else
+            else if(isValidLogin)
             {
                 limparTela();
                 menuFuncionario();
@@ -708,24 +709,27 @@ void login()
 
             int op;
             limparTela();
-            printf("1 - Nova tentativa");
-            printf("0 - Sair");
-            if (0 == 0)
+            printf("\n1 - Nova tentativa");
+            printf("\n0 - Sair");
+            printf("\n>");
+            scanf("%d",&op);
+            if (op == 0)
             {
                 break;
             }
 
-        } while (!isValidLogin);
+        } while (isValidLogin ==0);
     }
     else
     {
         printf("\n_________Nenhum funcionario Cadastrado_________\n");
+        limparPausarTela();
     }
 }
 
 void exibirLivrosDisp()
 {
-    printf("\n#-------------------------------------------------------#\n");
+    printf("\n______________________________________________________\n");
     int i;
     for (i = 0; i < MAX_LIVROS; i++)
     {
@@ -734,11 +738,11 @@ void exibirLivrosDisp()
             printf("\n%d - %s - %s", i, livros[i].nomelivro, livros[i].curso.area);
         }
     } //for de exibição de livros
-    printf("\n#-------------------------------------------------------#\n");
+    printf("\n______________________________________________________\n");
 }
 void exibirLivrosNaoDisp()
 {
-    printf("\n#-------------------------------------------------------#\n");
+    printf("\n______________________________________________________\n");
     int i;
     for (i = 0; i < MAX_LIVROS; i++)
     {
@@ -747,7 +751,7 @@ void exibirLivrosNaoDisp()
             printf("\n%d - %s - %s", i, livros[i].nomelivro, livros[i].curso.area);
         }
     } //for de exibição de livros
-    printf("\n#-------------------------------------------------------#\n");
+    printf("\n______________________________________________________\n");
 }
 
 // sistema de controle de livros
@@ -847,7 +851,7 @@ void relatorioAlunoLivros()
         int i;
         for (i = 0; i < MAX; i++)
         {
-            if (alunos[i].livros[i].nomelivro[1] != NULL)
+            if (alunos[i].livros[0].nomelivro[0] != NULL)
             {
                 printf("\n______________________________________________________\n");
                 printf("\nNome: %s", alunos[i].nomeAluno);
@@ -855,9 +859,9 @@ void relatorioAlunoLivros()
                 printf("\nCurso: %s", alunos[i].curso.nomeCurso);
                 printf("\nLivros:");
                 int j;
-                for (j = 0; j < MAX; j++)
+                for (j = 0; j < MAX_LIVROS_ALUNO; j++)
                 {
-                    if (alunos[i].livros[i].nomelivro[j] != NULL)
+                    if (alunos[i].livros[i].nomelivro[0] != NULL)
                     {
                         printf("\n%s", alunos[i].livros[j].nomelivro);
                     }
