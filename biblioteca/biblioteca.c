@@ -822,15 +822,15 @@ void devolucaoLivro()
         for (i = 0; i < MAX; i++)
         {
             int j;
-            for (j = 0; j < MAX; j++)
+            for (j = 0; j < MAX_LIVROS_ALUNO; j++)
             {
-                if (alunos[i].livros[j].nomelivro == livros[op].nomelivro)
+                if (strcmp(alunos[i].livros[j].nomelivro, livros[op].nomelivro) == 0)
                 {
-                    strcpy(alunos[i].livros[j].nomelivro[0], NULL);
+                    alunos[i].livros[j].nomelivro[0] = '\0';
                     alunos[i].livros[j].ISBN = 0;
-                    alunos[i].livros[j].disponivel = 1;
-                    strcpy(alunos[i].livros[j].curso.nomeCurso, NULL);
-                    strcpy(alunos[i].livros[j].curso.area, NULL);
+                    alunos[i].livros[j].disponivel = 0;
+                    alunos[i].livros[j].curso.nomeCurso[0] = '\0';
+                    alunos[i].livros[j].curso.area[0] = '\0';
                 }
             }
         }
@@ -853,20 +853,18 @@ void relatorioAlunoLivros()
         int i;
         for (i = 0; i < MAX; i++)
         {
-            if (alunos[i].livros[0].nomelivro[0] != NULL)
+
+            printf("\n______________________________________________________\n");
+            printf("\nNome: %s", alunos[i].nomeAluno);
+            printf("\nMatricula: %d", alunos[i].matricula);
+            printf("\nCurso: %s", alunos[i].curso.nomeCurso);
+            printf("\nLivros:");
+            int j;
+            for (j = 0; j < MAX_LIVROS_ALUNO; j++)
             {
-                printf("\n______________________________________________________\n");
-                printf("\nNome: %s", alunos[i].nomeAluno);
-                printf("\nMatricula: %d", alunos[i].matricula);
-                printf("\nCurso: %s", alunos[i].curso.nomeCurso);
-                printf("\nLivros:");
-                int j;
-                for (j = 0; j < MAX_LIVROS_ALUNO; j++)
+                if (alunos[i].livros[j].nomelivro[0] != NULL && alunos[i].livros[j].nomelivro[0] != '\0')
                 {
-                    if (alunos[i].livros[i].nomelivro[0] != NULL)
-                    {
-                        printf("\n%s", alunos[i].livros[j].nomelivro);
-                    }
+                    printf("\n%s", alunos[i].livros[j].nomelivro);
                 }
             }
         }
@@ -882,18 +880,18 @@ void relatorioAlunoLivros()
 void pesquisarRelatorioAluno()
 {
     char pesquisar[120];
-    
+
     printf("\n_________Sistema de Pesquisa_________\n");
     printf("\nDigite um nome:\n");
     printf(">");
-    scanf("%s",&pesquisar);
+    scanf("%s", &pesquisar);
 
     if (isValidAluno)
     {
         int i;
         for (i = 0; i < MAX; i++)
         {
-            if (strcmp(alunos[i].nomeAluno,pesquisar)==0)
+            if (strcmp(alunos[i].nomeAluno, pesquisar) == 0)
             {
                 printf("\n______________________________________________________\n");
                 printf("\nNome: %s", alunos[i].nomeAluno);
@@ -903,7 +901,7 @@ void pesquisarRelatorioAluno()
                 int j;
                 for (j = 0; j < MAX_LIVROS_ALUNO; j++)
                 {
-                    if (alunos[i].livros[i].nomelivro[0] != NULL)
+                    if (alunos[i].livros[i].nomelivro[0] != NULL && alunos[i].livros[i].nomelivro[0] != '\0')
                     {
                         printf("\n%s", alunos[i].livros[j].nomelivro);
                     }
