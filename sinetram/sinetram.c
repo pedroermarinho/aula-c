@@ -39,21 +39,23 @@ Valor: 4,0 PONTOS
 #define MAX 2              // define a quantidade de dados que serão cadastrados
 #define VL_PASSAGEM 2
 
-typedef struct Login{
+typedef struct Login
+{
 	char usuario[20];
 	char senha[20];
 }Login;
 
-typedef struct ADM{
+typedef struct ADM
+{
 	Login login;
 }ADM;
 
-typedef struct Endereco{
+typedef struct Endereco
+{
 	char rua[60];
 	char casa[20];
 	char bairro[60];
 }Endereco;
-
 
 typedef struct Curso
 {
@@ -69,7 +71,8 @@ typedef struct Funcionario
     Login login;
 } Funcionario;
 
-typedef struct Estudante{
+typedef struct Estudante
+{
 	char matricula[20];
 	char nomeEstudante[120];
 	Login login;
@@ -86,6 +89,8 @@ Funcionario funcionarios[MAX];
 Curso cursos[MAX];
 Estudante estudantes[MAX];
 ADM adm;
+
+Estudante selectEstudante;
 
 void limparTela();       //limpar tela
 void limparPausarTela(); // pausar e limpar tela
@@ -130,12 +135,13 @@ void exibirCursos();   //exibir dados dos cursos
 //sistema de credito
 void colocarCredito(); //adicionar credito
 void saldo(); //
+void saldoEstudante();
 void validarEstudante(); //
 
 
 int isValidCurso = 0;
 int isValidFuncionarios = 0;
-int isValidLogin = 0;
+
 int isValidEstudante = 0;
 
 
@@ -465,7 +471,7 @@ void menuEstudante()
 			switch(op){
 				//1 - Saldo
 				case 1:
-					saldo();
+					saldoEstudante();
 					break;
 				//0 - Sair
 				case 0:
@@ -483,6 +489,7 @@ void menuEstudante()
 
 void loginADM()
 {
+	int isValidLogin = 0;
 	printf("\nSistema de Login do ADM\n");
 	printf("\nUsuario padrão: adm");
 	printf("\nSenha padrão: adm\n");
@@ -535,6 +542,7 @@ void loginADM()
 
 void loginFuncionario()
 {
+	int isValidLogin = 0;
 	printf("\nSistema de Login do Funcionario\n");
     if (isValidFuncionarios)
     {
@@ -593,6 +601,7 @@ void loginFuncionario()
 
 void loginEstudante()
 {
+	int isValidLogin = 0;
 	printf("\nSistema de Login do Estudante\n");
     if (isValidEstudante)
     {
@@ -614,6 +623,7 @@ void loginEstudante()
                     if (strcmp(estudantes[i].login.senha, senha) == 0)
                     {
                         isValidLogin = 1;
+                        selectEstudante = estudantes[i];
                     }
                 }
             }
@@ -937,11 +947,15 @@ void colocarCredito()
 
 void saldo()
 {
+	limparTela();
 	exibirEstudante();
 	int op;
 	printf("\nSelecione um estudante:\n");
-	printf(">");
-	scanf("%d",&op);
+	do{
+		printf(">");
+		scanf("%d",&op);
+	}while(op>=0 && op <MAX);
+	
 	limparTela();
 	
 	printf("\nnome: %s",estudantes[op].nomeEstudante);
@@ -954,6 +968,21 @@ void saldo()
 	printf("\nSaldo: %.2f",estudantes[op].saldo);
 	printf("\nCredito: %d",estudantes[op].credito);
 	limparPausarTela();
+}
+
+void saldoEstudante()
+{
+	limparTela();
+	
+	printf("\nnome: %s",selectEstudante.nomeEstudante);
+	printf("\nbairro: %s",selectEstudante.endereco.bairro);
+	printf("\ncasa: %s",selectEstudante.endereco.casa);
+	printf("\nrua: %s",selectEstudante.endereco.rua);
+	printf("\nlogin: %s",selectEstudante.login.usuario);	//login1
+	printf("\nsenha: %s",selectEstudante.login.senha);
+	printf("\nInstituições: %s",selectEstudante.curso.nomeCurso);
+	printf("\nSaldo: %.2f",selectEstudante.saldo);
+	printf("\nCredito: %d",selectEstudante.credito);
 }
 
 void validarEstudante()
