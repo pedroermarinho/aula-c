@@ -383,7 +383,8 @@ void menuFuncionario()
     {
         int isValid = 1;
         printf("\n_________Sistema do Funcionario_________\n");
-        printf("\n1 - Cadastro aluno");
+        printf("\n1 - Cadastrar aluno");
+        printf("\n2 - Venda");
         printf("\n0 - Sair");
         int op;
         do
@@ -397,6 +398,11 @@ void menuFuncionario()
             case 1:
                 limparTela();
                 cadastrarEstudante();
+                break;
+            ///2 - Venda
+            case 2:
+                limparTela();
+                colocarCredito();
                 break;
             case 0:
                 limparTela();
@@ -731,6 +737,21 @@ void cadastrarEstudante()
             fflush(stdin);
             gets(estudantes[i].login.senha);
             
+            printf("\nBairro:\n");
+	        printf(">");
+	        fflush(stdin);
+	        gets(estudantes[i].endereco.bairro);
+	        
+	        printf("\nRua:\n");
+	        printf(">");
+	        fflush(stdin);
+	        gets(estudantes[i].endereco.rua);
+	        
+	        printf("\nCasa:\n");
+	        printf(">");
+	        fflush(stdin);
+	        gets(estudantes[i].endereco.rua);
+            
             
             estudantes[i].credito = 0;
             estudantes[i].saldo = 0;
@@ -763,6 +784,7 @@ void gerarEstudante()
         for (i = 0; i < MAX; i++)
         {
             sprintf(estudantes[i].nomeEstudante,"aluno %d",i);
+            sprintf(estudantes[i].matricula,"%d%d%d",i,i,i);
 			sprintf(estudantes[i].endereco.bairro,"bairro %d",i);
 			sprintf(estudantes[i].endereco.casa,"%d",i);
 			sprintf(estudantes[i].endereco.rua,"rua %d",i);
