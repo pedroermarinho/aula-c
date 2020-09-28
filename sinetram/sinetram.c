@@ -120,6 +120,7 @@ void exibirFuncionarios();    //exibir dados dos funcionarios
 void cadastrarEstudante(); //cadastrar alunos
 void gerarEstudante();     //gerar dados funcionarios
 void exibirEstudante();    //exibir dados alunos
+void exibirEstudanteDisp();
 
 //cadastro e exibição de cursos
 void cadastroCursos(); //cadastrar cursos
@@ -705,12 +706,36 @@ void cadastrarEstudante()
         for (i = 0; i < MAX; i++)
         {
             printf("\n______________________________________________________\n");
-            printf("Nome:");
+            printf("\nNome:\n");
+            printf(">");
             fflush(stdin);
             gets(estudantes[i].nomeEstudante);
 
             printf("\nMatricula:");
-            scanf("%d", &estudantes[i].matricula);
+            printf(">");
+            fflush(stdin);
+            gets(estudantes[i].matricula);
+            
+            printf("\nTelefone:\n");
+            printf(">");
+            fflush(stdin);
+            gets(estudantes[i].telefone);
+            
+            printf("\nUsuario:\n");
+            printf(">");
+            fflush(stdin);
+            gets(estudantes[i].login.usuario);
+            
+            printf("\nSenha:\n");
+            printf(">");
+            fflush(stdin);
+            gets(estudantes[i].login.senha);
+            
+            
+            estudantes[i].credito = 0;
+            estudantes[i].saldo = 0;
+            estudantes[i].status = 0;
+            
 
             int op;
             printf("Selecione um curso");
@@ -737,10 +762,17 @@ void gerarEstudante()
         int i;
         for (i = 0; i < MAX; i++)
         {
-            sprintf(estudantes[i].nomeEstudante, "Aluno %d", i);
-            sprintf(estudantes[i].matricula, "matricula%d", i);
-            estudantes[i].curso = cursos[i];
-            //alunos[i]. = 0; //arrumar
+            sprintf(estudantes[i].nomeEstudante,"aluno %d",i);
+			sprintf(estudantes[i].endereco.bairro,"bairro %d",i);
+			sprintf(estudantes[i].endereco.casa,"%d",i);
+			sprintf(estudantes[i].endereco.rua,"rua %d",i);
+			sprintf(estudantes[i].login.usuario,"login%d",i);	//login1
+			sprintf(estudantes[i].login.senha,"senha%d",i);	//senha1
+			sprintf(estudantes[i].telefone,"%d%d%d%d",i,i,i,i);	
+			estudantes[i].curso = cursos[i];
+			estudantes[i].credito = 0;
+            estudantes[i].saldo = 0;
+            estudantes[i].status = 0;
         }
         isValidEstudante = 1;
         printf("\n_________Dados do Alunos gerados automaticamente_________\n");
@@ -759,7 +791,23 @@ void exibirEstudante()
 	    int i;
 	    for (i = 0; i < MAX; i++)
 	    {
-	        printf("\n%d -> %s",i,estudantes[i].nome);
+	        printf("\n%d -> %s",i,estudantes[i].nomeEstudante);
+	    } //fim do for de exibição de aluno
+    }else{
+		printf("\nNenhuma Instituição cadastrada\n");
+	}
+    printf("\n______________________________________________________\n");
+}
+void exibirEstudanteDisp()
+{
+    printf("\n______________________________________________________\n");
+    if(isValidEstudante){
+	    int i;
+	    for (i = 0; i < MAX; i++)
+	    {
+	    	if(!estudantes[i].status){
+	     	   printf("\n%d -> %s",i,estudantes[i].nomeEstudante);
+	    	}
 	    } //fim do for de exibição de aluno
     }else{
 		printf("\nNenhuma Instituição cadastrada\n");
@@ -773,13 +821,30 @@ void cadastroCursos()
     for (i = 0; i < MAX; i++)
     {
         printf("\n______________________________________________________\n");
-        printf("Nome do Curso: ");
+        printf("\nNome do Curso:\n");
+        printf(">");
         fflush(stdin);
         gets(cursos[i].nomeCurso);
-
-        printf("\nTelefone: ");
+        
+        printf("\nTelefone:\n");
+        printf(">");
         fflush(stdin);
         gets(cursos[i].telefone);
+        
+        printf("\nBairro:\n");
+        printf(">");
+        fflush(stdin);
+        gets(cursos[i].endereco.bairro);
+        
+        printf("\nRua:\n");
+        printf(">");
+        fflush(stdin);
+        gets(cursos[i].endereco.rua);
+        
+        printf("\nCasa:\n");
+        printf(">");
+        fflush(stdin);
+        gets(cursos[i].endereco.rua);
     } //fim for do cadastro de cursos
 
     isValidCurso = 1;
@@ -815,7 +880,7 @@ void gerarCursos()
 void colocarCredito()
 {
 	
-	exibirEstudante();
+	exibirEstudanteDisp();
 	int op;
 	printf("\nSelecione um estudante para colocar credito:\n");
 	printf(">");
