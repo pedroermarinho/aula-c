@@ -37,7 +37,7 @@ Valor: 4,0 PONTOS
 #include <math.h>
 
 #define MAX 2              // define a quantidade de dados que serão cadastrados
-#define VL_PASSAGEM 2
+#define VL_PASSAGEM 2.34
 
 typedef struct Login
 {
@@ -837,7 +837,7 @@ void exibirEstudanteDisp()
 	    int i;
 	    for (i = 0; i < MAX; i++)
 	    {
-	    	if(!estudantes[i].status){
+	    	if(estudantes[i].status){
 	     	   printf("\n%d -> %s",i,estudantes[i].nomeEstudante);
 	    	}
 	    } //fim do for de exibição de aluno
@@ -935,7 +935,7 @@ void colocarCredito()
 	scanf("%f",&valor);
 	
 
-	estudantes[op].saldo +=remainder(valor, VL_PASSAGEM);
+	estudantes[op].saldo += fabs(remainder(valor, VL_PASSAGEM));
 	estudantes[op].credito += floor(valor/VL_PASSAGEM);
 	
 	
