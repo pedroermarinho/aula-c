@@ -1,7 +1,7 @@
 /*
 (2)faça programa que cadastre 3 números e exiba maior dentre eles
 */
-
+//Pedro Marinhos
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>

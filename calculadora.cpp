@@ -1,7 +1,7 @@
 /*
 Calculadora:soma, subtração, multiplicação, divisão e potencia 
 */
-
+//Pedro Marinho
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
@@ -41,7 +41,7 @@ void menu()
         printf("\nDigite um número\n");
         printf(">");
         scanf("%f",&a);
-        printf("\nDigite outro número\n");
+        printf("\nDigite o expoente\n");
         printf(">");
         scanf("%f",&b);
     }else

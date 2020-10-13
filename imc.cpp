@@ -1,6 +1,7 @@
 /*
 (3) Faça um programa que cadastre nome, peso,altura de uma pessoa e exiba os dados e I.M.C e a classificação
 */
+//Pedro Marinho
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>

@@ -1,7 +1,7 @@
 /*
 (1)Faça um programa que cadastre 2 números,pesquise número se existir exiba,senão exiba mensagem número não cadastrado 
 */
-
+//Pedro Marinho
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
