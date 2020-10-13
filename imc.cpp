@@ -1,3 +1,6 @@
+/*
+(3) Faça um programa que cadastre nome, peso,altura de uma pessoa e exiba os dados e I.M.C e a classificação
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
@@ -17,8 +20,9 @@ void imprimirMsg(Pessoa pessoa);
 
 int main(void)
 {
-    setlocale(LC_ALL, "UTF-8");
+    setlocale(LC_ALL, "Portuguese");
     cadastrar();
+    getchar();
     return 0;
 }
 void cadastrar()

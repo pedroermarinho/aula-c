@@ -1,3 +1,6 @@
+/*
+(4) Faça programa que cadastre 2 pessoas:Nome, CPF,ano nascimento.Pesquise por CPF se existir exiba:Nome, CPF,idade e ano nascimento
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
@@ -16,8 +19,9 @@ void imprimirMsg(Pessoa pessoa);
 
 int main(void)
 {
-    setlocale(LC_ALL, "UTF-8");
+    setlocale(LC_ALL, "Portuguese");
     cadastrar();
+    getchar();
     return 0;
 }
 void cadastrar()

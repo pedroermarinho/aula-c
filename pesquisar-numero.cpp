@@ -1,3 +1,7 @@
+/*
+(1)Faça um programa que cadastre 2 números,pesquise número se existir exiba,senão exiba mensagem número não cadastrado 
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
@@ -9,8 +13,9 @@ void imprimirMsg();
 
 int main(void)
 {
-    setlocale(LC_ALL, "UTF-8");
+    setlocale(LC_ALL, "Portuguese");
     setNum();
+    getchar();
     return 0;
 }
 

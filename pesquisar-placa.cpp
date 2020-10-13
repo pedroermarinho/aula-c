@@ -1,3 +1,6 @@
+/*
+faça programa que cadastre carro: marca,modelo,cor,placa, valor.Pesquise por placa se existir exiba: marca,modelo,cor,placa,valor IPVA (é 3% do valor do carro)
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
@@ -18,8 +21,9 @@ void imprimirMsg(Carro carro);
 
 int main(void)
 {
-    setlocale(LC_ALL, "UTF-8");
+    setlocale(LC_ALL, "Portuguese");
     cadastrar();
+    getchar();
     return 0;
 }
 void cadastrar()

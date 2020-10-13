@@ -1,3 +1,7 @@
+/*
+(2)faça programa que cadastre 3 números e exiba maior dentre eles
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
@@ -8,8 +12,9 @@ void imprimirMsg(int x);
 
 int main(void)
 {
-    setlocale(LC_ALL,"UTF-8");
+    setlocale(LC_ALL,"Portuguese");
     setNum();
+    getchar();
     return 0;
 }
 void setNum()
