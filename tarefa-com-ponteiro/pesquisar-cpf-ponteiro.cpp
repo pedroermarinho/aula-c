@@ -1,5 +1,7 @@
 /*
 (4) Faça programa que cadastre 2 pessoas:Nome, CPF,ano nascimento.Pesquise por CPF se existir exiba:Nome, CPF,idade e ano nascimento
+
+Com ponteiro
 */
 //Pedro Marinho
 #include <stdio.h>

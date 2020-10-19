@@ -1,5 +1,7 @@
 /*
 (2)faça programa que cadastre 3 números e exiba maior dentre eles
+
+Com ponteiro
 */
 //Pedro Marinhos
 #include <stdio.h>

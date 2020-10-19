@@ -1,5 +1,7 @@
 /*
 Calculadora:soma, subtração, multiplicação, divisão e potencia 
+
+Com ponteiro
 */
 //Pedro Marinho
 #include <stdio.h>
