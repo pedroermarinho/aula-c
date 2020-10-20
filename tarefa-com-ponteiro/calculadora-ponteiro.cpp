@@ -95,16 +95,18 @@ void menu()
         system("pause"); 
     } while (1);
 }
+
 void setNum(float *a, float *b, int op)
 {
+    
     if (op == 5)
     {
         printf("\nDigite um número\n");
         printf(">");
-        scanf("%f", a);
+        scanf("%f",a);
         printf("\nDigite o expoente\n");
         printf(">");
-        scanf("%f", b);
+        scanf("%f",b);
     }
     else
     {
@@ -115,6 +117,7 @@ void setNum(float *a, float *b, int op)
         printf(">");
         scanf("%f", b);
     }
+ 
 }
 
 void soma(float a, float b, float *result)
