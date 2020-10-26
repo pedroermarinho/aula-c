@@ -22,9 +22,9 @@ void leitura(int *numero ){
 }
 
 
-void imprimirNumero(int a){
-    printf("3 -%x\n",&a);
-    printf("3 -%d\n",a);
+void imprimirNumero(int numero){
+    printf("3 -%x\n",&numero);
+    printf("3 -%d\n",numero);
 }
 
 void imprimirNumeroQualquer(){
