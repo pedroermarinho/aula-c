@@ -387,3 +387,5 @@ void update_function(funcionario_t funcionario_vet[], int tam)
         printf("\nFuncionario não existe\n");
     }
 }
+
+
