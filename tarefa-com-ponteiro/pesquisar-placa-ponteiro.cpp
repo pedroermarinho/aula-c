@@ -9,30 +9,30 @@ Com ponteiro
 #include <locale.h>
 #include <string.h>
 
-typedef struct Carro
+typedef struct 
 {
     char marca[120];
     char modelo[60];
     char placa[20];
     char cor[20];
     float valor;
-} Carro;
+} carro_t;
 
-void cadastrar(Carro *carro1,Carro *carro2);
-void pesquisar(Carro carro1,Carro carro2);
-void imprimirMsg(Carro carro);
+void cadastrar(carro_t *carro1,carro_t *carro2);
+void pesquisar(carro_t carro1,carro_t carro2);
+void result_msg(carro_t carro);
 
 int main(void)
 {
     setlocale(LC_ALL, "Portuguese");
-    Carro carro1;
-    Carro carro2;
+    carro_t carro1;
+    carro_t carro2;
     cadastrar(&carro1,&carro2);
     pesquisar(carro1, carro2);
     getchar();
     return 0;
 }
-void cadastrar(Carro *carro1,Carro *carro2)
+void cadastrar(carro_t *carro1,carro_t *carro2)
 {
     
     printf("\n-------------------------\n");
@@ -79,7 +79,7 @@ void cadastrar(Carro *carro1,Carro *carro2)
     printf(">");
     scanf("%f",&carro2->valor);    
 }
-void pesquisar(Carro carro1,Carro carro2)
+void pesquisar(carro_t carro1,carro_t carro2)
 {
     char placa[20];
     printf("\nSistema de pesquisa\n");
@@ -89,15 +89,15 @@ void pesquisar(Carro carro1,Carro carro2)
     gets(placa);
     if (strcmp(placa,carro1.placa)==0)
     {
-        imprimirMsg(carro1);
+        result_msg(carro1);
     }
     if (strcmp(placa,carro2.placa)==0)
     {
-        imprimirMsg(carro2);
+        result_msg(carro2);
     }
     
 }
-void imprimirMsg(Carro carro)
+void result_msg(carro_t carro)
 {
     printf("\nInformações\n");
     printf("\nMarca:%s",carro.marca);

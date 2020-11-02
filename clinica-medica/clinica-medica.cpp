@@ -134,7 +134,7 @@ void menu_login()
         printf("\n4-Paciente");
         printf("\n0-Sair");
 
-        bool isValid = true;
+        bool is_valid = true;
         int op = 0;
         do
         {
@@ -180,10 +180,10 @@ void menu_login();
                 exit(EXIT_SUCCESS);
                 break;
             default:
-                isValid = false;
+                is_valid = false;
                 break;
             }
-        } while (!isValid);
+        } while (!is_valid);
 
     } while (true);
 }
@@ -250,7 +250,7 @@ void menu_adm(funcionario_t funcionario_vet[],
         printf("\n4- Alterar");
         printf("\n0- Sair");
 
-        bool isValid = true;
+        bool is_valid = true;
         int op = 0;
         do
         {
@@ -281,10 +281,10 @@ void menu_adm(funcionario_t funcionario_vet[],
                 continuar = false;
                 break;
             default:
-                isValid = false;
+                is_valid = false;
                 break;
             }
-        } while (!isValid);
+        } while (!is_valid);
     } while (continuar);
 }
 

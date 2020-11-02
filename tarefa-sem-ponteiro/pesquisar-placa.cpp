@@ -7,18 +7,18 @@ faça programa que cadastre carro: marca,modelo,cor,placa, valor.Pesquise por pl
 #include <locale.h>
 #include <string.h>
 
-typedef struct Carro
+typedef struct
 {
     char marca[120];
     char modelo[60];
     char placa[20];
     char cor[20];
     float valor;
-} Carro;
+} carro_t;
 
 void cadastrar();
-void pesquisar(Carro carro1,Carro carro2);
-void imprimirMsg(Carro carro);
+void pesquisar(carro_t carro1,carro_t carro2);
+void result_msg(carro_t carro);
 
 int main(void)
 {
@@ -29,8 +29,8 @@ int main(void)
 }
 void cadastrar()
 {
-    Carro carro1;
-    Carro carro2;
+    carro_t carro1;
+    carro_t carro2;
     
     printf("\n-------------------------\n");
     printf("\nMarca:\n");
@@ -78,7 +78,7 @@ void cadastrar()
 
     pesquisar(carro1, carro2);
 }
-void pesquisar(Carro carro1,Carro carro2)
+void pesquisar(carro_t carro1,carro_t carro2)
 {
     char placa[20];
     printf("\nSistema de pesquisa\n");
@@ -88,15 +88,15 @@ void pesquisar(Carro carro1,Carro carro2)
     gets(placa);
     if (strcmp(placa,carro1.placa)==0)
     {
-        imprimirMsg(carro1);
+        result_msg(carro1);
     }
     if (strcmp(placa,carro2.placa)==0)
     {
-        imprimirMsg(carro2);
+        result_msg(carro2);
     }
     
 }
-void imprimirMsg(Carro carro)
+void result_msg(carro_t carro)
 {
     printf("\nInformações\n");
     printf("\nMarca:%s",carro.marca);

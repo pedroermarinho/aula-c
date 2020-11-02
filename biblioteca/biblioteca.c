@@ -30,111 +30,111 @@
 #define MAX_LIVROS 6       // define a quantidade de livros que serão cadastrados
 #define MAX_LIVROS_ALUNO 3 // define a quantidade de livros que serão cadastrados
 
-typedef struct Funcionario
+typedef struct 
 {
-    char nomeFuncionario[120];
+    char nome_funcionario[120];
     int matricula;
     char login[60];
     char senha[60];
-} Funcionario;
+} funcionario_t;
 
-typedef struct Curso
+typedef struct 
 {
-    char nomeCurso[120];
+    char nome_curso[120];
     char area[120];
-} Curso;
+} curso_t;
 
-typedef struct Livro
+typedef struct 
 {
-    char nomelivro[120];
-    int ISBN;
+    char nome_livro[120];
+    int isbn;
     int disponivel;
-    Curso curso;
-} Livro;
+    curso_t curso;
+} livro_t;
 
-typedef struct Aluno
+typedef struct 
 {
-    char nomeAluno[120];
+    char nome_aluno[120];
     int matricula;
-    Curso curso;
-    Livro livros[MAX_LIVROS_ALUNO];
-} Aluno;
+    curso_t curso;
+    livro_t livro_vet[MAX_LIVROS_ALUNO];
+} aluno_t;
 
-Funcionario funcionarios[MAX];
-Livro livros[MAX_LIVROS];
-Curso cursos[MAX];
-Aluno alunos[MAX];
+funcionario_t funcionario_vet[MAX];
+livro_t livro_vet[MAX_LIVROS];
+curso_t curso_vet[MAX];
+aluno_t aluno_vet[MAX];
 
-void limparTela();       //limpar tela
-void limparPausarTela(); // pausar e limpar tela
+void limpar_tela();       //limpar tela
+void pausar_limpar_tela(); // pausar e limpar tela
 
 void login(); //sistema login
 
 // menus de controle
-void menuLogin();     // menu do login
-void menuRelatorio(); //menu de relatorio
+void menu_login();     // menu do login
+void menu_relatorio(); //menu de relatorio
 //menus do adm
-void menuAdm();         // menu principal do adm
-void menuAdmCadastro(); // menu de cadastrados do adm
-void menuAdmGerar();    // menu de geração de dados automaticos do adm
+void menu_adm();         // menu principal do adm
+void menu_adm_cadastro(); // menu de cadastrados do adm
+void menu_adm_gerar();    // menu de geração de dados automaticos do adm
 //menus do funcionario
-void menuFuncionario(); // menu do principal do funcionario
+void menu_funcionario(); // menu do principal do funcionario
 
 //cadastro de funcionarios
-void cadastrarFuncionarios(); //cadastrar funcionarios
-void gerarFuncionarios();     //gerar dados funcionarios
-void exibirFuncionarios();    //exibir dados dos funcionarios
+void cadastrar_funcionarios(); //cadastrar funcionarios
+void gerar_funcionarios();     //gerar dados funcionarios
+void exibir_funcionarios();    //exibir dados dos funcionarios
 
 //cadastro e exibição de alunos
-void cadastrarAlunos(); //cadastrar alunos
-void gerarAlunos();     //gerar dados funcionarios
-void exibirAlunos();    //exibir dados alunos
+void cadastrar_alunos(); //cadastrar alunos
+void gerar_alunos();     //gerar dados funcionarios
+void exibir_alunos();    //exibir dados alunos
 
 //cadastro e exibição de cursos
-void cadastroCursos(); //cadastrar cursos
-void gerarCursos();    //gerar dados dos cursos
-void exibirCursos();   //exibir dados dos cursos
+void cadastro_cursos(); //cadastrar cursos
+void gerar_cursos();    //gerar dados dos cursos
+void exibir_cursos();   //exibir dados dos cursos
 
 //cadastro e exibição de livros
-void cadastrarLivros();     //cadastrar livros
-void gerarLivros();         //gerar dados livros
-void exibirLivrosDisp();    //exibir dados dos livros disponíveis
-void exibirLivrosNaoDisp(); //exibir dados dos livros não disponíveis
+void cadastrar_livros();     //cadastrar livros
+void gerar_livros();         //gerar dados livros
+void exibir_livros_disp();    //exibir dados dos livros disponíveis
+void exibir_livros_nao_disp(); //exibir dados dos livros não disponíveis
 
 // sistema de controle de livros
-void emprestimoLivro(); //sistemas de emprestimo livros
-void devolucaoLivro();  //sitema de devolução de livros
+void emprestimo_livro(); //sistemas de emprestimo livros
+void devolucao_livro();  //sitema de devolução de livros
 
 //relatorio
-void relatorioAlunoLivros();
-void pesquisarRelatorioAluno(); //pesquisar por relatorio do aluno
+void relatorio_aluno_livros();
+void pesquisar_relatorio_aluno(); //pesquisar por relatorio do aluno
 
-int isValidCurso = 0;
-int isValidFuncionarios = 0;
-int isValidLogin = 0;
-int isValidAluno = 0;
-int isValidLivro = 0;
+int is_valid_curso = 0;
+int is_valid_funcionarios = 0;
+int is_valid_login = 0;
+int is_valid_aluno = 0;
+int is_valid_livro = 0;
 
 main()
 {
     setlocale(LC_ALL, "Portuguese");
 
-    menuLogin();
+    menu_login();
 
     return 0;
 
 } //Fim main
 
-void limparTela()
+void limpar_tela()
 {
 #ifdef __WIN32
     system("cls");
 #else
     system("clear");
 #endif
-} //fim procedimento limparTela
+} //fim procedimento limpar_tela
 
-void limparPausarTela()
+void pausar_limpar_tela()
 {
     printf("\n\n");
 #ifdef __WIN32
@@ -142,14 +142,14 @@ void limparPausarTela()
 #else
     system("read -p \"Pressione enter para continuar\" saindo");
 #endif
-    limparTela();
-} //fim procedimento limparPausarTela
+    limpar_tela();
+} //fim procedimento pausar_limpar_tela
 
-void menuLogin()
+void menu_login()
 {
     do
     {
-        int isValid = 1;
+        int is_valid = 1;
         printf("\n_________Tipo de Usuario_____________\n");
         printf("\n1 - Administrador");
         printf("\n2 - Funcionario");
@@ -164,12 +164,12 @@ void menuLogin()
             {
                 //1-Cadastro
             case 1:
-                limparTela();
-                menuAdm();
+                limpar_tela();
+                menu_adm();
                 break;
 
             case 2:
-                limparTela();
+                limpar_tela();
                 login();
                 break;
 
@@ -178,23 +178,23 @@ void menuLogin()
                 break;
 
             default:
-                isValid = 0;
+                is_valid = 0;
                 break;
             }
 
-        } while (!isValid);
+        } while (!is_valid);
 
     } while (1);
 
 } //fim procedimento menuLogic
 
-void menuAdm()
+void menu_adm()
 {
     int continuar = 1;
     do
     {
 
-        int isValid = 1;
+        int is_valid = 1;
         printf("\n_________Sistema do Adm___________\n");
         printf("\n1 - Cadastros");
         printf("\n2 - Realizar Emprestimo");
@@ -212,46 +212,46 @@ void menuAdm()
             {
                 //1 - Cadastrados
             case 1:
-                limparTela();
-                menuAdmCadastro();
+                limpar_tela();
+                menu_adm_cadastro();
                 break;
                 //2 - Emprestimo
             case 2:
-                limparTela();
-                emprestimoLivro();
+                limpar_tela();
+                emprestimo_livro();
 
                 break;
                 //3 - Devolução
             case 3:
-                limparTela();
-                devolucaoLivro();
+                limpar_tela();
+                devolucao_livro();
                 break;
                 //4 - Relatorio
             case 4:
-                limparTela();
-                menuRelatorio();
+                limpar_tela();
+                menu_relatorio();
                 break;
             case 5:
-                limparTela();
-                menuAdmGerar();
+                limpar_tela();
+                menu_adm_gerar();
                 break;
 
             case 0:
-                limparTela();
+                limpar_tela();
                 continuar = 0;
                 break;
 
             default:
-                isValid = 0;
+                is_valid = 0;
                 break;
             }
-        } while (!isValid);
+        } while (!is_valid);
     } while (continuar);
 } //fim procedimento
 
-void menuAdmCadastro()
+void menu_adm_cadastro()
 {
-    int isValid = 1;
+    int is_valid = 1;
     printf("\n_________Sistema de Cadastro do Adm_____________\n");
     printf("\n1 - Funcionario");
     printf("\n2 - Curso");
@@ -268,38 +268,38 @@ void menuAdmCadastro()
         {
         /// 1 - Funcionario
         case 1:
-            limparTela();
-            cadastrarFuncionarios();
+            limpar_tela();
+            cadastrar_funcionarios();
             break;
         //2 - Curso
         case 2:
-            limparTela();
-            cadastroCursos();
+            limpar_tela();
+            cadastro_cursos();
             break;
         //3 - Livros
         case 3:
-            limparTela();
-            cadastrarLivros();
+            limpar_tela();
+            cadastrar_livros();
             /* code */
             break;
         case 4:
-            limparTela();
-            cadastrarAlunos();
+            limpar_tela();
+            cadastrar_alunos();
             break;
         case 0:
-            limparTela();
+            limpar_tela();
             break;
 
         default:
-            isValid = 0;
+            is_valid = 0;
             break;
         }
-    } while (!isValid);
+    } while (!is_valid);
 } //fim do procedimento
 
-void menuAdmGerar()
+void menu_adm_gerar()
 {
-    int isValid = 1;
+    int is_valid = 1;
     printf("\n_________Sistema de Gerar do Adm____________\n");
     printf("\n1 - Funcionario");
     printf("\n2 - Curso");
@@ -317,50 +317,50 @@ void menuAdmGerar()
         {
         /// 1 - Funcionario
         case 1:
-            limparTela();
-            gerarFuncionarios();
+            limpar_tela();
+            gerar_funcionarios();
             break;
         //2 - Curso
         case 2:
-            limparTela();
-            gerarCursos();
+            limpar_tela();
+            gerar_cursos();
             break;
         //3 - Livros
         case 3:
-            limparTela();
-            gerarLivros();
+            limpar_tela();
+            gerar_livros();
             /* code */
             break;
         //4 - Aluno
         case 4:
-            limparTela();
-            gerarAlunos();
+            limpar_tela();
+            gerar_alunos();
             break;
         //5 - Todos
         case 5:
-            limparTela();
-            gerarFuncionarios();
-            gerarCursos();
-            gerarLivros();
-            gerarAlunos();
+            limpar_tela();
+            gerar_funcionarios();
+            gerar_cursos();
+            gerar_livros();
+            gerar_alunos();
             break;
         case 0:
-            limparTela();
+            limpar_tela();
             break;
 
         default:
-            isValid = 0;
+            is_valid = 0;
             break;
         }
-    } while (!isValid);
+    } while (!is_valid);
 } //fim do procedimento
 
-void menuFuncionario()
+void menu_funcionario()
 {
     int continuar = 1;
     do
     {
-        int isValid = 1;
+        int is_valid = 1;
         printf("\n_________Sistema do Funcionario_________\n");
         printf("\n1 - Cadastro aluno");
         printf("\n2 - Emprestimo");
@@ -376,36 +376,36 @@ void menuFuncionario()
             {
             ///1 - Cadastro aluno
             case 1:
-                limparTela();
-                cadastrarAlunos();
+                limpar_tela();
+                cadastrar_alunos();
                 break;
 
             //2 - Emprestimo
             case 2:
-                limparTela();
-                emprestimoLivro();
+                limpar_tela();
+                emprestimo_livro();
                 break;
             //3 - Devolucação
             case 3:
-                limparTela();
-                devolucaoLivro();
+                limpar_tela();
+                devolucao_livro();
                 break;
             case 0:
-                limparTela();
+                limpar_tela();
                 continuar = 0;
                 break;
 
             default:
-                isValid = 0;
+                is_valid = 0;
                 break;
             }
-        } while (!isValid);
+        } while (!is_valid);
     } while (continuar);
 } //fim do procedimento
 
-void menuRelatorio()
+void menu_relatorio()
 {
-    int isValid = 1;
+    int is_valid = 1;
     printf("\n_________Sistema do Relatorios_________\n");
     printf("\n1 - Pesquisar por aluno");
     printf("\n2 - Todos os alunos com livros");
@@ -422,39 +422,39 @@ void menuRelatorio()
         {
         ///1 - Pesquisar por aluno
         case 1:
-            limparTela();
-            pesquisarRelatorioAluno();
+            limpar_tela();
+            pesquisar_relatorio_aluno();
             break;
 
         //2 - Todos os alunos com livros
         case 2:
-            limparTela();
-            relatorioAlunoLivros();
+            limpar_tela();
+            relatorio_aluno_livros();
             break;
         //3 - Todos os livros disponiveis
         case 3:
-            limparTela();
-            exibirLivrosDisp();
-            limparPausarTela();
+            limpar_tela();
+            exibir_livros_disp();
+            pausar_limpar_tela();
             break;
         //4 - Todos os livros não disponiveis
         case 4:
-            limparTela();
-            exibirLivrosNaoDisp();
-            limparPausarTela();
+            limpar_tela();
+            exibir_livros_nao_disp();
+            pausar_limpar_tela();
             break;
         //0 - Sair
         case 0:
-            limparTela();
+            limpar_tela();
             break;
         default:
-            isValid = 0;
+            is_valid = 0;
             break;
         }
-    } while (!isValid);
+    } while (!is_valid);
 }
 
-void cadastrarFuncionarios()
+void cadastrar_funcionarios()
 {
     int i;
     for (i = 0; i < MAX; i++)
@@ -462,55 +462,55 @@ void cadastrarFuncionarios()
         printf("\n__________CADASTRO___________\n");
         printf("Nome:");
         fflush(stdin);
-        gets(funcionarios[i].nomeFuncionario);
+        gets(funcionario_vet[i].nome_funcionario);
 
         printf("\nMatricula:");
-        scanf("%d", &funcionarios[i].matricula);
+        scanf("%d", &funcionario_vet[i].matricula);
 
         printf("\nLogin:");
         fflush(stdin);
-        gets(funcionarios[i].login);
+        gets(funcionario_vet[i].login);
 
         printf("\nSenha:");
         fflush(stdin);
-        gets(funcionarios[i].senha);
+        gets(funcionario_vet[i].senha);
     } //fim for de cadastro de funcionario
-    isValidFuncionarios = 1;
-    limparPausarTela();
+    is_valid_funcionarios = 1;
+    pausar_limpar_tela();
 
 } //fim do procedimento de cadastro de funcionario
 
-void gerarFuncionarios()
+void gerar_funcionarios()
 {
     int i;
     for (i = 0; i < MAX; i++)
     {
-        sprintf(funcionarios[i].nomeFuncionario, "Funcionario %d", i);
-        funcionarios[i].matricula = i;
-        sprintf(funcionarios[i].login, "login%d", i);
-        sprintf(funcionarios[i].senha, "senha%d", i);
+        sprintf(funcionario_vet[i].nome_funcionario, "Funcionario %d", i);
+        funcionario_vet[i].matricula = i;
+        sprintf(funcionario_vet[i].login, "login%d", i);
+        sprintf(funcionario_vet[i].senha, "senha%d", i);
     }
     printf("\n_________Dados do Funcionario gerados automaticamente_________\n");
 
-    limparPausarTela();
-    isValidFuncionarios = 1;
+    pausar_limpar_tela();
+    is_valid_funcionarios = 1;
 
 } //fim do procedimento
-void exibirFuncionarios()
+void exibir_funcionarios()
 {
     printf("\n______________________________________________________\n");
     int i;
     for (i = 0; i < MAX; i++)
     {
-        printf("%d - %s\n", i, funcionarios[i].nomeFuncionario);
+        printf("%d - %s\n", i, funcionario_vet[i].nome_funcionario);
     }
     printf("\n______________________________________________________\n");
 }
 
-void cadastrarAlunos()
+void cadastrar_alunos()
 {
 
-    if (isValidCurso)
+    if (is_valid_curso)
     {
         int i;
         for (i = 0; i < MAX; i++)
@@ -518,10 +518,10 @@ void cadastrarAlunos()
             printf("\n______________________________________________________\n");
             printf("Nome:");
             fflush(stdin);
-            gets(alunos[i].nomeAluno);
+            gets(aluno_vet[i].nome_aluno);
 
             printf("\nMatricula:");
-            scanf("%d", &alunos[i].matricula);
+            scanf("%d", &aluno_vet[i].matricula);
 
             int op;
             printf("Selecione um curso");
@@ -529,53 +529,53 @@ void cadastrarAlunos()
             printf("\n>");
             scanf("%d", &op);
 
-            alunos[i].curso = cursos[op];
+            aluno_vet[i].curso = curso_vet[op];
 
         } //fim for de cadastro de funcionario
-        isValidAluno = 1;
+        is_valid_aluno = 1;
     }
     else
     {
         printf("\n_________Nenhum dos Cursos cadastrado_________\n");
     }
-    limparPausarTela();
+    pausar_limpar_tela();
 } //fim do procedimento de cadastro de alunos
 
-void gerarAlunos()
+void gerar_alunos()
 {
-    if (isValidCurso)
+    if (is_valid_curso)
     {
         int i;
         for (i = 0; i < MAX; i++)
         {
-            sprintf(alunos[i].nomeAluno, "Aluno %d", i);
-            sprintf(alunos[i].matricula, "matricula%d", i);
-            alunos[i].curso = cursos[i];
+            sprintf(aluno_vet[i].nome_aluno, "Aluno %d", i);
+            sprintf(aluno_vet[i].matricula, "matricula%d", i);
+            aluno_vet[i].curso = curso_vet[i];
             //alunos[i]. = 0; //arrumar
         }
-        isValidAluno = 1;
+        is_valid_aluno = 1;
         printf("\n_________Dados do Alunos gerados automaticamente_________\n");
     }
     else
     {
         printf("\n_________Nenhum Curso cadastrado_________\n");
     }
-    limparPausarTela();
+    pausar_limpar_tela();
 } //fim do procedimento
 
-void exibirAlunos()
+void exibir_alunos()
 {
     printf("\n______________________________________________________\n");
     int i;
     for (i = 0; i < MAX; i++)
     {
-        printf("\n%d - %s", i, alunos[i].nomeAluno);
+        printf("\n%d - %s", i, aluno_vet[i].nome_aluno);
     } //fim do for de exibição de aluno
     printf("\n______________________________________________________\n");
 }
 
 //cadastro e exibição de cursos
-void cadastroCursos()
+void cadastro_cursos()
 {
     int i;
     for (i = 0; i < MAX; i++)
@@ -583,15 +583,15 @@ void cadastroCursos()
         printf("\n______________________________________________________\n");
         printf("Nome do Curso: ");
         fflush(stdin);
-        gets(cursos[i].nomeCurso);
+        gets(curso_vet[i].nome_curso);
 
         printf("\nÁrea: ");
         fflush(stdin);
-        gets(cursos[i].area);
+        gets(curso_vet[i].area);
     } //fim for do cadastro de cursos
 
-    isValidCurso = 1;
-    limparPausarTela();
+    is_valid_curso = 1;
+    pausar_limpar_tela();
 } //fim do procedimento de cadastro de cursos
 
 void exibirCurso()
@@ -600,27 +600,27 @@ void exibirCurso()
     int i;
     for (i = 0; i < MAX; i++)
     {
-        printf("%d - %s - %s\n", i, cursos[i].nomeCurso, cursos[i].area);
+        printf("%d - %s - %s\n", i, curso_vet[i].nome_curso, curso_vet[i].area);
     } //fim do for para exibir a lista de livros
     printf("\n______________________________________________________\n");
 } //fim do procedimento para exibição dos livros
 
-void gerarCursos()
+void gerar_cursos()
 {
     int i;
     for (i = 0; i < MAX; i++)
     {
-        sprintf(cursos[i].nomeCurso, "curso %d", i);
-        sprintf(cursos[i].area, "area%d", i);
+        sprintf(curso_vet[i].nome_curso, "curso %d", i);
+        sprintf(curso_vet[i].area, "area%d", i);
     }
     printf("\n_________Dados do Cursos gerados automaticamente_________\n");
-    isValidCurso = 1;
-    limparPausarTela();
+    is_valid_curso = 1;
+    pausar_limpar_tela();
 } //fim do procedimento
 
-void cadastrarLivros()
+void cadastrar_livros()
 {
-    if (isValidCurso)
+    if (is_valid_curso)
     {
         int i;
         for (i = 0; i < MAX_LIVROS; i++)
@@ -628,54 +628,54 @@ void cadastrarLivros()
             printf("\n______________________________________________________\n");
             printf("Nome do Livro:");
             fflush(stdin);
-            gets(livros[i].nomelivro);
+            gets(livro_vet[i].nome_livro);
 
             printf("\nIsbn:");
-            scanf("%d", &livros[i].ISBN);
+            scanf("%d", &livro_vet[i].isbn);
 
             int op;
             exibirCurso();
             printf("\nSelecione um curso:");
             scanf("%d", &op);
 
-            livros[i].curso = cursos[op];
+            livro_vet[i].curso = curso_vet[op];
 
-            livros[i].disponivel = 1;
+            livro_vet[i].disponivel = 1;
         }
-        isValidLivro = 1;
+        is_valid_livro = 1;
     }
     else
     {
         printf("\n_________Nenhum Curso cadastrado_________\n");
     }
-    limparPausarTela();
+    pausar_limpar_tela();
 }
 
-void gerarLivros()
+void gerar_livros()
 {
-    if (isValidCurso)
+    if (is_valid_curso)
     {
         int i;
         for (i = 0; i < MAX_LIVROS; i++)
         {
-            sprintf(livros[i].nomelivro, "Livro %d", i);
-            livros[i].ISBN = i;
-            livros[i].curso = cursos[1];
-            livros[i].disponivel = 1;
+            sprintf(livro_vet[i].nome_livro, "Livro %d", i);
+            livro_vet[i].isbn = i;
+            livro_vet[i].curso = curso_vet[1];
+            livro_vet[i].disponivel = 1;
         }
-        isValidLivro = 1;
+        is_valid_livro = 1;
         printf("\n_________Dados do livros gerados automaticamente_________\n");
     }
     else
     {
         printf("\n_________Nenhum Curso cadastrado_________\n");
     }
-    limparPausarTela();
+    pausar_limpar_tela();
 } //fim do procedimento
 
 void login()
 {
-    if (isValidFuncionarios)
+    if (is_valid_funcionarios)
     {
         do
         {
@@ -690,27 +690,27 @@ void login()
             int i;
             for (i = 0; i < MAX; i++)
             {
-                if (strcmp(funcionarios[i].login, login) == 0)
+                if (strcmp(funcionario_vet[i].login, login) == 0)
                 {
-                    if (strcmp(funcionarios[i].senha, senha) == 0)
+                    if (strcmp(funcionario_vet[i].senha, senha) == 0)
                     {
-                        isValidLogin = 1;
+                        is_valid_login = 1;
                     }
                 }
             }
-            if (!isValidLogin)
+            if (!is_valid_login)
             {
                 printf("\nSenha incorreta\n");
-                limparPausarTela();
+                pausar_limpar_tela();
             }
-            else if (isValidLogin)
+            else if (is_valid_login)
             {
-                limparTela();
-                menuFuncionario();
+                limpar_tela();
+                menu_funcionario();
             }
 
             int op;
-            limparTela();
+            limpar_tela();
             printf("\n1 - Nova tentativa");
             printf("\n0 - Sair");
             printf("\n>");
@@ -720,56 +720,56 @@ void login()
                 break;
             }
 
-        } while (isValidLogin == 0);
+        } while (is_valid_login == 0);
     }
     else
     {
         printf("\n_________Nenhum funcionario Cadastrado_________\n");
-        limparPausarTela();
+        pausar_limpar_tela();
     }
 }
 
-void exibirLivrosDisp()
+void exibir_livros_disp()
 {
     printf("\n______________________________________________________\n");
     int i;
     for (i = 0; i < MAX_LIVROS; i++)
     {
-        if (livros[i].disponivel)
+        if (livro_vet[i].disponivel)
         {
-            printf("\n%d - %s - %s", i, livros[i].nomelivro, livros[i].curso.area);
+            printf("\n%d - %s - %s", i, livro_vet[i].nome_livro, livro_vet[i].curso.area);
         }
     } //for de exibição de livros
     printf("\n______________________________________________________\n");
 }
-void exibirLivrosNaoDisp()
+void exibir_livros_nao_disp()
 {
     printf("\n______________________________________________________\n");
     int i;
     for (i = 0; i < MAX_LIVROS; i++)
     {
-        if (!livros[i].disponivel)
+        if (!livro_vet[i].disponivel)
         {
-            printf("\n%d - %s - %s", i, livros[i].nomelivro, livros[i].curso.area);
+            printf("\n%d - %s - %s", i, livro_vet[i].nome_livro, livro_vet[i].curso.area);
         }
     } //for de exibição de livros
     printf("\n______________________________________________________\n");
 }
 
 // sistema de controle de livros
-void emprestimoLivro()
+void emprestimo_livro()
 {
 
-    if (isValidAluno && isValidLivro)
+    if (is_valid_aluno && is_valid_livro)
     {
 
         int selectAluno;
         printf("\nAlunos:\n");
-        exibirAlunos();
+        exibir_alunos();
         printf("\nSelecione um aluno:");
         scanf("%d", &selectAluno);
 
-        limparTela();
+        limpar_tela();
 
         int continuarSelecao = 1;
 
@@ -778,16 +778,16 @@ void emprestimoLivro()
         {
             int selectLivro;
             printf("Livros:");
-            exibirLivrosDisp();
+            exibir_livros_disp();
             printf("\nSelecione um livro:");
             scanf("%d", &selectLivro);
-            alunos[selectAluno].livros[i] = livros[selectLivro];
+            aluno_vet[selectAluno].livro_vet[i] = livro_vet[selectLivro];
 
-            livros[selectLivro].disponivel = 0;
+            livro_vet[selectLivro].disponivel = 0;
 
             printf("\nDeseja emprestar outro livro? 1 -sim, 0- nao:\n");
             scanf("%d", &continuarSelecao);
-            limparTela();
+            limpar_tela();
 
             if (!continuarSelecao)
             {
@@ -800,9 +800,9 @@ void emprestimoLivro()
         printf("\nDados insuficientes\n");
     }
 }
-void devolucaoLivro()
+void devolucao_livro()
 {
-    if (isValidAluno && isValidLivro)
+    if (is_valid_aluno && is_valid_livro)
     {
 
         int selectAluno;
@@ -810,12 +810,12 @@ void devolucaoLivro()
         //exibir livros emprestados
         printf("Livros empretados:\n");
 
-        exibirLivrosNaoDisp();
+        exibir_livros_nao_disp();
 
         printf("_________Selecione o livro que deseja devolver:_________\n");
         scanf("%d", &op);
 
-        livros[op].disponivel = 1;
+        livro_vet[op].disponivel = 1;
 
         int i;
         //for para copmpararação do aluno ao livro
@@ -824,13 +824,13 @@ void devolucaoLivro()
             int j;
             for (j = 0; j < MAX_LIVROS_ALUNO; j++)
             {
-                if (strcmp(alunos[i].livros[j].nomelivro, livros[op].nomelivro) == 0)
+                if (strcmp(aluno_vet[i].livro_vet[j].nome_livro, livro_vet[op].nome_livro) == 0)
                 {
-                    alunos[i].livros[j].nomelivro[0] = '\0';
-                    alunos[i].livros[j].ISBN = 0;
-                    alunos[i].livros[j].disponivel = 0;
-                    alunos[i].livros[j].curso.nomeCurso[0] = '\0';
-                    alunos[i].livros[j].curso.area[0] = '\0';
+                    aluno_vet[i].livro_vet[j].nome_livro[0] = '\0';
+                    aluno_vet[i].livro_vet[j].isbn = 0;
+                    aluno_vet[i].livro_vet[j].disponivel = 0;
+                    aluno_vet[i].livro_vet[j].curso.nome_curso[0] = '\0';
+                    aluno_vet[i].livro_vet[j].curso.area[0] = '\0';
                 }
             }
         }
@@ -840,12 +840,12 @@ void devolucaoLivro()
     {
         printf("\nDados insuficientes\n");
     }
-    limparPausarTela();
+    pausar_limpar_tela();
 }
 
-void relatorioAlunoLivros()
+void relatorio_aluno_livros()
 {
-    if (isValidAluno)
+    if (is_valid_aluno)
     {
 
         printf("\n_________Sistema de Relatorio_________\n");
@@ -855,16 +855,16 @@ void relatorioAlunoLivros()
         {
 
             printf("\n______________________________________________________\n");
-            printf("\nNome: %s", alunos[i].nomeAluno);
-            printf("\nMatricula: %d", alunos[i].matricula);
-            printf("\nCurso: %s", alunos[i].curso.nomeCurso);
+            printf("\nNome: %s", aluno_vet[i].nome_aluno);
+            printf("\nMatricula: %d", aluno_vet[i].matricula);
+            printf("\nCurso: %s", aluno_vet[i].curso.nome_curso);
             printf("\nLivros:");
             int j;
             for (j = 0; j < MAX_LIVROS_ALUNO; j++)
             {
-                if (alunos[i].livros[j].nomelivro[0] != NULL && alunos[i].livros[j].nomelivro[0] != '\0')
+                if (aluno_vet[i].livro_vet[j].nome_livro[0] != NULL && aluno_vet[i].livro_vet[j].nome_livro[0] != '\0')
                 {
-                    printf("\n%s", alunos[i].livros[j].nomelivro);
+                    printf("\n%s", aluno_vet[i].livro_vet[j].nome_livro);
                 }
             }
         }
@@ -874,10 +874,10 @@ void relatorioAlunoLivros()
         printf("\n_________Nenhum aluno cadastrado_________\n");
     }
 
-    limparPausarTela();
+    pausar_limpar_tela();
 }
 
-void pesquisarRelatorioAluno()
+void pesquisar_relatorio_aluno()
 {
     char pesquisar[120];
 
@@ -886,24 +886,24 @@ void pesquisarRelatorioAluno()
     printf(">");
     scanf("%s", &pesquisar);
 
-    if (isValidAluno)
+    if (is_valid_aluno)
     {
         int i;
         for (i = 0; i < MAX; i++)
         {
-            if (strcmp(alunos[i].nomeAluno, pesquisar) == 0)
+            if (strcmp(aluno_vet[i].nome_aluno, pesquisar) == 0)
             {
                 printf("\n______________________________________________________\n");
-                printf("\nNome: %s", alunos[i].nomeAluno);
-                printf("\nMatricula: %d", alunos[i].matricula);
-                printf("\nCurso: %s", alunos[i].curso.nomeCurso);
+                printf("\nNome: %s", aluno_vet[i].nome_aluno);
+                printf("\nMatricula: %d", aluno_vet[i].matricula);
+                printf("\nCurso: %s", aluno_vet[i].curso.nome_curso);
                 printf("\nLivros:");
                 int j;
                 for (j = 0; j < MAX_LIVROS_ALUNO; j++)
                 {
-                    if (alunos[i].livros[i].nomelivro[0] != NULL && alunos[i].livros[i].nomelivro[0] != '\0')
+                    if (aluno_vet[i].livro_vet[i].nome_livro[0] != NULL && aluno_vet[i].livro_vet[i].nome_livro[0] != '\0')
                     {
-                        printf("\n%s", alunos[i].livros[j].nomelivro);
+                        printf("\n%s", aluno_vet[i].livro_vet[j].nome_livro);
                     }
                 }
             }
@@ -913,5 +913,5 @@ void pesquisarRelatorioAluno()
     {
         printf("\n_________Nenhum aluno cadastrado_________\n");
     }
-    limparPausarTela();
+    pausar_limpar_tela();
 }

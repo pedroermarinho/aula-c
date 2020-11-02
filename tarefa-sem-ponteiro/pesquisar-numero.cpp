@@ -6,51 +6,51 @@
 #include <stdlib.h>
 #include <locale.h>
 
-void setNum();
-void pesquisar(int a, int b);
-void imprimirMsg(int x);
-void imprimirMsg();
+void cadastrar();
+void pesquisar(int num1, int num2);
+void result_msg(int result);
+void result_msg();
 
 int main(void)
 {
     setlocale(LC_ALL, "Portuguese");
-    setNum();
+    cadastrar();
     getchar();
     return 0;
 }
 
-void setNum()
+void cadastrar()
 {
-    int a;
-    int b;
+    int num1;
+    int num2;
     printf("\nDigite um número:\n");
     printf(">");
-    scanf("%d", &a);
+    scanf("%d", &num1);
     printf("\nDigite outro número:\n");
     printf(">");
-    scanf("%d", &b);
-    pesquisar(a, b);
+    scanf("%d", &num2);
+    pesquisar(num1, num2);
 }
-void pesquisar(int a, int b)
+void pesquisar(int num1, int num2)
 {
     int pesquisa;
     printf("\nDigite um número para ser pesquisado:\n");
     printf(">");
     scanf("%d", &pesquisa);
-    if (pesquisa == a || pesquisa == b)
+    if (pesquisa == num1 || pesquisa == num2)
     {
-        imprimirMsg(pesquisa);
+        result_msg(pesquisa);
     }
     else
     {
-        imprimirMsg();
+        result_msg();
     }
 }
-void imprimirMsg(int x)
+void result_msg(int result)
 {
-    printf("\nNúmero %d encontrado\n", x);
+    printf("\nNúmero %d encontrado\n", result);
 }
-void imprimirMsg()
+void result_msg()
 {
     printf("\nNúmero não encontrado\n");
 }

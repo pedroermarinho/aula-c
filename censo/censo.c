@@ -5,63 +5,63 @@
 
 #define MAX 3
 
-typedef struct Estado{
-	char nameEstado[120];
+typedef struct {
+	char name_estado[120];
 	char uf[3];	
-}Estado;
+}estado_t;
 
-typedef struct Municipio{
-	char nomeMunicipio[120];
+typedef struct {
+	char nome_municipio[120];
 	int quantidade;
 	char uf[3];
-}Municipio;
+}municipio_t;
 
 
-void limparTela();
-void limparPausarTela();
-void menuPrincipal();
-void cadastrarEstado();
-void gerarCadastrosEstados();
-void menuCadastrar();
-void menuCadastrarEstado();
-void menuCadastrarMunicipios();
-void cadastrarMunicipios();
-void gerarCadastrosMunicipios();
-void menuPesquisar();
-void pesquiarEstados();
-void pesquiarMunicios();
-void salvarEstados();
-int recuperarEstados();
-void salvarMunicipios();
-int recuperarMunicipios();
+void limpar_tela();
+void pausar_limpar_tela();
+void menu_principal();
+void cadastrar_estado();
+void gerar_cadastros_estados();
+void menu_cadastrar();
+void menu_cadastrar_estado();
+void menu_cadastrar_municipios();
+void cadastrar_municipios();
+void gerar_cadastros_municipios();
+void menu_pesquisar();
+void pesquisar_estados();
+void pesquisar_municios();
+void salvar_estados();
+int recuperar_estados();
+void salvar_municipios();
+int recuperar_municipios();
 
 
-Estado estados[MAX];
-Municipio municipios[MAX][MAX];
+estado_t estado_vet[MAX];
+municipio_t municipio_vet[MAX][MAX];
 
-int isValid = 0;
-int opMenu;
+int is_valid = 0;
+int op_menu;
 int index =0;
 int index2 =0;
 
-int isEstados= 0;
-int isMunicipios= 0;
+int is_estados= 0;
+int is_municipios= 0;
 
 int main(){
 	
 	setlocale(LC_ALL, "Portuguese");
-	if(recuperarEstados()){
-		isEstados =1;
+	if(recuperar_estados()){
+		is_estados =1;
 	}
-	if(recuperarMunicipios()){
-		isMunicipios=1;
+	if(recuperar_municipios()){
+		is_municipios=1;
 	}
-	menuPrincipal();
+	menu_principal();
 	
 	return 0;
 }
 
-void menuPrincipal(){
+void menu_principal(){
 	do{
 		printf("\nSistema Censo\n");
 	
@@ -71,262 +71,262 @@ void menuPrincipal(){
 		printf("\n0 - Sair");
 		
 		do{
-			isValid =1;
+			is_valid =1;
 			printf("\nEscolha uma opção:");
-			scanf("%d",&opMenu);
+			scanf("%d",&op_menu);
 			
-			switch(opMenu){
+			switch(op_menu){
 				//1 - Cadastrar
 				case 1:
-					limparTela();
-					menuCadastrar();
+					limpar_tela();
+					menu_cadastrar();
 					break;
 				//2 - Pesquisar
 				case 2:
-					limparTela();
-					menuPesquisar();
+					limpar_tela();
+					menu_pesquisar();
 					break;
 				//3 - Salvar
 				case 3:
-					limparTela();
-					salvarEstados();
-					salvarMunicipios();
+					limpar_tela();
+					salvar_estados();
+					salvar_municipios();
 					break;
 				//0 - Sair
 				case 0:
-					limparTela();
+					limpar_tela();
 					exit(1);
 					break;
 				default:
-					isValid=0;
+					is_valid=0;
 					break;
 			}
 			
-		}while(!isValid);
+		}while(!is_valid);
 	}while(1);
 }
 
-void menuCadastrar(){
+void menu_cadastrar(){
 	printf("\nSistema de Cadastro\n");
 	printf("\n1 - Estados");
 	printf("\n2 - Municipios");
 	printf("\n0 - Sair");
 	do{
-		isValid =1;
+		is_valid =1;
 		printf("\nEscolha uma opção:");
-		scanf("%d",&opMenu);
+		scanf("%d",&op_menu);
 		
-		switch(opMenu){
+		switch(op_menu){
 			//1 - Estados
 			case 1:
-				limparTela();
-				menuCadastrarEstado();
+				limpar_tela();
+				menu_cadastrar_estado();
 				break;
 			//2 - Municipios
 			case 2:
-				limparTela();
-				menuCadastrarMunicipios();
+				limpar_tela();
+				menu_cadastrar_municipios();
 				break;
 			//0 - Sair
 			case 0:
-				limparTela();
+				limpar_tela();
 				break;
 			default:
-				isValid = 0;
+				is_valid = 0;
 				break;
 		}
-	}while(!isValid);
+	}while(!is_valid);
 
 }
 
-void menuCadastrarEstado(){
+void menu_cadastrar_estado(){
 	printf("\nSistema de Cadastro de Estados\n");
 	printf("\n1 - Gerar Cadastros");
 	printf("\n2 - Cadastrar Manualmente");
 	printf("\n0 - Sair");
 	do{
-		isValid =1;
+		is_valid =1;
 		printf("\nEscolha uma opção:");
-		scanf("%d",&opMenu);
+		scanf("%d",&op_menu);
 		
-		switch(opMenu){
+		switch(op_menu){
 			//1 - Gerar Cadastros
 			case 1:
-				limparTela();
-				gerarCadastrosEstados();
-				limparPausarTela();
+				limpar_tela();
+				gerar_cadastros_estados();
+				pausar_limpar_tela();
 				break;
 			//2 - Cadastrar Manualmente
 			case 2:
-				limparTela();
-				cadastrarEstado();
-				limparPausarTela();
+				limpar_tela();
+				cadastrar_estado();
+				pausar_limpar_tela();
 				break;
 			//0 - Sair
 			case 0:
-				limparTela();
+				limpar_tela();
 				break;
 			default:
-				isValid = 0;
+				is_valid = 0;
 				break;
 		}
-	}while(!isValid);
+	}while(!is_valid);
 }
 
-void menuCadastrarMunicipios(){
+void menu_cadastrar_municipios(){
 	printf("\nSistema de Cadastro de Municipios\n");
 	printf("\n1 - Gerar Cadastros");
 	printf("\n2 - Cadastrar Manualmente");
 	printf("\n0 - Sair");
 	do{
-		isValid =1;
+		is_valid =1;
 		printf("\nEscolha uma opção:");
-		scanf("%d",&opMenu);
+		scanf("%d",&op_menu);
 		
-		switch(opMenu){
+		switch(op_menu){
 			//1 - Gerar Cadastros
 			case 1:
-				limparTela();
-				gerarCadastrosMunicipios();
-				limparPausarTela();
+				limpar_tela();
+				gerar_cadastros_municipios();
+				pausar_limpar_tela();
 				break;
 			//2 - Cadastrar Manualmente
 			case 2:
-				limparTela();
-				cadastrarMunicipios();
-				limparPausarTela();
+				limpar_tela();
+				cadastrar_municipios();
+				pausar_limpar_tela();
 				break;
 			//0 - Sair
 			case 0:
-				limparTela();
+				limpar_tela();
 				break;
 			default:
-				isValid = 0;
+				is_valid = 0;
 				break;
 		}
-	}while(!isValid);
+	}while(!is_valid);
 }
 
-void menuPesquisar(){
+void menu_pesquisar(){
 	printf("\nSistema de Pesquisa\n");
 	printf("\n1 - Estados");
 	printf("\n2 - Municipios");
 	printf("\n0 - Sair");
 	do{
-		isValid =1;
+		is_valid =1;
 		printf("\nEscolha uma opção:");
-		scanf("%d",&opMenu);
+		scanf("%d",&op_menu);
 		
-		switch(opMenu){
+		switch(op_menu){
 			//1 - Estados
 			case 1:
-				limparTela();
-				pesquiarEstados();
-				limparPausarTela();
+				limpar_tela();
+				pesquisar_estados();
+				pausar_limpar_tela();
 				break;
 			//2 - Municipios
 			case 2:
-				limparTela();
-				pesquiarMunicios();
-				limparPausarTela();
+				limpar_tela();
+				pesquisar_municios();
+				pausar_limpar_tela();
 				break;
 			//0 - Sair
 			case 0:
-				limparTela();
+				limpar_tela();
 				break;
 			default:
-				isValid = 0;
+				is_valid = 0;
 				break;
 		}
-	}while(!isValid);
+	}while(!is_valid);
 }
 
 
-void limparTela(){
+void limpar_tela(){
 	system("cls");
 }
 
-void limparPausarTela(){
+void pausar_limpar_tela(){
 	system("pause");
-	limparTela();
+	limpar_tela();
 }
 
-void cadastrarEstado(){
+void cadastrar_estado(){
 	for(index =0; index<MAX;index++){
 		printf("\nCadastro de Estado[%d]\n",index+1);
 		printf("Nome:");
-		scanf("%s",&estados[index].nameEstado);
+		scanf("%s",&estado_vet[index].name_estado);
 		printf("UF:");
-		scanf("%s",&estados[index].uf);
+		scanf("%s",&estado_vet[index].uf);
 		printf("\nEstado Cadastrado\n");
-		limparPausarTela();
+		pausar_limpar_tela();
 	}
-	isEstados=1;	
+	is_estados=1;	
 }
 
-void gerarCadastrosEstados(){
+void gerar_cadastros_estados(){
 	for(index =0; index<MAX;index++){
-		sprintf(estados[index].nameEstado,"Estado %d",index);
-		sprintf(estados[index].uf,"%d%d",index,index);
+		sprintf(estado_vet[index].name_estado,"Estado %d",index);
+		sprintf(estado_vet[index].uf,"%d%d",index,index);
 	}
 	printf("\nEstado gerados automaticamente\n");
-	isEstados=1;
+	is_estados=1;
 }
 
-void cadastrarMunicipios(){
+void cadastrar_municipios(){
 	
-	if(isEstados){
+	if(is_estados){
 		for(index =0;index<MAX;index++){
 			for(index2 =0;index2<MAX;index2++){
 				// [][]
-				limparTela();
-				printf("\nCadastro do Munucipio [%d] no Estado %s [%d] \n",index2+1,estados[index].nameEstado,index+1);
+				limpar_tela();
+				printf("\nCadastro do Munucipio [%d] no Estado %s [%d] \n",index2+1,estado_vet[index].name_estado,index+1);
 				printf("\nNome:");
-				scanf("%s",&municipios[index][index2].nomeMunicipio);
+				scanf("%s",&municipio_vet[index][index2].nome_municipio);
 				printf("\nQuantidade de pessoas:");
-				scanf("%d",&municipios[index][index2].quantidade);
-				strcpy(municipios[index][index2].uf,estados[index].uf);
-				limparPausarTela();
+				scanf("%d",&municipio_vet[index][index2].quantidade);
+				strcpy(municipio_vet[index][index2].uf,estado_vet[index].uf);
+				pausar_limpar_tela();
 			}		
 		}
-		isMunicipios =1;
+		is_municipios =1;
 	}else{
 		printf("\nNenhum estado encontrado\n");
 	}
 	
 }
 
-void gerarCadastrosMunicipios(){
+void gerar_cadastros_municipios(){
 	for(index =0; index<MAX;index++){
 		for(index2 =0; index2<MAX;index2++){
-			sprintf(municipios[index][index2].nomeMunicipio,"municipio%d%d",index,index2);
-			municipios[index][index2].quantidade=10000*(index2+1);
-			sprintf(municipios[index][index2].uf,estados[index].uf);
+			sprintf(municipio_vet[index][index2].nome_municipio,"municipio%d%d",index,index2);
+			municipio_vet[index][index2].quantidade=10000*(index2+1);
+			sprintf(municipio_vet[index][index2].uf,estado_vet[index].uf);
 		}	
 	}
 	printf("\nMunicipios gerados automaticamente\n");
-	isMunicipios=1;
+	is_municipios=1;
 }
 
-void pesquiarEstados(){
+void pesquisar_estados(){
 	
-	if(isEstados){
+	if(is_estados){
 		char pesquisa[120];
 		printf("\nSistema de Pesquisa de Estados por Nome ou UF\n");
 		printf("\nDigite o nome ou uf do estado a ser pesquisado:");
 		scanf("%s",&pesquisa);
 		
 		for(index = 0;index<MAX;index++){
-			if(strcmp(pesquisa,estados[index].nameEstado) == 0 || strcmp(pesquisa,estados[index].uf) == 0){
+			if(strcmp(pesquisa,estado_vet[index].name_estado) == 0 || strcmp(pesquisa,estado_vet[index].uf) == 0){
 				int soma =0;
-				printf("\nNome do Estado:%s",estados[index].nameEstado);
-				printf("\nUF:%s",estados[index].uf);	
+				printf("\nNome do Estado:%s",estado_vet[index].name_estado);
+				printf("\nUF:%s",estado_vet[index].uf);	
 				for(index2 =0;index2<MAX;index2++){
-					if(strcmp(municipios[index][index2].uf,estados[index].uf) == 0){
+					if(strcmp(municipio_vet[index][index2].uf,estado_vet[index].uf) == 0){
 						printf("\n_______________________\n");
-						printf("\nNome do Municipio:%s",municipios[index][index2].nomeMunicipio);
-						printf("\nHabitantes:%d",municipios[index][index2].quantidade);
-						soma += municipios[index][index2].quantidade;
+						printf("\nNome do Municipio:%s",municipio_vet[index][index2].nome_municipio);
+						printf("\nHabitantes:%d",municipio_vet[index][index2].quantidade);
+						soma += municipio_vet[index][index2].quantidade;
 					}
 				}
 				printf("\n_______________________\n");
@@ -338,10 +338,10 @@ void pesquiarEstados(){
 	}
 }
 
-void pesquiarMunicios(){
+void pesquisar_municios(){
 	
-	if(isEstados){
-		if(isMunicipios){
+	if(is_estados){
+		if(is_municipios){
 		char pesquisa[120];
 		printf("\nSistema de Pesquisa de Municipios por Nome\n");
 		printf("\nDigite o nome do municipio a ser pesquisado:");
@@ -349,14 +349,14 @@ void pesquiarMunicios(){
 		
 		for(index = 0;index<MAX;index++){
 			for(index2 =0;index2<MAX;index2++){
-				if(strcmp(municipios[index][index2].nomeMunicipio,pesquisa) == 0){
+				if(strcmp(municipio_vet[index][index2].nome_municipio,pesquisa) == 0){
 					printf("\n_______________________\n");
-					printf("\nNome do Municipio:%s",municipios[index][index2].nomeMunicipio);
-					printf("\nHabitantes:%d",municipios[index][index2].quantidade);
+					printf("\nNome do Municipio:%s",municipio_vet[index][index2].nome_municipio);
+					printf("\nHabitantes:%d",municipio_vet[index][index2].quantidade);
 					printf("\n_______________________\n");	
-					if(strcmp(municipios[index][index2].uf,estados[index].uf) == 0){
-						printf("\nNome do Estado:%s",estados[index].nameEstado);
-						printf("\nUF:%s",estados[index].uf);	
+					if(strcmp(municipio_vet[index][index2].uf,estado_vet[index].uf) == 0){
+						printf("\nNome do Estado:%s",estado_vet[index].name_estado);
+						printf("\nUF:%s",estado_vet[index].uf);	
 						printf("\n_______________________\n");	
 					}
 					
@@ -371,13 +371,13 @@ void pesquiarMunicios(){
 	}
 }
 
-void salvarEstados(){
+void salvar_estados(){
 	
 	FILE *arquivo = fopen("estados.bin", "wb");
 	
 	if(arquivo!=NULL){
 		for(index =0;index<MAX;index++){
-			fwrite(&estados[index],sizeof(Estado),sizeof(estados[index]),arquivo);
+			fwrite(&estado_vet[index],sizeof(estado_t),sizeof(estado_vet[index]),arquivo);
 		}
 		fclose(arquivo);
 		printf("Dados dos estados foram salvos");
@@ -387,21 +387,21 @@ void salvarEstados(){
 	
 }
 
-int recuperarEstados(){
+int recuperar_estados(){
 	
 	FILE *arquivo = fopen("estados.bin", "rb");
 	
 	if(arquivo!=NULL){
 		for(index =0;index<MAX;index++){
 			
-			Estado estado;
+			estado_t estado;
 			
-			int tamanho = fread(&estado,sizeof(Estado),1,arquivo);
+			int tamanho = fread(&estado,sizeof(estado_t),1,arquivo);
 			
 			if(tamanho<1){
 				break;
 			}else{
-				estados[index]=estado;
+				estado_vet[index]=estado;
 			}
 		}
 		fclose(arquivo);
@@ -414,14 +414,14 @@ int recuperarEstados(){
 	
 }
 
-void salvarMunicipios(){
+void salvar_municipios(){
 	
 	FILE *arquivo = fopen("municipios.bin", "wb");
 	
 	if(arquivo!=NULL){
 		for(index =0;index<MAX;index++){
 			for(index2 =0;index2<MAX;index2++){
-				fwrite(&municipios[index][index2],sizeof(Municipio),sizeof(municipios[index][index2]),arquivo);
+				fwrite(&municipio_vet[index][index2],sizeof(municipio_t),sizeof(municipio_vet[index][index2]),arquivo);
 			}
 		}
 		fclose(arquivo);
@@ -432,21 +432,21 @@ void salvarMunicipios(){
 	
 }
 
-int recuperarMunicipios(){
+int recuperar_municipios(){
 	
 	FILE *arquivo = fopen("municipios.bin", "rb");
 	
 	if(arquivo!=NULL){
 		for(index =0;index<MAX;index++){
 			for(index2 =0;index2<MAX;index2++){
-				Municipio municipio;
+				municipio_t municipio;
 				
-				int tamanho = fread(&municipio,sizeof(Municipio),1,arquivo);
+				int tamanho = fread(&municipio,sizeof(municipio_t),1,arquivo);
 				
 				if(tamanho<1){
 					break;
 				}else{
-					municipios[index][index2]=municipio;
+					municipio_vet[index][index2]=municipio;
 				}
 			}
 		}

@@ -9,11 +9,11 @@ Com ponteiro
 #include <locale.h>
 
 void menu();
-void cadastrar(int *a, int *b, int *c);
-void exibir(int a, int b, int c);
-void excluir(int *a, int *b, int *c);
-void pesquisar(int *a, int *b, int *c);
-void alterar(int *a, int *b, int *c);
+void cadastrar(int *num1, int *num2, int *num3);
+void exibir(int num1, int num2, int num3);
+void excluir(int *num1, int *num2, int *num3);
+void pesquisar(int *num1, int *num2, int *num3);
+void alterar(int *num1, int *num2, int *num3);
 
 int main()
 {
@@ -24,7 +24,7 @@ int main()
 
 void menu()
 {
-    int a=0, b=0, c=0;
+    int num1=0, num2=0, num3=0;
     do
     {
         system("cls");
@@ -42,21 +42,21 @@ void menu()
         {
             //Ler números
         case 1:
-            cadastrar(&a, &b, &c);
+            cadastrar(&num1, &num2, &num3);
             break;
             //Exibir números
         case 2:
-            exibir(a, b, c);
+            exibir(num1, num2, num3);
             break;
             //Excluir número
         case 3:
-            excluir(&a, &b, &c);
+            excluir(&num1, &num2, &num3);
             break;
         case 4:
-            alterar(&a, &b, &c);
+            alterar(&num1, &num2, &num3);
             break;
         case 5:
-            pesquisar(&a, &b, &c);
+            pesquisar(&num1, &num2, &num3);
             break;
             //Sair
         case 0:
@@ -68,51 +68,51 @@ void menu()
         
     } while (1);
 }
-void cadastrar(int *a, int *b, int *c)
+void cadastrar(int *num1, int *num2, int *num3)
 {
     printf("\nPrimeiro número:\n");
     printf(">");
-    scanf("%d", a);
+    scanf("%d", num1);
     printf("\nsegundo número:\n");
     printf(">");
-    scanf("%d", b);
+    scanf("%d", num2);
     printf("\nterceiro número:\n");
     printf(">");
-    scanf("%d", c);
+    scanf("%d", num3);
 }
-void exibir(int a, int b, int c)
+void exibir(int num1, int num2, int num3)
 {
 
-    if (a != 'NULL')
+    if (num1 != 'NULL')
     {
-        printf("\nA ->%d", a);
+        printf("\nA ->%d", num1);
     }
-    if (b != 'NULL')
+    if (num2 != 'NULL')
     {
-        printf("\nB ->%d", b);
+        printf("\nB ->%d", num2);
     }
-    if (c != 'NULL')
+    if (num3 != 'NULL')
     {
-        printf("\nC ->%d", c);
+        printf("\nC ->%d", num3);
     }
     printf("\n");
     system("pause");
 }
-void excluir(int *a, int *b, int *c)
+void excluir(int *num1, int *num2, int *num3)
 {
     int op;
     printf("\nValores disponíveis:\n");
-    if (*a != 'NULL')
+    if (*num1 != 'NULL')
     {
-        printf("\n1 -> A = %d", *a);
+        printf("\n1 -> A = %d", *num1);
     }
-    if (*b != 'NULL')
+    if (*num2 != 'NULL')
     {
-        printf("\n2 -> B = %d", *b);
+        printf("\n2 -> B = %d", *num2);
     }
-    if (*c != 'NULL')
+    if (*num3 != 'NULL')
     {
-        printf("\n3 -> C = %d", *c);
+        printf("\n3 -> C = %d", *num3);
     }
     printf("\nSelecione uma letra:\n");
     printf(">");
@@ -120,15 +120,15 @@ void excluir(int *a, int *b, int *c)
     switch (op)
     {
     case 1:
-        *a = 'NULL';
+        *num1 = 'NULL';
         printf("\nA excluído\n");
         break;
     case 2:
-        *b = 'NULL';
+        *num2 = 'NULL';
         printf("\nB excluído\n");
         break;
     case 3:
-        *c = 'NULL';
+        *num3 = 'NULL';
         printf("\nC excluído\n");
         break;
 
@@ -138,24 +138,24 @@ void excluir(int *a, int *b, int *c)
     printf("\n");
     system("pause");
 }
-void pesquisar(int *a, int *b, int *c)
+void pesquisar(int *num1, int *num2, int *num3)
 {
     int pesquisa;
     printf("\nPesquisar:\n");
     printf(">");
     scanf("%d", &pesquisa);
 
-    if (*a != 'NULL' && pesquisa == *a)
+    if (*num1 != 'NULL' && pesquisa == *num1)
     {
-        printf("\nNúmero %d encontrado na variavel A!!!\n", *a);
+        printf("\nNúmero %d encontrado na variavel A!!!\n", *num1);
     }
-    else if (*a != 'NULL' && pesquisa == *b)
+    else if (*num1 != 'NULL' && pesquisa == *num2)
     {
-        printf("\nNúmero %d encontrado na variavel B!!!\n", *b);
+        printf("\nNúmero %d encontrado na variavel B!!!\n", *num2);
     }
-    else if (*a != 'NULL' && pesquisa == *c)
+    else if (*num1 != 'NULL' && pesquisa == *num3)
     {
-        printf("\nNúmero %d encontrado na variavel C!!!\n", *c);
+        printf("\nNúmero %d encontrado na variavel C!!!\n", *num3);
     }
     else
     {
@@ -164,27 +164,27 @@ void pesquisar(int *a, int *b, int *c)
     printf("\n");
     system("pause");
 }
-void alterar(int *a, int *b, int *c)
+void alterar(int *num1, int *num2, int *num3)
 {
     int op;
     printf("\nValores disponíveis:\n");
-    if (*a != 'NULL')
+    if (*num1 != 'NULL')
     {
-        printf("\n1 -> A = %d", *a);
+        printf("\n1 -> A = %d", *num1);
     }else
     {
         printf("\n1 -> A = Sem Dados");
     }
     
-    if (*b != 'NULL')
+    if (*num2 != 'NULL')
     {
-        printf("\n2 -> B = %d", *b);
+        printf("\n2 -> B = %d", *num2);
     }else{
         printf("\n2 -> B = Sem Dados");
     }
-    if (*c != 'NULL')
+    if (*num3 != 'NULL')
     {
-        printf("\n3 -> C = %d", *c);
+        printf("\n3 -> C = %d", *num3);
     }else
     {
         printf("\n3 -> C = Sem Dados");
@@ -198,17 +198,17 @@ void alterar(int *a, int *b, int *c)
     case 1:
         printf("\nalterar A:\n");
         printf(">");
-        scanf("%d", a);
+        scanf("%d", num1);
         break;
     case 2:
         printf("\nalterar B:\n");
         printf(">");
-        scanf("%d", b);
+        scanf("%d", num2);
         break;
     case 3:
         printf("\nalterar C:\n");
         printf(">");
-        scanf("%d", c);
+        scanf("%d", num3);
         break;
 
     default:

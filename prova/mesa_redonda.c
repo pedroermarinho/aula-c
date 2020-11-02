@@ -38,7 +38,7 @@ Saída
 
 #include <stdio.h>
 
-int cadeiraOcupada(int x){
+int cadeira_ocupada(int x){
     int result;
      int i,cont=0,cont2= 0;
         for ( i = 0; i < x; i++)
@@ -64,57 +64,57 @@ int main(int argc, char const *argv[])
 {
     int a, b;
 
-    int C0=0, C1=0, C2=0;
+    int c0=0, c1=0, c2=0;
     scanf("%d",&a);
     scanf("%d",&b);
    
     if (1 <= a && a <=1000 && 1 <= b && b <=1000)
     {
-       int resultA = cadeiraOcupada(a);
+       int resultA = cadeira_ocupada(a);
        switch (resultA)
         {
         case 0:
-            C0 =1;
+            c0 =1;
             break;
         case 1:
-            C1 =1;
+            c1 =1;
             break;
         case 2:
-            C2 =1;
+            c2 =1;
             break;
         
         default:
             break;
         }
-       int resultB = cadeiraOcupada(b);
+       int resultB = cadeira_ocupada(b);
         switch (resultB)
         {
         case 0:
-            if (C0)
+            if (c0)
             {
-                C1 =1;
+                c1 =1;
             }else
             {
-               C0 =1; 
+               c0 =1; 
             }
             break;
         case 1:
-            if (C1)
+            if (c1)
             {
-                C2 =1;
+                c2 =1;
             }else
             {
-               C1 =1; 
+               c1 =1; 
             }
             break;
         case 2:
-            C2 =1;
-            if (C2)
+            c2 =1;
+            if (c2)
             {
-                C0 =1;
+                c0 =1;
             }else
             {
-               C2 =1; 
+               c2 =1; 
             }
             break;
         
@@ -122,15 +122,15 @@ int main(int argc, char const *argv[])
             break;
         }
 
-        if (!C0)
+        if (!c0)
         {
             printf("0\n");
         }
-        if (!C1)
+        if (!c1)
         {
             printf("1\n");
         }
-        if (!C2)
+        if (!c2)
         {
             printf("2\n");
         }

@@ -7,12 +7,12 @@ Calculadora:soma, subtração, multiplicação, divisão e potencia
 #include <locale.h>
 
 void menu();
-void soma(float a, float b);
-void sub(float a, float b);
-void mult(float a, float b);
-void div(float a, float b);
-void pow(float a, float b);
-void imprimirMsg(float result);
+void soma(float num1, float num2);
+void sub(float num1, float num2);
+void mult(float num1, float num2);
+void div(float num1, float num2);
+void pow(float num1, float num2);
+void result_msg(float result);
 
 int main(void)
 {
@@ -24,7 +24,7 @@ int main(void)
 
 void menu()
 {
-    float a,b;
+    float num1,num2;
     printf("\nMenu de Operações\n");
     printf("\n1 - soma");
     printf("\n2 - subtração");
@@ -40,18 +40,18 @@ void menu()
     {
         printf("\nDigite um número\n");
         printf(">");
-        scanf("%f",&a);
+        scanf("%f",&num1);
         printf("\nDigite o expoente\n");
         printf(">");
-        scanf("%f",&b);
+        scanf("%f",&num2);
     }else
     {
         printf("\nDigite um número\n");
         printf(">");
-        scanf("%f",&a);
+        scanf("%f",&num1);
         printf("\nDigite outro número\n");
         printf(">");
-        scanf("%f",&b);
+        scanf("%f",&num2);
     }
     
     
@@ -60,23 +60,23 @@ void menu()
     {
         //1 - soma
     case 1:
-        soma(a,b);
+        soma(num1,num2);
         break;
         //2 - subtração
     case 2:
-        sub(a,b);
+        sub(num1,num2);
         break;
         //3 - multiplicação
     case 3:
-        mult(a,b);
+        mult(num1,num2);
         break;
         //4 - divisão
     case 4:
-        div(a,b);
+        div(num1,num2);
         break;
         //5 - potencia
     case 5:
-        pow(a,b);
+        pow(num1,num2);
         break;
     
     default:
@@ -86,60 +86,60 @@ void menu()
     
 }
 
-void soma(float a, float b)
+void soma(float num1, float num2)
 {
     printf("\nSoma\n");
     float result = 0;
-    result = a+b;
-    imprimirMsg(result);
+    result = num1+num2;
+    result_msg(result);
 }
 
-void sub(float a, float b)
+void sub(float num1, float num2)
 {
     printf("\nSubtração\n");
     float result = 0;
-    result = a-b;
-    imprimirMsg(result);
+    result = num1-num2;
+    result_msg(result);
 }
 
-void mult(float a, float b)
+void mult(float num1, float num2)
 {
     printf("\nMultiplicação\n");
     float result = 0;
-    result = a*b;
-    imprimirMsg(result);
+    result = num1*num2;
+    result_msg(result);
 }
 
-void div(float a, float b)
+void div(float num1, float num2)
 {
     printf("\nDivisão\n");
-    if (b ==0)
+    if (num2 ==0)
     {
       printf("\nNão existe divisão por 0\n");
     }else{
     float result = 0;
-    result = a/b;
-    imprimirMsg(result);
+    result = num1/num2;
+    result_msg(result);
     }
 }
 
-void pow(float a, float b)
+void pow(float num1, float num2)
 {
     printf("\nPotencia\n");
-    float result = a;
-    for (int i = 1; i < b; i++)
+    float result = num1;
+    for (int i = 1; i < num2; i++)
     {
-        result *=a;
+        result *=num1;
     }
-    if (b ==0)
+    if (num2 ==0)
     {
         result = 1;
     }
     
-    imprimirMsg(result);
+    result_msg(result);
 }
 
-void imprimirMsg(float result)
+void result_msg(float result)
 {
     printf("\nO resultado é:%.2f\n",result);
 }

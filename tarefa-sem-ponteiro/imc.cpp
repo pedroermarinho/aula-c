@@ -6,18 +6,18 @@
 #include <stdlib.h>
 #include <locale.h>
 
-typedef struct Pessoa
+typedef struct
 {
     char nome[120];
     float peso;
     float altura;
     float imc;
-} Pessoa;
+} pessoa_t;
 
 void cadastrar();
-void calcIMC(Pessoa pessoa);
-void imprimirMsgIMC(Pessoa pessoa);
-void imprimirMsg(Pessoa pessoa);
+void calc_imc(pessoa_t pessoa);
+void result_msg_imc(pessoa_t pessoa);
+void result_msg(pessoa_t pessoa);
 
 int main(void)
 {
@@ -28,7 +28,7 @@ int main(void)
 }
 void cadastrar()
 {
-    Pessoa pessoa;
+    pessoa_t pessoa;
     printf("\nNome:\n");
     printf(">");
     fflush(stdin);
@@ -39,19 +39,19 @@ void cadastrar()
     printf("\nPeso:\n");
     printf(">");
     scanf("%f",&pessoa.peso);
-    calcIMC(pessoa);
+    calc_imc(pessoa);
 }
-void calcIMC(Pessoa pessoa)
+void calc_imc(pessoa_t pessoa)
 {
     pessoa.imc = pessoa.peso /(pessoa.altura*pessoa.altura);
-    imprimirMsgIMC(pessoa);
-    imprimirMsg(pessoa);
+    result_msg_imc(pessoa);
+    result_msg(pessoa);
 }
-void imprimirMsgIMC(Pessoa pessoa)
+void result_msg_imc(pessoa_t pessoa)
 {
     printf("\nSeu IMC é %.1f\n",pessoa.imc);
 }
-void imprimirMsg(Pessoa pessoa)
+void result_msg(pessoa_t pessoa)
 {
     printf("\nOla %s, seu status está logo a baixo\n",pessoa.nome);
     if (pessoa.imc<18.5)

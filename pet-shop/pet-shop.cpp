@@ -10,7 +10,7 @@ Pet Shop
 const int MAX_PESSOA = 4;
 const int MAX_ANIMAL = 3;
 
-typedef struct _animal_t
+typedef struct
 {
     char nome[120];
     char raca[60];
@@ -18,7 +18,7 @@ typedef struct _animal_t
     bool exist;
 } animal_t;
 
-typedef struct _client_t
+typedef struct
 {
     char nome[120];
     char telefone[20];
@@ -82,13 +82,13 @@ void menu()
         printf("5 - Gerar Dados\n");
         printf("0 - Sair\n");
 
-        bool isValid;
+        bool is_valid;
         do
         {
             printf(">");
             scanf("%d", &op);
 
-            isValid = true;
+            is_valid = true;
             switch (op)
             {
             //Cadastrar
@@ -131,11 +131,11 @@ void menu()
                 break;
 
             default:
-                isValid = false;
+                is_valid = false;
                 break;
             }
 
-        } while (!isValid);
+        } while (!is_valid);
 
     } while (true);
 }
@@ -153,13 +153,13 @@ void menu_delete(client_t client_vet[], int tam)
         printf("2 - Animais\n");
         printf("0 - Sair\n");
 
-        bool isValid;
+        bool is_valid;
         do
         {
             printf(">");
             scanf("%d", &op);
 
-            isValid = true;
+            is_valid = true;
             switch (op)
             {
             //Cliente
@@ -182,10 +182,10 @@ void menu_delete(client_t client_vet[], int tam)
                 break;
 
             default:
-                isValid = false;
+                is_valid = false;
                 break;
             }
-        } while (!isValid);
+        } while (!is_valid);
     } while (continuar);
 }
 void gerar_dados(client_t client_vet[], int tam)

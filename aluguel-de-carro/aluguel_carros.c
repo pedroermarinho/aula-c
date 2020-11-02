@@ -16,7 +16,7 @@
 #include <stdlib.h>
 #include <locale.h>
 
-typedef struct Carro
+typedef struct 
 {
 	char modelo[50];
 	char cor[50];
@@ -24,10 +24,10 @@ typedef struct Carro
 	float valor;
 	char placa[15];
 	int disponivel;
-} Carro;
+} carro_t;
 
 
-typedef struct Cliente
+typedef struct
 {
 	char nome[50];
 	char telefone[16];
@@ -36,50 +36,50 @@ typedef struct Cliente
 	int casa;
 	char bairro[50];
 
-} Cliente;
+} cliente_t;
 
-Cliente cadastrarCliente();
-Carro cadastrarCarro();
+cliente_t cadastrar_cliente();
+carro_t cadastrar_carro();
 
-void limparTela();
-void limparPausarTela();
+void limpar_tela();
+void pausar_limpar_tela();
 
-void infoCarro(Carro carro);
-void infoCliente(Cliente cliente);
+void info_carro(carro_t carro);
+void info_cliente(cliente_t cliente);
 
-void statusCarro(Carro carro, int index);
-void statusCarroSimples(Carro carro);
+void status_carro(carro_t carro, int index);
+void status_carro_simples(carro_t carro);
 
-Cliente gerarCliente(int index);
-Carro gerarCarro(int index);
+cliente_t gerar_cliente(int index);
+carro_t gerar_carro(int index);
 
-void selectInfo(Cliente cliente, Carro carro);
-void selectInfoSimples(Cliente cliente);
+void select_info(cliente_t cliente, carro_t carro);
+void select_info_simples(cliente_t cliente);
 
-void salvarDadosClient(Cliente clientes[5]);
-int recuperarDadosClient(Cliente clientes[5]);
+void salvar_dados_client(cliente_t cliente_vet[5]);
+int recuperar_dados_client(cliente_t cliente_vet[5]);
 
-void salvarDadosCarros(Carro carros[5]);
-int recuperarDadosCarros(Carro carros[5]);
+void salvar_dados_carros(carro_t carro_vet[5]);
+int recuperar_dados_carros(carro_t carro_vet[5]);
 
 int main()
 {
 
 	setlocale(LC_ALL, "Portuguese");
 
-	int isValidClient = 0;
-	int isValidCar = 0;
+	int is_valid_client = 0;
+	int is_valid_car = 0;
 
-	Cliente clientes[5];
-	Carro carros[5];
+	cliente_t cliente_vet[5];
+	carro_t carro_vet[5];
 
-	if (recuperarDadosCarros(carros))
+	if (recuperar_dados_carros(carro_vet))
 	{
-		isValidCar = 1;
+		is_valid_car = 1;
 	}
-	if (recuperarDadosClient(clientes))
+	if (recuperar_dados_client(cliente_vet))
 	{
-		isValidClient = 1;
+		is_valid_client = 1;
 	}
 
 	int clienteAtual;
@@ -87,7 +87,7 @@ int main()
 
 	int continuar = 1;
 
-	int opMenu;
+	int op_menu;
 	
 	int i=0;
 
@@ -104,66 +104,66 @@ int main()
 		printf("6 - Salvar dados\n");
 		printf("0 - Sair\n");
 
-		int isValid;
+		int is_valid;
 		do
 		{
 			printf("\nEscolha uma opcao:");
-			scanf("%d", &opMenu);
-			isValid = 1;
-			switch (opMenu)
+			scanf("%d", &op_menu);
+			is_valid = 1;
+			switch (op_menu)
 			{
 			// 1 - Gerar clientes e carros
 			case 1:
-				limparTela();
+				limpar_tela();
 				printf("1 - Gerar cadastros de carros\n");
 				printf("2 - Gerar cadastros de clientes\n");
 				printf("0 - Sair\n");
 				do
 				{
 					printf("\nEscolha uma opcao:");
-					scanf("%d", &opMenu);
-					isValid = 1;
-					switch (opMenu)
+					scanf("%d", &op_menu);
+					is_valid = 1;
+					switch (op_menu)
 					{
 					//1 - Gerar cadastros de carros
 					case 1:
-						limparTela();
+						limpar_tela();
 						
 						for ( i = 0; i < 5; i++)
 						{
-							carros[i] = gerarCarro(i);
+							carro_vet[i] = gerar_carro(i);
 						}
-						isValidCar = 1;
+						is_valid_car = 1;
 						printf("\nCarros gerados Automaticamente\n");
-						limparPausarTela();
+						pausar_limpar_tela();
 						break;
 					//2 - Gerar cadastros de clientes
 					case 2:
-						limparTela();
+						limpar_tela();
 					
 						for (i = 0; i < 5; i++)
 						{
-							clientes[i] = gerarCliente(i);
+							cliente_vet[i] = gerar_cliente(i);
 						}
-						isValidClient = 1;
+						is_valid_client = 1;
 						printf("\nClientes gerados Automaticamente\n");
-						limparPausarTela();
+						pausar_limpar_tela();
 						break;
 					//0 - Sair
 					case 0:
-						limparTela();
+						limpar_tela();
 						break;
 					default:
-						isValid = 0;
+						is_valid = 0;
 						printf("Opcao invalida, escolha outra:");
 						break;
 					}
-				} while (!isValid);
+				} while (!is_valid);
 				break;
 
 			//2 - Cadastrar clientes e carros
 			case 2:
-				limparTela();
+				limpar_tela();
 
 				printf("1 - Cadastrar carros\n");
 				printf("2 - Cadastrar clientes\n");
@@ -171,49 +171,49 @@ int main()
 				do
 				{
 					printf("\nEscolha uma opcao:");
-					scanf("%d", &opMenu);
-					isValid = 1;
-					switch (opMenu)
+					scanf("%d", &op_menu);
+					is_valid = 1;
+					switch (op_menu)
 					{
 					//1 - Cadastrar carros
 					case 1:
-						limparTela();
+						limpar_tela();
 					
 						for (i = 0; i < 5; i++)
 						{
 							printf("\n------------------------------\n");
-							carros[i] = cadastrarCarro();
+							carro_vet[i] = cadastrar_carro();
 						}
-						isValidCar = 1;
-						limparPausarTela();
+						is_valid_car = 1;
+						pausar_limpar_tela();
 						break;
 					//2 - Cadastrar clientes
 					case 2:
-						limparTela();
+						limpar_tela();
 						for ( i = 0; i < 5; i++)
 						{
 							printf("\n------------------------------\n");
-							clientes[i] = cadastrarCliente();
+							cliente_vet[i] = cadastrar_cliente();
 						}
-						isValidClient = 1;
-						limparPausarTela();
+						is_valid_client = 1;
+						pausar_limpar_tela();
 						break;
 					//0 - Sair
 					case 0:
-						limparTela();
+						limpar_tela();
 						break;
 					default:
-						isValid = 0;
+						is_valid = 0;
 						printf("Opcao invalida, escolha outra:");
 						break;
 					}
-				} while (!isValid);
+				} while (!is_valid);
 				break;
 
 			//3 - informacoes sobre os clientes e carros
 			case 3:
-				limparTela();
-				if (isValidClient || isValidCar)
+				limpar_tela();
+				if (is_valid_client || is_valid_car)
 				{
 					printf("1 - Clientes\n");
 					printf("2 - Carros\n");
@@ -221,19 +221,19 @@ int main()
 					do
 					{
 						printf("\nEscolha uma opcao:");
-						scanf("%d", &opMenu);
-						isValid = 1;
-						switch (opMenu)
+						scanf("%d", &op_menu);
+						is_valid = 1;
+						switch (op_menu)
 						{
 						//1 - Clientes
 						case 1:
-							limparTela();
-							if (isValidClient)
+							limpar_tela();
+							if (is_valid_client)
 							{
 							
 								for (i = 0; i < 5; i++)
 								{
-									infoCliente(clientes[i]);
+									info_cliente(cliente_vet[i]);
 									printf("\n------------------------------\n");
 								}
 							}
@@ -241,12 +241,12 @@ int main()
 							{
 								printf("\nNenhum cliente cadastrado\n");
 							}
-							limparPausarTela();
+							pausar_limpar_tela();
 							break;
 						//2 - Carros
 						case 2:
-							limparTela();
-							if (isValidCar)
+							limpar_tela();
+							if (is_valid_car)
 							{
 								printf("1 - Todos os carros\n");
 								printf("2 - Pesquisar por placa\n");
@@ -255,92 +255,92 @@ int main()
 								do
 								{
 									printf("\nEscolha uma opcao:");
-									scanf("%d", &opMenu);
-									isValid = 1;
-									switch (opMenu)
+									scanf("%d", &op_menu);
+									is_valid = 1;
+									switch (op_menu)
 									{
 									//1 - Todos os carros
 									case 1:
-										limparTela();
+										limpar_tela();
 									
 										for (i = 0; i < 5; i++)
 										{
 											printf("\n------------------------------\n");
-											infoCarro(carros[i]);
+											info_carro(carro_vet[i]);
 										}
-										limparPausarTela();
+										pausar_limpar_tela();
 										break;
 									//2 - Pesquisar por placa
 									case 2:
-										limparTela();
+										limpar_tela();
 										char placa[60];
 										printf("Pesquisar placa:");
 										scanf("%s", &placa);
 										
 										for (i = 0; i < 5; i++)
 										{
-											if (strcmp(carros[i].placa, placa) == 0)
+											if (strcmp(carro_vet[i].placa, placa) == 0)
 											{
 												printf("\n------------------------------\n");
-												infoCarro(carros[i]);
+												info_carro(carro_vet[i]);
 											}
 										}
-										limparPausarTela();
+										pausar_limpar_tela();
 										break;
 									//3 - Status dos carros
 									case 3:
-										limparTela();
+										limpar_tela();
 										for ( i = 0; i < 5; i++)
 										{
 											printf("\n------------------------------\n");
-											statusCarroSimples(carros[i]);
+											status_carro_simples(carro_vet[i]);
 										}
-										limparPausarTela();
+										pausar_limpar_tela();
 										break;
 									//0 - Sair
 									case 0:
-										limparTela();
+										limpar_tela();
 										break;
 									default:
-										isValid = 0;
+										is_valid = 0;
 										printf("Opcao invalida, escolha outra:");
 										break;
 									}
-								} while (!isValid);
+								} while (!is_valid);
 							}
 							else
 							{
 								printf("\nNenhum carro cadastrado\n");
-								limparPausarTela();
+								pausar_limpar_tela();
 							}
 							break;
 						///0 - Sair
 						case 0:
-							limparTela();
+							limpar_tela();
 							break;
 						default:
-							isValid = 0;
+							is_valid = 0;
 							printf("Opcao invalida, escolha outra:");
 							break;
 						}
-					} while (!isValid);
+					} while (!is_valid);
 				}
 				else
 				{
 					printf("\nNenhum carro ou client cadastrado\n");
-					limparPausarTela();
+					pausar_limpar_tela();
 				}
 				break;
 
 			//4 - Sistema aluguel
 			case 4:
-				limparTela();
-				if (isValidClient && isValidCar)
+				limpar_tela();
+				if (is_valid_client && is_valid_car)
 				{
 					printf("\nLista de Clientes\n");
 					for ( i = 0; i < 5; i++)
 					{
-						printf("%d -> %s\n", i, clientes[i].nome);
+						printf("%d -> %s\n", i, cliente_vet[i].nome);
 					}
 
 					do
@@ -349,66 +349,66 @@ int main()
 						scanf("%d", &clienteAtual);
 					} while (clienteAtual > 4 || clienteAtual < 0);
 
-					limparTela();
+					limpar_tela();
 
-					selectInfoSimples(clientes[clienteAtual]);
+					select_info_simples(cliente_vet[clienteAtual]);
 
-					infoCliente(clientes[clienteAtual]);
+					info_cliente(cliente_vet[clienteAtual]);
 
-					limparPausarTela();
+					pausar_limpar_tela();
 					printf("\n\nLista de Carros\n");
 					for (i = 0; i < 5; i++)
 					{
-						statusCarro(carros[i], i);
+						status_carro(carro_vet[i], i);
 					}
 
 					do
 					{
 						printf("\nEscolhar um carro disponivel para o clente:");
 						scanf("%d", &carroAtual);
-					} while (carros[carroAtual].disponivel == 0 || (carroAtual > 4 || carroAtual < 0));
+					} while (carro_vet[carroAtual].disponivel == 0 || (carroAtual > 4 || carroAtual < 0));
 
-					carros[carroAtual].disponivel = 0;
+					carro_vet[carroAtual].disponivel = 0;
 
-					limparTela();
-					selectInfo(clientes[clienteAtual], carros[carroAtual]);
+					limpar_tela();
+					select_info(cliente_vet[clienteAtual], carro_vet[carroAtual]);
 
-					infoCarro(carros[carroAtual]);
+					info_carro(carro_vet[carroAtual]);
 
-					limparPausarTela();
-					selectInfo(clientes[clienteAtual], carros[carroAtual]);
+					pausar_limpar_tela();
+					select_info(cliente_vet[clienteAtual], carro_vet[carroAtual]);
 
 					int dias;
 					printf("\nPor quantos dias deseja alugar? :");
 					scanf("%d", &dias);
 
-					limparTela();
-					selectInfo(clientes[clienteAtual], carros[carroAtual]);
+					limpar_tela();
+					select_info(cliente_vet[clienteAtual], carro_vet[carroAtual]);
 
-					printf("\nValor total do aluguel: %.2f\n", (carros[carroAtual].valor * dias));
+					printf("\nValor total do aluguel: %.2f\n", (carro_vet[carroAtual].valor * dias));
 					printf("\nO carro deverar ser entregue em %d dias!!!", dias);
 
-					limparPausarTela();
+					pausar_limpar_tela();
 				}
 				else
 				{
 					printf("\nNenhum carro ou cliente cadastrado\n");
-					limparPausarTela();
+					pausar_limpar_tela();
 				}
 				break;
 			//5 - Devolu��o do carro
 			case 5:
-				limparTela();
+				limpar_tela();
 				int isDevolucao;
-				if (isValidCar)
+				if (is_valid_car)
 				{
 					isDevolucao = 0;
 					for ( i = 0; i < 5; i++)
 					{
-						if (!carros[i].disponivel)
+						if (!carro_vet[i].disponivel)
 						{
 							printf("\n------------------------------\n");
-							statusCarro(carros[i], i);
+							status_carro(carro_vet[i], i);
 							isDevolucao = 1;
 						}
 					}
@@ -418,55 +418,55 @@ int main()
 					do
 					{
 						printf("\nSelecione um carro para fazer a devolucao:");
-						scanf("%d", &opMenu);
-					} while (opMenu > 4 || opMenu < 0);
+						scanf("%d", &op_menu);
+					} while (op_menu > 4 || op_menu < 0);
 
-					carros[opMenu].disponivel = 1;
+					carro_vet[op_menu].disponivel = 1;
 				}
 				else
 				{
 					printf("Todos os carros estao disponiveis");
 				}
 
-				limparPausarTela();
+				pausar_limpar_tela();
 				break;
 
 			//6 - Salvar dados
 			case 6:
-				limparTela();
-				if (isValidCar)
+				limpar_tela();
+				if (is_valid_car)
 				{
-					salvarDadosCarros(carros);
+					salvar_dados_carros(carro_vet);
 				}
 				else
 				{
 					printf("\nDados do carros não encontrado\n");
 				}
 
-				if (isValidClient)
+				if (is_valid_client)
 				{
-					salvarDadosClient(clientes);
+					salvar_dados_client(cliente_vet);
 				}
 				else
 				{
 					printf("\nDados dos clientes não encontrado\n");
 				}
 
-				limparPausarTela();
+				pausar_limpar_tela();
 				break;
 			//0 - Sair
 			case 0:
-				limparTela();
+				limpar_tela();
 				exit(0);
 				break;
 
 			default:
-				isValid = 0;
+				is_valid = 0;
 				printf("Opcao invalida, escolha outra:");
 
 				break;
 			}
-		} while (!isValid);
+		} while (!is_valid);
 
 	} while (1);
 	return 0;
@@ -474,9 +474,9 @@ int main()
 
 ///--------------------------------------------------------------------------------------------------------------------------------------
 
-Cliente cadastrarCliente()
+cliente_t cadastrar_cliente()
 {
-	Cliente cliente;
+	cliente_t cliente;
 	printf("Nome (char)\t\t:");
 	scanf("%s", &cliente.nome);
 	printf("Telefone (char)\t\t:");
@@ -493,10 +493,10 @@ Cliente cadastrarCliente()
 	return cliente;
 }
 
-Carro cadastrarCarro()
+carro_t cadastrar_carro()
 {
 
-	Carro carro;
+	carro_t carro;
 	printf("Modelo (char)\t\t:");
 	scanf("%s", &carro.modelo);
 	printf("Cor (char)\t\t:");
@@ -511,7 +511,7 @@ Carro cadastrarCarro()
 	return carro;
 }
 
-void limparTela()
+void limpar_tela()
 {
 	#ifdef WINDOWS
     	system("cls");
@@ -519,7 +519,7 @@ void limparTela()
     	system ("clear");
 	#endif
 }
-void limparPausarTela()
+void pausar_limpar_tela()
 {
 	printf("\n\n");
 	#ifdef WINDOWS
@@ -528,10 +528,10 @@ void limparPausarTela()
     	system("read -p \"Pressione enter para continuar\" saindo");
 	#endif
 	
-	limparTela();
+	limpar_tela();
 }
 
-void infoCarro(Carro carro)
+void info_carro(carro_t carro)
 {
 	printf("\nDados do carro:\n");
 	printf("\nmodelo\t\t:%s", carro.modelo);
@@ -541,7 +541,7 @@ void infoCarro(Carro carro)
 	printf("\nplaca\t\t:%s", carro.placa);
 }
 
-void infoCliente(Cliente cliente)
+void info_cliente(cliente_t cliente)
 {
 	printf("\nDados do Cliente:\n");
 	printf("\nnome\t\t:%s", cliente.nome);
@@ -552,19 +552,19 @@ void infoCliente(Cliente cliente)
 	printf("\ncnh\t\t:%s", cliente.cnh);
 }
 
-void statusCarro(Carro carro, int index)
+void status_carro(carro_t carro, int index)
 {
 	printf("%d -> %s => %s\n", index, carro.modelo, (carro.disponivel ? "disponivel" : "nao disponivel"));
 }
 
-void statusCarroSimples(Carro carro)
+void status_carro_simples(carro_t carro)
 {
 	printf("%s => %s\n", carro.modelo, (carro.disponivel ? "disponivel" : "nao disponivel"));
 }
 
-Cliente gerarCliente(int index)
+cliente_t gerar_cliente(int index)
 {
-	Cliente cliente;
+	cliente_t cliente;
 
 	sprintf(cliente.nome, "%s %d", "nome", index);
 	sprintf(cliente.rua, "%s %d", "rua", index);
@@ -576,9 +576,9 @@ Cliente gerarCliente(int index)
 	return cliente;
 }
 
-Carro gerarCarro(int index)
+carro_t gerar_carro(int index)
 {
-	Carro carro;
+	carro_t carro;
 	sprintf(carro.modelo, "%s %d", "modelo", index);
 	sprintf(carro.cor, "%s %d", "cor", index);
 	carro.ano = 2000 + index;
@@ -589,18 +589,18 @@ Carro gerarCarro(int index)
 	return carro;
 }
 
-void selectInfo(Cliente cliente, Carro carro)
+void select_info(cliente_t cliente, carro_t carro)
 {
 	printf("\nNome do cliente Selecionado -> %s\n", cliente.nome);
 	printf("Modelo do carro selecionado -> %s\n", carro.modelo);
 }
 
-void selectInfoSimples(Cliente cliente)
+void select_info_simples(cliente_t cliente)
 {
 	printf("\nNome do cliente Selecionado -> %s\n", cliente.nome);
 }
 
-void salvarDadosClient(Cliente clientes[5])
+void salvar_dados_client(cliente_t cliente_vet[5])
 {
 	FILE *arquivoClient;
 	arquivoClient = fopen("client.bin", "wb");
@@ -610,7 +610,7 @@ void salvarDadosClient(Cliente clientes[5])
 		int i;
 		for ( i = 0; i < 5; i++)
 		{
-			fwrite(&clientes[i], sizeof(Cliente), sizeof(clientes[i]), arquivoClient);
+			fwrite(&cliente_vet[i], sizeof(cliente_t), sizeof(cliente_vet[i]), arquivoClient);
 		}
 		fclose(arquivoClient);
 		printf("\nDados dos Clientes salvos\n");
@@ -621,7 +621,7 @@ void salvarDadosClient(Cliente clientes[5])
 	}
 }
 
-int recuperarDadosClient(Cliente clientes[5])
+int recuperar_dados_client(cliente_t cliente_vet[5])
 {
 
 	FILE *arquivoClient = fopen("client.bin", "rb");
@@ -631,14 +631,14 @@ int recuperarDadosClient(Cliente clientes[5])
 		int i;
 		for ( i = 0; i < 5; i++)
 		{
-			Cliente cliente;
+			cliente_t cliente;
 
-			size_t tamanhoArquivo = fread(&cliente, sizeof(Cliente), 1, arquivoClient);
+			size_t tamanhoArquivo = fread(&cliente, sizeof(cliente_t), 1, arquivoClient);
 
 			if (tamanhoArquivo < 1)
 				break;
 			else
-				clientes[i] = cliente;
+				cliente_vet[i] = cliente;
 		}
 		fclose(arquivoClient); // fecha o arquivo
 		printf("\nDados dos Clientes recuperados\n");
@@ -651,18 +651,18 @@ int recuperarDadosClient(Cliente clientes[5])
 	}
 }
 
-void salvarDadosCarros(Carro carros[5])
+void salvar_dados_carros(carro_t carro_vet[5])
 {
-	FILE *arquivoCarro;
-	arquivoCarro = fopen("carro.bin", "wb");
-	if (arquivoCarro != NULL)
+	FILE *arquivo_carro;
+	arquivo_carro = fopen("carro.bin", "wb");
+	if (arquivo_carro != NULL)
 	{
 		int i;
 		for ( i = 0; i < 5; i++)
 		{
-			fwrite(&carros[i], sizeof(Carro), sizeof(carros[i]), arquivoCarro);
+			fwrite(&carro_vet[i], sizeof(carro_t), sizeof(carro_vet[i]), arquivo_carro);
 		}
-		fclose(arquivoCarro);
+		fclose(arquivo_carro);
 		printf("\nDados dos Carros salvos\n");
 	}
 	else
@@ -670,26 +670,26 @@ void salvarDadosCarros(Carro carros[5])
 		printf("\nErro ao salvar os dados dos Carros\n");
 	}
 }
-int recuperarDadosCarros(Carro carros[5])
+int recuperar_dados_carros(carro_t carro_vet[5])
 {
 
-	FILE *arquivoCarro = fopen("carro.bin", "rb");
+	FILE *arquivo_carro = fopen("carro.bin", "rb");
 
-	if (arquivoCarro != NULL)
+	if (arquivo_carro != NULL)
 	{
 		int i;
 		for ( i = 0; i < 5; i++)
 		{
-			Carro carro;
+			carro_t carro;
 
-			size_t tamanhoArquivo = fread(&carro, sizeof(Carro), 1, arquivoCarro);
+			size_t tamanhoArquivo = fread(&carro, sizeof(carro_t), 1, arquivo_carro);
 
 			if (tamanhoArquivo < 1)
 				break;
 			else
-				carros[i] = carro;
+				carro_vet[i] = carro;
 		}
-		fclose(arquivoCarro); // fecha o arquivo
+		fclose(arquivo_carro); // fecha o arquivo
 		printf("\nDados dos Carros recuperados\n");
 		return 1;
 	}

@@ -9,13 +9,13 @@ Com ponteiro
 #include <locale.h>
 
 void menu();
-void setNum(float *a, float *b, int op);
-void soma(float a, float b, float *result);
-void sub(float a, float b, float *result);
-void mult(float a, float b, float *result);
-void div(float a, float b, float *result);
-void pow(float a, float b, float *result);
-void imprimirMsg(float result);
+void cadastrar(float *num1, float *num2, int op);
+void soma(float num1, float num2, float *result);
+void sub(float num1, float num2, float *result);
+void mult(float num1, float num2, float *result);
+void div(float num1, float num2, float *result);
+void pow(float num1, float num2, float *result);
+void result_msg(float result);
 
 int main(void)
 {
@@ -27,13 +27,13 @@ int main(void)
 
 void menu()
 {
-    float a, b, result;
+    float num1, num2, result;
     do
     {
-        a = 0;
-        b = 0;
+        num1 = 0;
+        num2 = 0;
         result = 0;
-        int isValid = 1;
+        int is_valid = 1;
         system("cls");
 
         printf("\nMenu de Operações\n");
@@ -51,7 +51,7 @@ void menu()
         
         if (op !=6)
         {
-           setNum(&a,&b,op);
+           cadastrar(&num1,&num2,op);
         }
         
         
@@ -60,23 +60,23 @@ void menu()
         {
             //1 - soma
         case 1:
-            soma(a, b, &result);
+            soma(num1, num2, &result);
             break;
             //2 - subtração
         case 2:
-            sub(a, b, &result);
+            sub(num1, num2, &result);
             break;
             //3 - multiplicação
         case 3:
-            mult(a, b, &result);
+            mult(num1, num2, &result);
             break;
             //4 - divisão
         case 4:
-            div(a, b, &result);
+            div(num1, num2, &result);
             break;
             //5 - potencia
         case 5:
-            pow(a, b, &result);
+            pow(num1, num2, &result);
             break;
             //6 - sair
         case 6:
@@ -84,88 +84,88 @@ void menu()
             break;
 
         default:
-            isValid = 0;
+            is_valid = 0;
             break;
         }
-        if (isValid)
+        if (is_valid)
         {
-            imprimirMsg(result);
+            result_msg(result);
         }
 
         system("pause"); 
     } while (1);
 }
 
-void setNum(float *a, float *b, int op)
+void cadastrar(float *num1, float *num2, int op)
 {
     
     if (op == 5)
     {
         printf("\nDigite um número\n");
         printf(">");
-        scanf("%f",a);
+        scanf("%f",num1);
         printf("\nDigite o expoente\n");
         printf(">");
-        scanf("%f",b);
+        scanf("%f",num2);
     }
     else
     {
         printf("\nDigite um número\n");
         printf(">");
-        scanf("%f", a);
+        scanf("%f", num1);
         printf("\nDigite outro número\n");
         printf(">");
-        scanf("%f", b);
+        scanf("%f", num2);
     }
  
 }
 
-void soma(float a, float b, float *result)
+void soma(float num1, float num2, float *result)
 {
     printf("\nSoma\n");
-    *result = a + b;
+    *result = num1 + num2;
 }
 
-void sub(float a, float b, float *result)
+void sub(float num1, float num2, float *result)
 {
     printf("\nSubtração\n");
-    *result = a - b;
+    *result = num1 - num2;
 }
 
-void mult(float a, float b, float *result)
+void mult(float num1, float num2, float *result)
 {
     printf("\nMultiplicação\n");
-    *result = a * b;
+    *result = num1 * num2;
 }
 
-void div(float a, float b, float *result)
+void div(float num1, float num2, float *result)
 {
     printf("\nDivisão\n");
-    if (b == 0)
+    if (num2 == 0)
     {
         printf("\nNão existe divisão por 0\n");
     }
     else
     {
-        *result = a / b;
+        *result = num1 / num2;
     }
 }
 
-void pow(float a, float b, float *result)
+void pow(float num1, float num2, float *result)
 {
     printf("\nPotencia\n");
-    *result = a;
-    for (int i = 1; i < b; i++)
+    *result = num1;
+    for (int i = 1; i < num2; i++)
     {
-        *result *= a;
+        *result *= num1;
     }
-    if (b == 0)
+    if (num2 == 0)
     {
         *result = 1;
     }
 }
 
-void imprimirMsg(float result)
+void result_msg(float result)
 {
     printf("\nO resultado é:%.2f\n", result);
 }

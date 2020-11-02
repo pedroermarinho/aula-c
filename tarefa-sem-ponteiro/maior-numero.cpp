@@ -6,48 +6,48 @@
 #include <stdlib.h>
 #include <locale.h>
 
-void setNum();
-void maiorNumero(int a, int b,int c);
-void imprimirMsg(int x);
+void cadastrar();
+void maior_numero(int num1, int num2,int num3);
+void result_msg(int result);
 
 int main(void)
 {
     setlocale(LC_ALL,"Portuguese");
-    setNum();
+    cadastrar();
     getchar();
     return 0;
 }
-void setNum()
+void cadastrar()
 {
-    int a;
-    int b;
-    int c;
+    int num1;
+    int num2;
+    int num3;
     printf("\nDigite um número:\n");
     printf(">");
-    scanf("%d", &a);
+    scanf("%d", &num1);
     printf("\nDigite outro número:\n");
     printf(">");
-    scanf("%d", &b);
+    scanf("%d", &num2);
     printf("\nDigite mais um número:\n");
     printf(">");
-    scanf("%d", &c);
-    maiorNumero(a, b, c);
+    scanf("%d", &num3);
+    maior_numero(num1, num2, num3);
 }
-void maiorNumero(int a, int b,int c){
-    int maior =a;
+void maior_numero(int num1, int num2,int num3){
+    int result =num1;
 
-    if(maior<b){
-        maior =b;
+    if(result<num2){
+        result =num2;
     }
-    if (maior<c)
+    if (result<num3)
     {
-        maior =c;
+        result =num3;
     }
 
-   imprimirMsg(maior); 
+   result_msg(result); 
     
 }
-void imprimirMsg(int x)
+void result_msg(int result)
 {
-    printf("\n%d é o maior número encontrado\n",x);
+    printf("\n%d é o maior número encontrado\n",result);
 }

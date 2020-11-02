@@ -10,23 +10,23 @@ Com ponteiro
 #include <locale.h>
 #include <string.h>
 
-typedef struct Pessoa
+typedef struct 
 {
     char cpf[20];
     char nome[120];
-    int anoNascimento;
+    int ano_nascimento;
     int idade;
-    bool isValid;
-} Pessoa;
+    bool is_valid;
+} pessoa_t;
 
 void menu();
-void cadastrar(Pessoa *pessoa1, Pessoa *pessoa2, Pessoa *pessoa3);
-void cadastrarPessoa(Pessoa *pessoa);
-void exibir(Pessoa pessoa1, Pessoa pessoa2, Pessoa pessoa3);
-void exibirInfo(Pessoa pessoa);
-void excluir(Pessoa *pessoa1, Pessoa *pessoa2, Pessoa *pessoa3);
-void pesquisar(Pessoa pessoa1, Pessoa pessoa2, Pessoa pessoa3);
-void alterar(Pessoa *pessoa1, Pessoa *pessoa2, Pessoa *pessoa3);
+void cadastrar(pessoa_t *pessoa1, pessoa_t *pessoa2, pessoa_t *pessoa3);
+void cadastrar_pessoa(pessoa_t *pessoa);
+void exibir(pessoa_t pessoa1, pessoa_t pessoa2, pessoa_t pessoa3);
+void exibir_info(pessoa_t pessoa);
+void excluir(pessoa_t *pessoa1, pessoa_t *pessoa2, pessoa_t *pessoa3);
+void pesquisar(pessoa_t pessoa1, pessoa_t pessoa2, pessoa_t pessoa3);
+void alterar(pessoa_t *pessoa1, pessoa_t *pessoa2, pessoa_t *pessoa3);
 
 int main()
 {
@@ -37,7 +37,7 @@ int main()
 
 void menu()
 {
-    Pessoa pessoa1, pessoa2, pessoa3;
+    pessoa_t pessoa1, pessoa2, pessoa3;
     do
     {
         system("cls");
@@ -81,13 +81,13 @@ void menu()
 
     } while (1);
 }
-void cadastrar(Pessoa *pessoa1, Pessoa *pessoa2, Pessoa *pessoa3)
+void cadastrar(pessoa_t *pessoa1, pessoa_t *pessoa2, pessoa_t *pessoa3)
 {
-    cadastrarPessoa(pessoa1);
-    cadastrarPessoa(pessoa2);
-    cadastrarPessoa(pessoa3);
+    cadastrar_pessoa(pessoa1);
+    cadastrar_pessoa(pessoa2);
+    cadastrar_pessoa(pessoa3);
 }
-void cadastrarPessoa(Pessoa *pessoa)
+void cadastrar_pessoa(pessoa_t *pessoa)
 {
     printf("\n----------------------------\n");
     printf("\nNome:\n");
@@ -100,49 +100,49 @@ void cadastrarPessoa(Pessoa *pessoa)
     gets(pessoa->cpf);
     printf("\nAno Nascimento\n");
     printf(">");
-    scanf("%d", &pessoa->anoNascimento);
-    pessoa->idade = 2020 - pessoa->anoNascimento;
-    pessoa->isValid = true;
+    scanf("%d", &pessoa->ano_nascimento);
+    pessoa->idade = 2020 - pessoa->ano_nascimento;
+    pessoa->is_valid = true;
 }
-void exibir(Pessoa pessoa1, Pessoa pessoa2, Pessoa pessoa3)
+void exibir(pessoa_t pessoa1, pessoa_t pessoa2, pessoa_t pessoa3)
 {
 
-    if (pessoa1.isValid)
+    if (pessoa1.is_valid)
     {
-        exibirInfo(pessoa1);
+        exibir_info(pessoa1);
     }
-    if (pessoa2.isValid)
+    if (pessoa2.is_valid)
     {
-        exibirInfo(pessoa2);
+        exibir_info(pessoa2);
     }
-    if (pessoa3.isValid)
+    if (pessoa3.is_valid)
     {
-        exibirInfo(pessoa3);
+        exibir_info(pessoa3);
     }
     printf("\n");
     system("pause");
 }
-void exibirInfo(Pessoa pessoa)
+void exibir_info(pessoa_t pessoa)
 {
     printf("\n----------------------------\n");
     printf("\nNome:%s", pessoa.nome);
     printf("\nCPF:%s", pessoa.cpf);
-    printf("\nAno de Nascimento:%d", pessoa.anoNascimento);
+    printf("\nAno de Nascimento:%d", pessoa.ano_nascimento);
     printf("\nIdade:%d", pessoa.idade);
 }
-void excluir(Pessoa *pessoa1, Pessoa *pessoa2, Pessoa *pessoa3)
+void excluir(pessoa_t *pessoa1, pessoa_t *pessoa2, pessoa_t *pessoa3)
 {
     int op;
     printf("\nValores disponíveis:\n");
-    if (pessoa1->isValid)
+    if (pessoa1->is_valid)
     {
         printf("\n1 -> %s", pessoa1->nome);
     }
-    if (pessoa2->isValid)
+    if (pessoa2->is_valid)
     {
         printf("\n2 -> %s", pessoa2->nome);
     }
-    if (pessoa3->isValid)
+    if (pessoa3->is_valid)
     {
         printf("\n3 -> %s", pessoa3->nome);
     }
@@ -152,15 +152,15 @@ void excluir(Pessoa *pessoa1, Pessoa *pessoa2, Pessoa *pessoa3)
     switch (op)
     {
     case 1:
-        pessoa1->isValid = false;
+        pessoa1->is_valid = false;
         printf("\n%s excluído\n", pessoa1->nome);
         break;
     case 2:
-        pessoa2->isValid = false;
+        pessoa2->is_valid = false;
         printf("\n%s excluído\n", pessoa2->nome);
         break;
     case 3:
-        pessoa3->isValid = false;
+        pessoa3->is_valid = false;
         printf("\n%s excluído\n", pessoa3->nome);
         break;
 
@@ -170,7 +170,7 @@ void excluir(Pessoa *pessoa1, Pessoa *pessoa2, Pessoa *pessoa3)
     printf("\n");
     system("pause");
 }
-void pesquisar(Pessoa pessoa1, Pessoa pessoa2, Pessoa pessoa3)
+void pesquisar(pessoa_t pessoa1, pessoa_t pessoa2, pessoa_t pessoa3)
 {
     char pesquisa[20];
     printf("\nPesquisar:\n");
@@ -178,20 +178,20 @@ void pesquisar(Pessoa pessoa1, Pessoa pessoa2, Pessoa pessoa3)
     fflush(stdin);
     gets(pesquisa);
 
-    if (pessoa1.isValid && strcmp(pesquisa, pessoa1.cpf) == 0)
+    if (pessoa1.is_valid && strcmp(pesquisa, pessoa1.cpf) == 0)
     {
         printf("\n %s encontrado na variavel pessoa1!!!\n", pessoa1.nome);
-        exibirInfo(pessoa1);
+        exibir_info(pessoa1);
     }
-    else if (pessoa2.isValid && strcmp(pesquisa, pessoa2.cpf) == 0)
+    else if (pessoa2.is_valid && strcmp(pesquisa, pessoa2.cpf) == 0)
     {
         printf("\n %s encontrado na variavel pessoa2!!!\n", pessoa2.nome);
-        exibirInfo(pessoa2);
+        exibir_info(pessoa2);
     }
-    else if (pessoa3.isValid && strcmp(pesquisa, pessoa3.cpf) == 0)
+    else if (pessoa3.is_valid && strcmp(pesquisa, pessoa3.cpf) == 0)
     {
         printf("\n %s encontrado na variavel pessoa3!!!\n", pessoa3.nome);
-        exibirInfo(pessoa3);
+        exibir_info(pessoa3);
     }
     else
     {
@@ -200,11 +200,11 @@ void pesquisar(Pessoa pessoa1, Pessoa pessoa2, Pessoa pessoa3)
     printf("\n");
     system("pause");
 }
-void alterar(Pessoa *pessoa1, Pessoa *pessoa2, Pessoa *pessoa3)
+void alterar(pessoa_t *pessoa1, pessoa_t *pessoa2, pessoa_t *pessoa3)
 {
     int op;
     printf("\nValores disponíveis:\n");
-    if (pessoa1->isValid)
+    if (pessoa1->is_valid)
     {
         printf("\n1 -> %s", pessoa1->nome);
     }
@@ -213,7 +213,7 @@ void alterar(Pessoa *pessoa1, Pessoa *pessoa2, Pessoa *pessoa3)
         printf("\n1 -> A = Sem Dados");
     }
 
-    if (pessoa2->isValid)
+    if (pessoa2->is_valid)
     {
         printf("\n1 -> %s", pessoa2->nome);
     }
@@ -221,7 +221,7 @@ void alterar(Pessoa *pessoa1, Pessoa *pessoa2, Pessoa *pessoa3)
     {
         printf("\n2 -> B = Sem Dados");
     }
-    if (pessoa3->isValid)
+    if (pessoa3->is_valid)
     {
         printf("\n1 -> %s", pessoa3->nome);
     }
@@ -238,17 +238,17 @@ void alterar(Pessoa *pessoa1, Pessoa *pessoa2, Pessoa *pessoa3)
     case 1:
         printf("\nalterar %s:\n", pessoa1->nome);
         printf(">");
-        cadastrarPessoa(pessoa1);
+        cadastrar_pessoa(pessoa1);
         break;
     case 2:
         printf("\nalterar %s:\n", pessoa2->nome);
         printf(">");
-        cadastrarPessoa(pessoa2);
+        cadastrar_pessoa(pessoa2);
         break;
     case 3:
         printf("\nalterar %s:\n", pessoa3->nome);
         printf(">");
-        cadastrarPessoa(pessoa3);
+        cadastrar_pessoa(pessoa3);
         break;
 
     default:

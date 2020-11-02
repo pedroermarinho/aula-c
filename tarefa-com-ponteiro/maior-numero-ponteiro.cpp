@@ -8,21 +8,21 @@ Com ponteiro
 #include <stdlib.h>
 #include <locale.h>
 
-void setNum(int *a, int *b, int *c);
-void maiorNumero(int a, int b, int c, int *maior);
-void imprimirMsg(int x);
+void cadastrar(int *a, int *b, int *c);
+void maior_numero(int a, int b, int c, int *result);
+void result_msg(int result);
 
 int main(void)
 {
     setlocale(LC_ALL, "Portuguese");
-    int a = 0, b = 0, c = 0, maior = 0;
-    setNum(&a, &b, &c);
-    maiorNumero(a, b, c, &maior);
-    imprimirMsg(maior);
+    int a = 0, b = 0, c = 0, result = 0;
+    cadastrar(&a, &b, &c);
+    maior_numero(a, b, c, &result);
+    result_msg(result);
     getchar();
     return 0;
 }
-void setNum(int *a, int *b, int *c)
+void cadastrar(int *a, int *b, int *c)
 {
 
     printf("\nDigite um número:\n");
@@ -35,20 +35,20 @@ void setNum(int *a, int *b, int *c)
     printf(">");
     scanf("%d", c);
 }
-void maiorNumero(int a, int b, int c, int *maior)
+void maior_numero(int a, int b, int c, int *result)
 {
-    *maior = a;
+    *result = a;
 
-    if (*maior < b)
+    if (*result < b)
     {
-        *maior = b;
+        *result = b;
     }
-    if (*maior < c)
+    if (*result < c)
     {
-        *maior = c;
+        *result = c;
     }
 }
-void imprimirMsg(int x)
+void result_msg(int result)
 {
-    printf("\n%d é o maior número encontrado\n", x);
+    printf("\n%d é o maior número encontrado\n", result);
 }

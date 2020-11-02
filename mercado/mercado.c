@@ -5,73 +5,73 @@
 
 #define MAX 5
 
-typedef struct Funcionario
+typedef struct 
 {
     char nome[120];
     char matricula[5];
-} Funcionario;
+} funcionario_t;
 
-typedef struct Produto
+typedef struct 
 {
     char nprod[120];
     int quant;
     float valor;
     int vendidos;
-} Produto;
+} produto_t;
 
-void limparTela();
-void limparPausarTela();
-void cadastrarProdutos(Produto produtos[MAX]);
-void gerarProdutos(Produto produtos[MAX]);
-void cadastrarFuncionarios(Funcionario funcionarios[MAX]);
-void gerarFuncionarios(Funcionario funcionario[MAX]);
-void salvarDadosProdutos(Produto produtos[MAX]);
-int recuperarDadosProdutos(Produto produtos[5]);
-void salvarDadosFuncionarios(Funcionario funcionarisos[MAX]);
-int recuperarDadosFuncionarios(Funcionario funcionarios[5]);
-void infoFuncionario(Funcionario funcionario);
-void infoProduto(Produto produto);
-void cadastrarProdutos(Produto produtos[MAX]);
-int selectAdmOrFuncionario();
+void limpar_tela();
+void pausar_limpar_tela();
+void cadastrar_produtos(produto_t produto_vet[MAX]);
+void gerar_produtos(produto_t produto_vet[MAX]);
+void cadastrar_funcionarios(funcionario_t funcionario_vet[MAX]);
+void gerar_funcionarios(funcionario_t funcionario[MAX]);
+void salvar_dados_produtos(produto_t produto_vet[MAX]);
+int recuperar_dados_produtos(produto_t produto_vet[5]);
+void salvarDadosFuncionarios(funcionario_t funcionario_vet[MAX]);
+int recuperar_dados_funcionarios(funcionario_t funcionario_vet[5]);
+void info_funcionario(funcionario_t funcionario);
+void info_produto(produto_t produto);
+void cadastrar_produtos(produto_t produto_vet[MAX]);
+int select_adm_or_funcionario();
 
 int main(void)
 { //inicio do algoritmo
     setlocale(LC_ALL, "Portuguese");
-    Produto produtos[MAX];
-    Funcionario funcionarios[MAX];
+    produto_t produto_vet[MAX];
+    funcionario_t funcionario_vet[MAX];
 
-    int isValidProdutos;
-    int isValidFuncionarios;
+    int is_valid_produtos;
+    int is_valid_funcionarios;
 
-    int selectFuncionario;
-    int selectProduto;
+    int select_funcionario;
+    int select_produto;
 
-    if (recuperarDadosProdutos(produtos))
+    if (recuperar_dados_produtos(produto_vet))
     {
-        isValidProdutos = 1;
+        is_valid_produtos = 1;
     }
 
-    if (recuperarDadosFuncionarios(funcionarios))
+    if (recuperar_dados_funcionarios(funcionario_vet))
     {
-        isValidFuncionarios = 1;
+        is_valid_funcionarios = 1;
     }
 
-    int opMenu;
+    int op_menu;
     int i;
 
     printf("\n_____________________________________________________\n");
-    if (selectAdmOrFuncionario())
+    if (select_adm_or_funcionario())
     {
-        int isSelectFuncionario = 0;
-        limparTela();
+        int is_select_funcionario = 0;
+        limpar_tela();
 
         do
         {
 
             printf("\n--Funcionario--\n");
-            if (isSelectFuncionario)
+            if (is_select_funcionario)
             {
-                printf("\nFuncionario Selecionado: %s\n", funcionarios[selectFuncionario].nome);
+                printf("\nFuncionario Selecionado: %s\n", funcionario_vet[select_funcionario].nome);
             }
 
             printf("\n1- Selecionar Funcionarios");
@@ -79,100 +79,100 @@ int main(void)
             printf("\n3- Salvar Dados");
             printf("\n0- Sair ");
 
-            int isValid;
+            int is_valid;
             do
             {
-                isValid = 1;
+                is_valid = 1;
                 printf("\nEscolha uma opção:");
-                scanf("%d", &opMenu);
+                scanf("%d", &op_menu);
 
-                switch (opMenu)
+                switch (op_menu)
                 {
                 //3- Salvar dados
                 case 1:
-                    limparTela();
+                    limpar_tela();
                     printf("\nFuncionarios\n");
 
                     for (i = 0; i < MAX; i++)
                     {
-                        printf("\n%d - %s", i, funcionarios[i].nome);
+                        printf("\n%d - %s", i, funcionario_vet[i].nome);
                     }
                     do
                     {
                         printf("\nSelecione o funcionario do balcao: ");
-                        scanf("%d", &selectFuncionario);
-                    } while ((selectFuncionario > MAX - 1 || selectFuncionario < 0));
-                    isSelectFuncionario = 1;
-                    limparPausarTela();
+                        scanf("%d", &select_funcionario);
+                    } while ((select_funcionario > MAX - 1 || select_funcionario < 0));
+                    is_select_funcionario = 1;
+                    pausar_limpar_tela();
                     break;
                 //2- Sistema de Vendas
                 case 2:
-                    limparTela();
+                    limpar_tela();
                     printf("\nSistema de Vendas\n");
-                    if (isSelectFuncionario)
+                    if (is_select_funcionario)
                     {
 
-                        limparTela();
+                        limpar_tela();
                         printf("\nDados do funcionario selecionado\n");
 
-                        infoFuncionario(funcionarios[selectFuncionario]);
+                        info_funcionario(funcionario_vet[select_funcionario]);
 
-                        limparPausarTela();
+                        pausar_limpar_tela();
 
                         printf("\nProdutos\n");
 
                         for (i = 0; i < MAX; i++)
                         {
-                            printf("\n%d - %s", i, produtos[i]);
+                            printf("\n%d - %s", i, produto_vet[i]);
                         }
 
                         do
                         {
                             printf("\nSelecione o funcionario do balcao: ");
-                            scanf("%d", &selectProduto);
-                        } while ((selectProduto > MAX - 1 || selectProduto < 0));
+                            scanf("%d", &select_produto);
+                        } while ((select_produto > MAX - 1 || select_produto < 0));
 
-                        limparTela();
+                        limpar_tela();
                         printf("\nDados do produto selecionado\n");
-                        infoProduto(produtos[selectProduto]);
+                        info_produto(produto_vet[select_produto]);
 
                         printf("\n\n");
 
-                        int quantidadeProduto;
+                        int quantidade_produto;
                         do
                         {
                             printf("\nQuantidade desejada:");
-                            scanf("%d", &quantidadeProduto);
-                        } while (quantidadeProduto < 0 || quantidadeProduto > produtos[selectProduto].quant);
+                            scanf("%d", &quantidade_produto);
+                        } while (quantidade_produto < 0 || quantidade_produto > produto_vet[select_produto].quant);
 
-                        produtos[selectFuncionario].vendidos += quantidadeProduto;
-                        produtos[selectFuncionario].quant -= quantidadeProduto;
+                        produto_vet[select_funcionario].vendidos += quantidade_produto;
+                        produto_vet[select_funcionario].quant -= quantidade_produto;
 
-                        limparTela();
-                        float valorTotal = quantidadeProduto * produtos[selectFuncionario].valor;
-                        printf("\nValor total: %.2f\n", valorTotal);
+                        limpar_tela();
+                        float valor_total = quantidade_produto * produto_vet[select_funcionario].valor;
+                        printf("\nValor total: %.2f\n", valor_total);
 
-                        float valorPago;
+                        float valor_pago;
                         do
                         {
                             printf("\nValor pago pelo cliente:");
-                            scanf("%f", &valorPago);
-                            if (valorPago < valorTotal)
+                            scanf("%f", &valor_pago);
+                            if (valor_pago < valor_total)
                             {
                                 printf("\nO valor pago não pode ser menor que o valor total\n");
                             }
 
-                        } while (valorPago < valorTotal);
+                        } while (valor_pago < valor_total);
 
-                        float valorTroco = valorPago - valorTotal;
+                        float valorTroco = valor_pago - valor_total;
                         printf("\nValor do troco a ser devolvido ao cliente:%.2f", valorTroco);
-                        limparPausarTela();
+                        pausar_limpar_tela();
                         /* code */
                     }
                     else
                     {
-                        printf("\nNenhum funcionarios selecionado, volte ao menu principal e selecione um funcionario\n");
-                        limparPausarTela();
+                        printf("\nNenhum funcionario_vet selecionado, volte ao menu principal e selecione um funcionario\n");
+                        pausar_limpar_tela();
                     }
 
                     
@@ -180,24 +180,24 @@ int main(void)
                     break;
                 //3- Salvar dados
                 case 3:
-                    limparTela();
-                    salvarDadosProdutos(produtos);
-                    salvarDadosFuncionarios(funcionarios);
-                    limparPausarTela();
+                    limpar_tela();
+                    salvar_dados_produtos(produto_vet);
+                    salvarDadosFuncionarios(funcionario_vet);
+                    pausar_limpar_tela();
                     break;
                 //0- Sair
                 case 0:
-                    limparTela();
+                    limpar_tela();
                     exit(1);
                     break;
 
                 default:
-                    isValid = 0;
+                    is_valid = 0;
                     printf(" Opção invalida, escolha outra opção:");
                     break;
                 }
 
-            } while (!isValid);
+            } while (!is_valid);
 
         } while (1);
     }
@@ -214,205 +214,205 @@ int main(void)
             printf("\n4- Salvar Dados");
             printf("\n0- Sair ");
 
-            int isValid;
+            int is_valid;
             do
             {
-                isValid = 1;
+                is_valid = 1;
                 printf("\nEscolha uma opção:");
-                scanf("%d", &opMenu);
+                scanf("%d", &op_menu);
 
-                switch (opMenu)
+                switch (op_menu)
                 {
                 case 1:
-                    limparTela();
+                    limpar_tela();
                     printf("\n1- Produtos");
                     printf("\n2- Funcionarios");
                     printf("\n0- Sair");
 
                     do
                     {
-                        isValid = 1;
+                        is_valid = 1;
                         printf("\nEscolha uma opção:");
-                        scanf("%d", &opMenu);
-                        switch (opMenu)
+                        scanf("%d", &op_menu);
+                        switch (op_menu)
                         {
                         //1- Produto
                         case 1:
-                            limparTela();
+                            limpar_tela();
                             printf("\n1- Gerar Produtos");
                             printf("\n2- Cadastrar Produtos");
                             printf("\n0- Sair");
 
                             do
                             {
-                                isValid = 1;
+                                is_valid = 1;
                                 printf("\nEscolha uma opção:");
-                                scanf("%d", &opMenu);
-                                switch (opMenu)
+                                scanf("%d", &op_menu);
+                                switch (op_menu)
                                 {
                                 //1- Gerar Produtos
                                 case 1:
-                                    limparTela();
-                                    gerarProdutos(produtos);
-                                    limparPausarTela();
+                                    limpar_tela();
+                                    gerar_produtos(produto_vet);
+                                    pausar_limpar_tela();
                                     break;
                                 //2- Cadastrar Produtos
                                 case 2:
-                                    limparTela();
-                                    cadastrarProdutos(produtos);
-                                    limparPausarTela();
+                                    limpar_tela();
+                                    cadastrar_produtos(produto_vet);
+                                    pausar_limpar_tela();
                                     break;
                                 //0- Sair
                                 case 0:
-                                    limparTela();
+                                    limpar_tela();
 
                                     break;
                                 default:
-                                    isValid = 0;
+                                    is_valid = 0;
                                     break;
                                 }
-                            } while (!isValid);
+                            } while (!is_valid);
                             break;
                         //2- Funcionario
                         case 2:
-                            limparTela();
+                            limpar_tela();
                             printf("\n1- Gerar Funcionarios");
                             printf("\n2- Cadastrar Funcionarios");
                             printf("\n0- Sair");
 
                             do
                             {
-                                isValid = 1;
+                                is_valid = 1;
                                 printf("\nEscolha uma opção:");
-                                scanf("%d", &opMenu);
-                                switch (opMenu)
+                                scanf("%d", &op_menu);
+                                switch (op_menu)
                                 {
                                 //1- Gerar Produtos
                                 case 1:
-                                    limparTela();
-                                    gerarFuncionarios(funcionarios);
-                                    limparPausarTela();
+                                    limpar_tela();
+                                    gerar_funcionarios(funcionario_vet);
+                                    pausar_limpar_tela();
                                     break;
                                 //2- Cadastrar Produtos
                                 case 2:
-                                    limparTela();
-                                    cadastrarFuncionarios(funcionarios);
-                                    limparPausarTela();
+                                    limpar_tela();
+                                    cadastrar_funcionarios(funcionario_vet);
+                                    pausar_limpar_tela();
                                     break;
                                 //0- Sair
                                 case 0:
-                                    limparTela();
+                                    limpar_tela();
 
                                     break;
                                 default:
-                                    isValid = 0;
+                                    is_valid = 0;
                                     break;
                                 }
-                            } while (!isValid);
+                            } while (!is_valid);
                             break;
                         //0- Sair
                         case 0:
-                            limparTela();
+                            limpar_tela();
 
                             break;
                         default:
-                            isValid = 0;
+                            is_valid = 0;
                             break;
                         }
-                    } while (!isValid);
+                    } while (!is_valid);
                     break;
                 //2- Informações
                 case 2:
-                    limparTela();
+                    limpar_tela();
                     printf("\n1- Funcionarios");
                     printf("\n2- Produtos");
                     printf("\n0- Sair");
 
                     do
                     {
-                        isValid = 1;
+                        is_valid = 1;
                         printf("\nEscolha uma opção:");
-                        scanf("%d", &opMenu);
-                        switch (opMenu)
+                        scanf("%d", &op_menu);
+                        switch (op_menu)
                         {
                         //1- Funcionarios
                         case 1:
-                            limparTela();
+                            limpar_tela();
                             int i;
                             for (i = 0; i < 5; i++)
                             {
                                 printf("\n________________________\n");
-                                infoFuncionario(funcionarios[i]);
+                                info_funcionario(funcionario_vet[i]);
                             }
-                            limparPausarTela();
+                            pausar_limpar_tela();
                             break;
                         //2- Produtos
                         case 2:
-                            limparTela();
+                            limpar_tela();
                             for (i = 0; i < 5; i++)
                             {
                                 printf("\n________________________\n");
-                                infoProduto(produtos[i]);
+                                info_produto(produto_vet[i]);
                             }
-                            limparPausarTela();
+                            pausar_limpar_tela();
                             break;
                         //0- Sair
                         case 0:
-                            limparTela();
+                            limpar_tela();
 
                             break;
                         default:
-                            isValid = 0;
+                            is_valid = 0;
                             break;
                         }
-                    } while (!isValid);
+                    } while (!is_valid);
                     break;
                 //3- Relatorios de vendas
                 case 3:
-                    limparTela();
+                    limpar_tela();
                     printf("\nRelatorios de Vendas\n");
                     for (i = 0; i < MAX; i++)
                     {
-                        if (produtos[i].vendidos > 0)
+                        if (produto_vet[i].vendidos > 0)
                         {
                             printf("\n--------------------------------------\n");
-                            printf("\nProduto\t\t\t:%s", produtos[i].nprod);
-                            printf("\nValor\t\t\t:%2.f", produtos[i].valor);
-                            printf("\nQuantidade\t\t:%d", produtos[i].quant);
-                            printf("\nQuantidade vendidos\t:%d", produtos[i].vendidos);
-                            printf("\nValor total arrecadado\t:%.2f", produtos[i].valor * produtos[i].vendidos);
+                            printf("\nProduto\t\t\t:%s", produto_vet[i].nprod);
+                            printf("\nValor\t\t\t:%2.f", produto_vet[i].valor);
+                            printf("\nQuantidade\t\t:%d", produto_vet[i].quant);
+                            printf("\nQuantidade vendidos\t:%d", produto_vet[i].vendidos);
+                            printf("\nValor total arrecadado\t:%.2f", produto_vet[i].valor * produto_vet[i].vendidos);
                         }
                     }
 
-                    limparPausarTela();
+                    pausar_limpar_tela();
                     break;
                 //3- Salvar dados
                 case 4:
-                    limparTela();
-                    salvarDadosProdutos(produtos);
-                    salvarDadosFuncionarios(funcionarios);
-                    limparPausarTela();
+                    limpar_tela();
+                    salvar_dados_produtos(produto_vet);
+                    salvarDadosFuncionarios(funcionario_vet);
+                    pausar_limpar_tela();
                     break;
                 //0- Sair
                 case 0:
-                    limparTela();
+                    limpar_tela();
                     exit(1);
                     break;
 
                 default:
-                    isValid = 0;
+                    is_valid = 0;
                     printf("Opção invalida, escolha outra opção:");
                     break;
                 }
 
-            } while (!isValid);
+            } while (!is_valid);
 
         } while (1);
     }
 
 } //fim do main
 
-void limparTela()
+void limpar_tela()
 {
 #ifdef __WIN32
     system("cls");
@@ -421,7 +421,7 @@ void limparTela()
 #endif
 }
 
-void limparPausarTela()
+void pausar_limpar_tela()
 {
     printf("\n\n");
 #ifdef __WIN32
@@ -430,93 +430,93 @@ void limparPausarTela()
     system("read -p \"Pressione enter para continuar\" saindo");
 #endif
 
-    limparTela();
+    limpar_tela();
 }
 
-void infoProduto(Produto produto)
+void info_produto(produto_t produto)
 {
     printf("\nNome produto\t\t: %s", produto.nprod);
     printf("\nValor do produto\t: %.2f", produto.valor);
     printf("\nQuantidade\t\t: %d", produto.quant);
 }
 
-void infoFuncionario(Funcionario funcionario)
+void info_funcionario(funcionario_t funcionario)
 {
     printf("\nNome do funcionario\t:  %s", funcionario.nome);
     printf("\nMatricula\t\t:  %s", funcionario.matricula);
 }
 
-void cadastrarProdutos(Produto produtos[MAX])
+void cadastrar_produtos(produto_t produto_vet[MAX])
 {
     int i;
     for (i = 0; i < 5; i++)
     {
         printf("\n___________________________________________\n");
         printf("Nome\t\t:");
-        scanf("%s", &produtos[i].nprod);
+        scanf("%s", &produto_vet[i].nprod);
 
         do
         {
             printf("Valor\t\t:");
-            scanf("%f", &produtos[i].valor);
-            if (produtos[i].valor <= 0)
+            scanf("%f", &produto_vet[i].valor);
+            if (produto_vet[i].valor <= 0)
             {
                 printf("O valor tem que ser maior que 0\n");
             }
-        } while (produtos[i].valor <= 0);
+        } while (produto_vet[i].valor <= 0);
 
         do
         {
             printf("Quantidade\t:");
-            scanf("%d", &produtos[i].quant);
-            if (produtos[i].quant <= 0)
+            scanf("%d", &produto_vet[i].quant);
+            if (produto_vet[i].quant <= 0)
             {
                 printf("A quantidade tem que ser maior que 0\n");
             }
-        } while (produtos[i].quant <= 0);
+        } while (produto_vet[i].quant <= 0);
 
-        produtos[i].vendidos = 0;
+        produto_vet[i].vendidos = 0;
     }
 }
 
-void cadastrarFuncionarios(Funcionario funcionarios[MAX])
+void cadastrar_funcionarios(funcionario_t funcionario_vet[MAX])
 {
     int i;
     for (i = 0; i < 5; i++)
     {
         printf("\n___________________________________________\n");
         printf("Nome\t\t:");
-        scanf("%s", &funcionarios[i].nome);
+        scanf("%s", &funcionario_vet[i].nome);
 
         printf("Matricula\t:");
-        scanf("%s", &funcionarios[i].matricula);
+        scanf("%s", &funcionario_vet[i].matricula);
     }
 }
-void gerarProdutos(Produto produtos[MAX])
+void gerar_produtos(produto_t produto_vet[MAX])
 {
     int i;
     for (i = 0; i < MAX; i++)
     {
-        sprintf(produtos[i].nprod, "Produto %d", i);
-        produtos[i].quant = i + 10;
-        produtos[i].valor = i + 100;
-        produtos[i].vendidos = 0;
+        sprintf(produto_vet[i].nprod, "Produto %d", i);
+        produto_vet[i].quant = i + 10;
+        produto_vet[i].valor = i + 100;
+        produto_vet[i].vendidos = 0;
     }
     printf("\nProdutos gerados Automaticamente\n");
 }
 
-void gerarFuncionarios(Funcionario funcionario[MAX])
+void gerar_funcionarios(funcionario_t funcionario_vet[MAX])
 {
     int i;
     for (i = 0; i < MAX; i++)
     {
-        sprintf(funcionario[i].nome, "Funcionario %d", i);
-        sprintf(funcionario[i].matricula, "%d%d%d", i, i, i);
+        sprintf(funcionario_vet[i].nome, "Funcionario %d", i);
+        sprintf(funcionario_vet[i].matricula, "%d%d%d", i, i, i);
     }
     printf("\nFuncionarios gerados Automaticamente\n");
 }
 
-void salvarDadosProdutos(Produto produtos[MAX])
+void salvar_dados_produtos(produto_t produto_vet[MAX])
 {
     FILE *arquivo;
     arquivo = fopen("produtos.bin", "wb");
@@ -525,7 +525,7 @@ void salvarDadosProdutos(Produto produtos[MAX])
         int i;
         for (i = 0; i < MAX; i++)
         {
-            fwrite(&produtos[i], sizeof(Produto), sizeof(produtos[i]), arquivo);
+            fwrite(&produto_vet[i], sizeof(produto_t), sizeof(produto_vet[i]), arquivo);
         }
         fclose(arquivo);
         printf("\nDados dos Carros salvos\n");
@@ -536,7 +536,7 @@ void salvarDadosProdutos(Produto produtos[MAX])
     }
 }
 
-int recuperarDadosProdutos(Produto produtos[MAX])
+int recuperar_dados_produtos(produto_t produto_vet[MAX])
 {
 
     FILE *arquivo = fopen("produtos.bin", "rb"); //criando um arquivo para salvar nossos dados
@@ -546,14 +546,14 @@ int recuperarDadosProdutos(Produto produtos[MAX])
         int i;
         for (i = 0; i < MAX; i++)
         {
-            Produto produto;
+            produto_t produto;
 
-            int tamanhoArquivo = fread(&produto, sizeof(Produto), 1, arquivo);
+            int tamanho_arquivo = fread(&produto, sizeof(produto_t), 1, arquivo);
 
-            if (tamanhoArquivo < 1)
+            if (tamanho_arquivo < 1)
                 break;
             else
-                produtos[i] = produto;
+                produto_vet[i] = produto;
         }
         fclose(arquivo); // fecha o arquivo
         printf("\nDados dos Produtos recuperados\n");
@@ -566,16 +566,16 @@ int recuperarDadosProdutos(Produto produtos[MAX])
     }
 }
 
-void salvarDadosFuncionarios(Funcionario funcionarisos[MAX])
+void salvarDadosFuncionarios(funcionario_t funcionario_vet[MAX])
 {
     FILE *arquivo;
-    arquivo = fopen("funcionarios.bin", "wb");
+    arquivo = fopen("funcionario.bin", "wb");
     if (arquivo != NULL)
     {
         int i;
         for (i = 0; i < MAX; i++)
         {
-            fwrite(&funcionarisos[i], sizeof(Funcionario), sizeof(funcionarisos[i]), arquivo);
+            fwrite(&funcionario_vet[i], sizeof(funcionario_t), sizeof(funcionario_vet[i]), arquivo);
         }
         fclose(arquivo);
         printf("\nDados dos Funcionarios salvos\n");
@@ -586,24 +586,24 @@ void salvarDadosFuncionarios(Funcionario funcionarisos[MAX])
     }
 }
 
-int recuperarDadosFuncionarios(Funcionario funcionarios[MAX])
+int recuperar_dados_funcionarios(funcionario_t funcionario_vet[MAX])
 {
 
-    FILE *arquivo = fopen("funcionarios.bin", "rb");
+    FILE *arquivo = fopen("funcionario.bin", "rb");
 
     if (arquivo != NULL)
     {
         int i;
         for (i = 0; i < MAX; i++)
         {
-            Funcionario funcionario;
+            funcionario_t funcionario;
 
-            int tamanhoArquivo = fread(&funcionario, sizeof(Funcionario), 1, arquivo);
+            int tamanho_arquivo = fread(&funcionario, sizeof(funcionario_t), 1, arquivo);
 
-            if (tamanhoArquivo < 1)
+            if (tamanho_arquivo < 1)
                 break;
             else
-                funcionarios[i] = funcionario;
+                funcionario_vet[i] = funcionario;
         }
         fclose(arquivo); // fecha o arquivo
         printf("\nDados dos Produtos recuperados\n");
@@ -616,36 +616,36 @@ int recuperarDadosFuncionarios(Funcionario funcionarios[MAX])
     }
 }
 
-int selectAdmOrFuncionario()
+int select_adm_or_funcionario()
 {
     printf("\nLongar como:");
     printf("\n1 - Administrador");
     printf("\n2 - Funcionario");
     printf("\n0 - Sair");
     int op;
-    int isValid;
+    int is_valid;
     do
     {
-        isValid = 1;
+        is_valid = 1;
         printf("\nSelecione uma opção:");
         scanf("%d", &op);
         switch (op)
         {
         case 1:
-            limparTela();
+            limpar_tela();
             return 0;
             break;
         case 2:
-            limparTela();
+            limpar_tela();
             return 1;
             break;
         case 0:
-            limparTela();
+            limpar_tela();
             exit(0);
             break;
         default:
-            isValid = 0;
+            is_valid = 0;
             break;
         }
-    } while (!isValid);
+    } while (!is_valid);
 }
