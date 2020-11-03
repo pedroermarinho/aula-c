@@ -137,11 +137,7 @@ void limpar_tela()
 void pausar_limpar_tela()
 {
     printf("\n\n");
-#ifdef __WIN32
-    system("pause");
-#else
     system("read -p \"Pressione enter para continuar\" saindo");
-#endif
     limpar_tela();
 } //fim procedimento pausar_limpar_tela
 
