@@ -30,6 +30,24 @@ cada cadastro 2 max;
     } while (0)
 
 #define MAX 2
+#define MAX_AGENDA 14
+
+typedef enum
+{
+    CREATE = 0,
+    READ,
+    UPDATE,
+    DELETE
+} crud_t;
+
+typedef enum
+{
+    ADM,
+    PACIENTE,
+    MEDICO,
+    FUNCIONARIO,
+    ESPECIALIDADE
+} tipo_t;
 
 typedef struct
 {
@@ -70,14 +88,13 @@ typedef struct
     bool exist;
 } paciente_t;
 
-typedef enum
+typedef struct
 {
-    ADM,
-    PACIENTE,
-    MEDICO,
-    FUNCIONARIO,
-    ESPECIALIDADE
-} tipo_t;
+    medico_t medico;
+    paciente_t paciente;
+    int hora;
+    bool exist;
+} agenda_t;
 
 typedef struct
 {
@@ -86,6 +103,7 @@ typedef struct
     especialidade_t especialidade_vet[MAX];
     medico_t medico_vet[MAX];
     paciente_t paciente_vet[MAX];
+    agenda_t agenda_vet[MAX_AGENDA];
 } vets_t;
 
 //teste
@@ -95,19 +113,16 @@ char *all_tests();
 void menu_login(vets_t *dados);
 void menu_adm(vets_t *dados);
 
-void menu_adm_create(vets_t *dados);
-void menu_adm_read(vets_t *dados);
-void menu_adm_delete(vets_t *dados);
-void menu_adm_update(vets_t *dados);
+void menu_adm_crud(crud_t crud, vets_t *dados);
 
 void menu_funcionario(vets_t *dados);
 void menu_medico(vets_t *dados);
 
 void limpar_tela();
 void pausar_limpar_tela();
-void gerar_dados(vets_t *dados);
+int gerar_dados(vets_t *dados);
 
-void inicializador(vets_t *dados);
+int inicializador(vets_t *dados);
 
 login_t auth();
 bool auth(login_t login1, login_t login2);
@@ -115,29 +130,26 @@ bool auth(tipo_t tipo, vets_t *dados, int tam);
 
 char *ler_string(char *string, int tam);
 
-void create_tipo(tipo_t tipo, vets_t *dados, int tam);
-void delete_tipo(tipo_t tipo, vets_t *dados, int tam);
-void update_tipo(tipo_t tipo, vets_t *dados, int tam);
+int create_tipo(tipo_t tipo, vets_t *dados, int tam);
+int read_tipo(tipo_t tipo, vets_t *dados, int tam);
+int update_tipo(tipo_t tipo, vets_t *dados, int tam);
+int delete_tipo(tipo_t tipo, vets_t *dados, int tam);
 
-void create_funcionario(funcionario_t *funcionario);
-int read_funcionario(funcionario_t funcionario_vet[], int tam);
-void read_funcionario(funcionario_t funcionario);
-void update_funcionario(funcionario_t funcionario_vet[], int tam);
+int create_funcionario(funcionario_t *funcionario);
+int read_funcionario(funcionario_t funcionario);
 
-void create_paciente(paciente_t *paciente);
-int read_paciente(paciente_t paciente_vet[], int tam);
-void read_paciente(paciente_t paciente);
-void update_paciente(paciente_t paciente_vet[], int tam);
+int create_paciente(paciente_t *paciente);
+int read_paciente(paciente_t paciente);
 
-void create_especialidade(especialidade_t *especialidade);
-int read_especialidade(especialidade_t especialidade_vet[], int tam);
-void read_especialidade(especialidade_t especialidade);
-void update_especialidade(especialidade_t especialidade_vet[], int tam);
+int create_especialidade(especialidade_t *especialidade);
+int read_especialidade(especialidade_t especialidade);
 
-void create_medico(medico_t *medico, especialidade_t especialidade_vet[], int tam);
-int read_medico(medico_t medico_vet[], int tam);
-void read_medico(medico_t medico);
-void update_medico(medico_t medico_vet[], int tam_medico_vet, especialidade_t especialidade_vet[], int tam_especialidade_vet);
+int create_medico(medico_t *medico, vets_t *dados, int tam_especialidade);
+int read_medico(medico_t medico);
+
+paciente_t search(paciente_t paciente_vet[], int tam);
+
+void agendar(vets_t *dados);
 
 int main()
 {
@@ -180,15 +192,11 @@ char *ler_string(char *string, int tam)
         {
             int ultima_letra = strlen(string) - 1;
             if (string[ultima_letra] == '\n')
-            {
                 string[ultima_letra] = '\0';
-            }
         }
 
         if (strlen(string) == 0)
-        {
             valid = false;
-        }
 
     } while (!valid);
 
@@ -211,12 +219,9 @@ bool auth(login_t login1, login_t login2)
 {
 
     if (strcmp(login1.usuario, login2.usuario) == 0)
-    {
         if (strcmp(login1.senha, login2.senha) == 0)
-        {
             return true;
-        }
-    }
+
     return false;
 }
 
@@ -258,26 +263,73 @@ bool auth(tipo_t tipo, vets_t *dados, int tam)
     return auth(login1, login2);
 }
 
+paciente_t search(paciente_t paciente_vet[], int tam)
+{
+    char cpf[30];
+    puts("CPF:");
+    ler_string(cpf, sizeof(cpf));
+
+    for (int i = 0; i < tam; i++)
+        if (strcmp(paciente_vet[i].cpf, cpf) == 0)
+            return paciente_vet[i];
+}
+
+void agendar_create(vets_t *dados)
+{
+
+    paciente_t paciente = search(dados->paciente_vet, MAX);
+
+    medico_t medico = dados->medico_vet[read_tipo(MEDICO, dados, MAX)];
+
+    puts("\nSelecione um horario entre as 8 a 17:");
+    int hora;
+    bool valid = true;
+    do
+    {
+        printf(">");
+        scanf("%d", &hora);
+    } while (hora >= 8 && hora <= 17);
+
+    if (paciente.exist && medico.exist)
+    {
+        for (int i = 0; i < MAX_AGENDA; i++)
+        {
+            if (dados->agenda_vet[i].exist)
+            {
+                if (dados->agenda_vet[i].hora = hora)
+                {
+                    if (dados->agenda_vet)
+                    {
+                        
+                    }
+                    
+                }
+            }
+        }
+    }
+}
+
 void menu_login(vets_t *dados)
 {
     do
     {
         limpar_tela();
-        printf("\nUsuario padrão para adm:adm");
-        printf("\nSenha padrão para adm:123\n\n");
+        system("title Menu Login");
+        puts("Usuario padrão para adm:adm");
+        puts("Senha padrão para adm:123\n\n");
 
-        printf("\n1-ADM");
-        printf("\n2-Funcionario");
-        printf("\n3-Medico");
+        puts("1-ADM");
+        puts("2-Funcionario");
+        puts("3-Medico");
         //printf("\n4-Paciente");
-        printf("\n0-Sair");
+        puts("0-Sair");
 
         bool is_valid = true;
         int op = 0;
         do
         {
 
-            printf("\n>");
+            printf(">");
             scanf("%d", &op);
             switch (op)
             {
@@ -302,12 +354,13 @@ void menu_login(vets_t *dados)
                     menu_medico(dados);
                 break;
 
-                //paciente
-            case 4:
-                limpar_tela();
-                if (auth(PACIENTE, dados, MAX)){
-                    }
-                break;
+                //     //paciente
+                // case 4:
+                //     limpar_tela();
+                //     if (auth(PACIENTE, dados, MAX))
+                //     {
+                //     }
+                //     break;
 
             case 0:
                 limpar_tela();
@@ -331,17 +384,19 @@ void menu_adm(vets_t *dados)
     do
     {
         limpar_tela();
-        printf("\n1- Cadastro");
-        printf("\n2- Exibir");
-        printf("\n3- Deletar");
-        printf("\n4- Alterar");
-        printf("\n0- Sair");
+        system("title Menu ADM");
+        puts("1- Cadastro");
+        puts("2- Exibir");
+        puts("3- Deletar");
+        puts("4- Alterar");
+        puts("5- Gerar Dados");
+        puts("0- Sair");
 
         bool is_valid = true;
         int op = 0;
         do
         {
-            printf("\n>");
+            printf(">");
             scanf("%d", &op);
 
             switch (op)
@@ -349,81 +404,31 @@ void menu_adm(vets_t *dados)
                 //Cadastro
             case 1:
                 limpar_tela();
-                menu_adm_create(dados);
+                system("title Menu Cadastro");
+                menu_adm_crud(CREATE, dados);
                 break;
                 //Exibir
             case 2:
                 limpar_tela();
-                menu_adm_read(dados);
+                system("title Menu Leitura");
+                menu_adm_crud(READ, dados);
                 break;
                 //Deletar
             case 3:
                 limpar_tela();
-                menu_adm_delete(dados);
+                system("title Menu Deletar");
+                menu_adm_crud(DELETE, dados);
                 break;
                 //Alterar
             case 4:
                 limpar_tela();
-                menu_adm_update(dados);
-                break;
-                //Sair
-            case 0:
-                limpar_tela();
-                continuar = false;
-                break;
-            default:
-                is_valid = false;
-                break;
-            }
-        } while (!is_valid);
-    } while (continuar);
-}
-
-void menu_adm_create(vets_t *dados)
-{
-    bool continuar = true;
-    do
-    {
-        limpar_tela();
-        printf("\n1-Especialidade");
-        printf("\n2-Funcionario");
-        printf("\n3-Medico");
-        printf("\n4-Paciente");
-        printf("\n5-Gerar Dados");
-        printf("\n0-Sair");
-
-        bool is_valid = true;
-        int op = 0;
-        do
-        {
-            printf("\n>");
-            scanf("%d", &op);
-
-            switch (op)
-            {
-                //Especialidade
-            case 1:
-                limpar_tela();
-                create_tipo(ESPECIALIDADE, dados, MAX);
-                break;
-                //Funcionario
-            case 2:
-                limpar_tela();
-                create_tipo(FUNCIONARIO, dados, MAX);
-                break;
-                //Medico
-            case 3:
-                limpar_tela();
-                create_tipo(MEDICO, dados, MAX);
-                break;
-                //Paciente
-            case 4:
-                limpar_tela();
-                create_tipo(PACIENTE, dados, MAX);
+                system("title Menu Alterar");
+                menu_adm_crud(UPDATE, dados);
                 break;
                 //Gerar Dados
             case 5:
                 limpar_tela();
+                system("title Gerar Dados");
                 gerar_dados(dados);
                 break;
                 //Sair
@@ -439,23 +444,30 @@ void menu_adm_create(vets_t *dados)
     } while (continuar);
 }
 
-void menu_adm_read(vets_t *dados)
+void menu_adm_crud(crud_t crud, vets_t *dados)
 {
-    bool continuar = true;
+    bool continuar = true, is_valid = true;
+
+    int (*crud_func[])(tipo_t, vets_t *, int) = {
+        create_tipo,
+        read_tipo,
+        update_tipo,
+        delete_tipo};
+
     do
     {
         limpar_tela();
-        printf("\n1-Especialidade");
-        printf("\n2-Funcionario");
-        printf("\n3-Medico");
-        printf("\n4-Paciente");
-        printf("\n0-Sair");
+        puts("1-Especialidade");
+        puts("2-Funcionario");
+        puts("3-Medico");
+        puts("4-Paciente");
+        puts("0-Sair");
 
-        bool is_valid = true;
+        is_valid = true;
         int op = 0;
         do
         {
-            printf("\n>");
+            printf(">");
             scanf("%d", &op);
 
             switch (op)
@@ -463,23 +475,38 @@ void menu_adm_read(vets_t *dados)
                 //Especialidade
             case 1:
                 limpar_tela();
-                read_especialidade(dados->especialidade_vet[read_especialidade(dados->especialidade_vet, MAX)]);
+                if (crud == READ)
+                    read_especialidade(dados->especialidade_vet[crud_func[crud](ESPECIALIDADE, dados, MAX)]);
+                else
+                    crud_func[crud](ESPECIALIDADE, dados, MAX);
                 break;
                 //Funcionario
             case 2:
                 limpar_tela();
-                read_funcionario(dados->funcionario_vet[read_funcionario(dados->funcionario_vet, MAX)]);
+                if (crud == READ)
+                    read_funcionario(dados->funcionario_vet[crud_func[crud](FUNCIONARIO, dados, MAX)]);
+                else
+                    crud_func[crud](FUNCIONARIO, dados, MAX);
                 break;
+
                 //Medico
             case 3:
                 limpar_tela();
-                read_medico(dados->medico_vet[read_medico(dados->medico_vet, MAX)]);
+                if (crud == READ)
+                    read_medico(dados->medico_vet[crud_func[crud](MEDICO, dados, MAX)]);
+                else
+                    crud_func[crud](MEDICO, dados, MAX);
                 break;
+
                 //Paciente
             case 4:
                 limpar_tela();
-                read_paciente(dados->paciente_vet[read_paciente(dados->paciente_vet, MAX)]);
+                if (crud == READ)
+                    read_paciente(dados->paciente_vet[crud_func[crud](PACIENTE, dados, MAX)]);
+                else
+                    crud_func[crud](PACIENTE, dados, MAX);
                 break;
+
                 //Sair
             case 0:
                 limpar_tela();
@@ -492,130 +519,21 @@ void menu_adm_read(vets_t *dados)
         } while (!is_valid);
     } while (continuar);
 }
-
-void menu_adm_delete(vets_t *dados)
-{
-    bool continuar = true;
-    do
-    {
-        limpar_tela();
-        printf("\n1-Especialidade");
-        printf("\n2-Funcionario");
-        printf("\n3-Medico");
-        printf("\n4-Paciente");
-        printf("\n0-Sair");
-
-        bool is_valid = true;
-        int op = 0;
-        do
-        {
-            printf("\n>");
-            scanf("%d", &op);
-
-            switch (op)
-            {
-                //Especialidade
-            case 1:
-                limpar_tela();
-                delete_tipo(ESPECIALIDADE, dados, MAX);
-                break;
-                //Funcionario
-            case 2:
-                limpar_tela();
-                delete_tipo(FUNCIONARIO, dados, MAX);
-                break;
-                //Medico
-            case 3:
-                limpar_tela();
-                delete_tipo(MEDICO, dados, MAX);
-                break;
-                //Paciente
-            case 4:
-                limpar_tela();
-                delete_tipo(PACIENTE, dados, MAX);
-                break;
-                //Sair
-            case 0:
-                limpar_tela();
-                continuar = false;
-                break;
-            default:
-                is_valid = false;
-                break;
-            }
-        } while (!is_valid);
-    } while (continuar);
-}
-
-void menu_adm_update(vets_t *dados)
-{
-    bool continuar = true;
-    do
-    {
-        limpar_tela();
-        printf("\n1-Especialidade");
-        printf("\n2-Funcionario");
-        printf("\n3-Medico");
-        printf("\n4-Paciente");
-        printf("\n0-Sair");
-
-        bool is_valid = true;
-        int op = 0;
-        do
-        {
-            printf("\n>");
-            scanf("%d", &op);
-
-            switch (op)
-            {
-                //Especialidade
-            case 1:
-                limpar_tela();
-                update_tipo(ESPECIALIDADE, dados, MAX);
-                break;
-                //Funcionario
-            case 2:
-                limpar_tela();
-                update_tipo(FUNCIONARIO, dados, MAX);
-                break;
-                //Medico
-            case 3:
-                limpar_tela();
-                update_tipo(MEDICO, dados, MAX);
-                break;
-                //Paciente
-            case 4:
-                limpar_tela();
-                update_tipo(PACIENTE, dados, MAX);
-                break;
-                //Sair
-            case 0:
-                limpar_tela();
-                continuar = false;
-                break;
-            default:
-                is_valid = false;
-                break;
-            }
-        } while (!is_valid);
-    } while (continuar);
-}
-
 void menu_funcionario(vets_t *dados)
 {
     bool continuar = true;
     do
     {
         limpar_tela();
-        printf("\n1- Cadastro");
-        printf("\n2- Exibir");
-        printf("\n0- Sair");
+        puts("1- Cadastro");
+        puts("2- Exibir");
+        puts("0- Sair");
 
         bool is_valid = true;
         int op = 0;
         do
         {
-            printf("\n>");
+            printf(">");
             scanf("%d", &op);
 
             switch (op)
@@ -628,8 +546,7 @@ void menu_funcionario(vets_t *dados)
                 //Exibir
             case 2:
                 limpar_tela();
-                read_paciente(dados->paciente_vet[read_paciente(dados->paciente_vet, MAX)]);
-
+                read_paciente(dados->paciente_vet[read_tipo(PACIENTE, dados, MAX)]);
                 break;
                 //Sair
             case 0:
@@ -650,14 +567,14 @@ void menu_medico(vets_t *dados)
     do
     {
         limpar_tela();
-        printf("\n1- Exibir");
-        printf("\n0- Sair");
+        puts("1- Exibir");
+        puts("0- Sair");
 
         bool is_valid = true;
         int op = 0;
         do
         {
-            printf("\n>");
+            printf(">");
             scanf("%d", &op);
 
             switch (op)
@@ -666,8 +583,7 @@ void menu_medico(vets_t *dados)
                 //Exibir
             case 1:
                 limpar_tela();
-                read_paciente(dados->paciente_vet[read_paciente(dados->paciente_vet, MAX)]);
-
+                read_paciente(dados->paciente_vet[read_tipo(PACIENTE, dados, MAX)]);
                 break;
 
                 //Sair
@@ -685,46 +601,40 @@ void menu_medico(vets_t *dados)
 
 //CRUD
 
-void create_tipo(tipo_t tipo, vets_t *dados, int tam)
+int create_tipo(tipo_t tipo, vets_t *dados, int tam)
 {
 
     switch (tipo)
     {
     case ESPECIALIDADE:
-    {
         for (int i = 0; i < tam; i++)
             create_especialidade(&dados->especialidade_vet[i]);
         break;
-    }
 
     case MEDICO:
-    {
         for (int i = 0; i < tam; i++)
-            create_medico(&dados->medico_vet[i], dados->especialidade_vet, tam);
+            create_medico(&dados->medico_vet[i], dados, tam);
         break;
-    }
 
     case FUNCIONARIO:
-    {
         for (int i = 0; i < tam; i++)
             create_funcionario(&dados->funcionario_vet[i]);
         break;
-    }
 
     case PACIENTE:
-    {
         for (int i = 0; i < tam; i++)
             create_paciente(&dados->paciente_vet[i]);
         break;
-    }
+
     default:
         printf("\n(create_tipo) tipo_t invalido\n");
         exit(EXIT_FAILURE);
         break;
     }
+    return EXIT_SUCCESS;
 }
 
-void delete_tipo(tipo_t tipo, vets_t *dados, int tam)
+int delete_tipo(tipo_t tipo, vets_t *dados, int tam)
 {
     int op = 0;
 
@@ -732,7 +642,7 @@ void delete_tipo(tipo_t tipo, vets_t *dados, int tam)
     {
     case ESPECIALIDADE:
     {
-        op = read_especialidade(dados->especialidade_vet, tam);
+        op = read_tipo(ESPECIALIDADE, dados, tam);
         if (dados->especialidade_vet[op].exist)
             dados->especialidade_vet[op].exist = false;
         break;
@@ -740,7 +650,7 @@ void delete_tipo(tipo_t tipo, vets_t *dados, int tam)
 
     case MEDICO:
     {
-        op = read_medico(dados->medico_vet, tam);
+        op = read_tipo(MEDICO, dados, tam);
         if (dados->medico_vet[op].exist)
             dados->medico_vet[op].exist = false;
         break;
@@ -748,7 +658,7 @@ void delete_tipo(tipo_t tipo, vets_t *dados, int tam)
 
     case FUNCIONARIO:
     {
-        op = read_funcionario(dados->funcionario_vet, tam);
+        op = read_tipo(FUNCIONARIO, dados, tam);
         if (dados->funcionario_vet[op].exist)
             dados->funcionario_vet[op].exist = false;
         break;
@@ -756,19 +666,20 @@ void delete_tipo(tipo_t tipo, vets_t *dados, int tam)
 
     case PACIENTE:
     {
-        op = read_paciente(dados->paciente_vet, tam);
+        op = read_tipo(PACIENTE, dados, tam);
         if (dados->paciente_vet[op].exist)
             dados->paciente_vet[op].exist = false;
         break;
     }
     default:
-        printf("\n(delete_tipo) tipo_t invalido\n");
+        puts("\n(delete_tipo) tipo_t invalido\n");
         exit(EXIT_FAILURE);
         break;
     }
+    return EXIT_SUCCESS;
 }
 
-void update_tipo(tipo_t tipo, vets_t *dados, int tam)
+int update_tipo(tipo_t tipo, vets_t *dados, int tam)
 {
     int op = 0;
 
@@ -776,7 +687,7 @@ void update_tipo(tipo_t tipo, vets_t *dados, int tam)
     {
     case ESPECIALIDADE:
     {
-        op = read_especialidade(dados->especialidade_vet, tam);
+        op = read_tipo(ESPECIALIDADE, dados, MAX);
         if (dados->especialidade_vet[op].exist)
             create_especialidade(&dados->especialidade_vet[op]);
         break;
@@ -784,15 +695,15 @@ void update_tipo(tipo_t tipo, vets_t *dados, int tam)
 
     case MEDICO:
     {
-        op = read_medico(dados->medico_vet, tam);
+        op = read_tipo(MEDICO, dados, MAX);
         if (dados->medico_vet[op].exist)
-            create_medico(&dados->medico_vet[op], dados->especialidade_vet, tam);
+            create_medico(&dados->medico_vet[op], dados, tam);
         break;
     }
 
     case FUNCIONARIO:
     {
-        op = read_funcionario(dados->funcionario_vet, tam);
+        op = read_tipo(FUNCIONARIO, dados, MAX);
         if (dados->funcionario_vet[op].exist)
             create_funcionario(&dados->funcionario_vet[op]);
         break;
@@ -800,16 +711,63 @@ void update_tipo(tipo_t tipo, vets_t *dados, int tam)
 
     case PACIENTE:
     {
-        op = read_paciente(dados->paciente_vet, tam);
+        op = read_tipo(PACIENTE, dados, MAX);
         if (dados->paciente_vet[op].exist)
             create_paciente(&dados->paciente_vet[op]);
         break;
     }
     default:
-        printf("\n(delete_tipo) tipo_t invalido\n");
+        puts("\n(delete_tipo) tipo_t invalido\n");
         exit(EXIT_FAILURE);
         break;
     }
+    return EXIT_SUCCESS;
+}
+
+int read_tipo(tipo_t tipo, vets_t *dados, int tam)
+{
+    int op = 0;
+
+    switch (tipo)
+    {
+    case ESPECIALIDADE:
+        for (int i = 0; i < tam; i++)
+            if (dados->especialidade_vet[i].exist)
+                printf("\n%d - %s", i, dados->especialidade_vet[i].nome);
+        break;
+
+    case MEDICO:
+        for (int i = 0; i < tam; i++)
+            if (dados->medico_vet[i].exist)
+                printf("\n%d - %s", i, dados->medico_vet[i].nome);
+        break;
+
+    case FUNCIONARIO:
+        for (int i = 0; i < tam; i++)
+            if (dados->funcionario_vet[i].exist)
+                printf("\n%d - %s", i, dados->funcionario_vet[i].nome);
+        break;
+
+    case PACIENTE:
+        for (int i = 0; i < tam; i++)
+            if (dados->paciente_vet[i].exist)
+                printf("\n%d - %s", i, dados->paciente_vet[i].nome);
+        break;
+
+    default:
+        puts("\n(read_tipo) tipo_t invalido\n");
+        exit(EXIT_FAILURE);
+        break;
+    }
+
+    puts("\n----------------------------------\n");
+    puts("Selecione uma opção");
+    do
+    {
+        printf(">");
+        scanf("%d", &op);
+    } while (op < 0 || op > tam);
+    return op;
 }
 
 /*
@@ -817,51 +775,33 @@ crud funcionario
 
 */
 
-void create_funcionario(funcionario_t *funcionario)
+int create_funcionario(funcionario_t *funcionario)
 {
-    printf("\n----------------------------------\n");
-    printf("\nMatricula:\n");
+    puts("----------------------------------");
+    puts("\nMatricula:");
     ler_string(funcionario->matricula, sizeof(funcionario->matricula));
-    printf("\nNome:\n");
+    puts("\nNome:");
     ler_string(funcionario->nome, sizeof(funcionario->nome));
     funcionario->login = auth();
     funcionario->exist = true;
+    return EXIT_SUCCESS;
 }
-int read_funcionario(funcionario_t funcionario_vet[], int tam)
-{
-    int op;
-    for (int i = 0; i < tam; i++)
-    {
 
-        if (funcionario_vet[i].exist)
-        {
-            printf("\n%d - %s", i, funcionario_vet[i].nome);
-        }
-    }
-    printf("\n----------------------------------\n");
-    printf("\nSelecione um Funcionario\n");
-    do
-    {
-        printf(">");
-        scanf("%d", &op);
-    } while (op < 0 || op > tam);
-    return op;
-}
-void read_funcionario(funcionario_t funcionario)
+int read_funcionario(funcionario_t funcionario)
 {
     if (funcionario.exist)
     {
-        printf("\n----------------------------------");
+        puts("\n----------------------------------");
         printf("\nMatricula:%s", funcionario.matricula);
         printf("\nNome:%s", funcionario.nome);
         printf("\nUsuário:%s", funcionario.login.usuario);
-        printf("\n----------------------------------\n");
+        puts("\n----------------------------------\n");
     }
     else
-    {
-        printf("\nFuncionario não existe\n");
-    }
+        puts("\nFuncionario não existe\n");
+
     pausar_limpar_tela();
+    return EXIT_SUCCESS;
 }
 
 /*
@@ -869,48 +809,34 @@ crud paciente
 
 */
 
-void create_paciente(paciente_t *paciente)
+int create_paciente(paciente_t *paciente)
 {
-    printf("\n----------------------------------\n");
-    printf("\nCPF:\n");
+    puts("\n----------------------------------\n");
+    puts("\nCPF:");
     ler_string(paciente->cpf, sizeof(paciente->cpf));
-    printf("\nNome:\n");
+    puts("\nNome:");
     ler_string(paciente->nome, sizeof(paciente->nome));
     paciente->login = auth();
     paciente->exist = true;
+    return EXIT_SUCCESS;
 }
-int read_paciente(paciente_t paciente_vet[], int tam)
-{
-    int op;
-    for (int i = 0; i < tam; i++)
-        if (paciente_vet[i].exist)
-            printf("\n%d - %s", i, paciente_vet[i].nome);
 
-    printf("\n----------------------------------\n");
-    printf("\nSelecione um Paciente\n");
-    do
-    {
-        printf(">");
-        scanf("%d", &op);
-    } while (op < 0 || op > tam);
-    return op;
-}
-void read_paciente(paciente_t paciente)
+int read_paciente(paciente_t paciente)
 {
     if (paciente.exist)
     {
-        printf("\n----------------------------------");
+        puts("\n----------------------------------");
         printf("\nCPF:%s", paciente.cpf);
         printf("\nNome:%s", paciente.nome);
         printf("\nTelefone:%s", paciente.telefone);
         printf("\nUsuário:%s", paciente.login.usuario);
-        printf("\n----------------------------------\n");
+        puts("\n----------------------------------\n");
     }
     else
-    {
-        printf("\nPaciente não existe\n");
-    }
+        puts("\nPaciente não existe\n");
+
     pausar_limpar_tela();
+    return EXIT_SUCCESS;
 }
 
 /*
@@ -918,50 +844,33 @@ crud especialidade
 
 */
 
-void create_especialidade(especialidade_t *especialidade)
+int create_especialidade(especialidade_t *especialidade)
 {
-    printf("\n----------------------------------\n");
-    printf("\nCode:\n");
+    puts("\n----------------------------------\n");
+    puts("\nCode:");
     ler_string(especialidade->cod, sizeof(especialidade->cod));
-    printf("\nNome:\n");
+    puts("\nNome:");
     ler_string(especialidade->nome, sizeof(especialidade->nome));
 
     especialidade->exist = true;
+    return EXIT_SUCCESS;
 }
-int read_especialidade(especialidade_t especialidade_vet[], int tam)
-{
-    int op;
-    for (int i = 0; i < tam; i++)
-    {
-        if (especialidade_vet[i].exist)
-        {
-            printf("\n%d - %s", i, especialidade_vet[i].nome);
-        }
-    }
-    printf("\n----------------------------------\n");
-    printf("\nSelecione uma Especialidade\n");
-    do
-    {
-        printf(">");
-        scanf("%d", &op);
-    } while (op < 0 || op > tam);
-    return op;
-}
-void read_especialidade(especialidade_t especialidade)
+
+int read_especialidade(especialidade_t especialidade)
 {
     if (especialidade.exist)
     {
-        printf("\n----------------------------------");
+        puts("\n----------------------------------");
 
         printf("\nNome:%s", especialidade.nome);
         printf("\nCódigo:%s", especialidade.cod);
-        printf("\n----------------------------------\n");
+        puts("\n----------------------------------");
     }
     else
-    {
         printf("\nEspecialidade não existe\n");
-    }
+
     pausar_limpar_tela();
+    return EXIT_SUCCESS;
 }
 
 /*
@@ -969,60 +878,41 @@ crud medico
 
 */
 
-void create_medico(medico_t *medico, especialidade_t especialidade_vet[], int tam)
+int create_medico(medico_t *medico, vets_t *dados, int tam_especialidade)
 {
-    printf("\n----------------------------------\n");
-    printf("\nCRM:\n");
+    puts("\n----------------------------------");
+    puts("\nCRM:");
     ler_string(medico->crm, sizeof(medico->crm));
-    printf("\nNome:\n");
+    puts("\nNome:");
     ler_string(medico->nome, sizeof(medico->nome));
-    int op = read_especialidade(especialidade_vet, tam);
-    medico->especialidade = especialidade_vet[op];
+    int op = read_tipo(ESPECIALIDADE, dados, tam_especialidade);
+    medico->especialidade = dados->especialidade_vet[op];
     medico->login = auth();
     medico->exist = true;
+    return EXIT_SUCCESS;
 }
-int read_medico(medico_t medico_vet[], int tam)
-{
-    int op;
-    for (int i = 0; i < tam; i++)
-    {
 
-        if (medico_vet[i].exist)
-        {
-            printf("\n%d - %s", i, medico_vet[i].nome);
-        }
-    }
-    printf("\n----------------------------------\n");
-    printf("\nSelecione um Medico\n");
-    do
-    {
-        printf(">");
-        scanf("%d", &op);
-    } while (op < 0 || op > tam);
-    return op;
-}
-void read_medico(medico_t medico)
+int read_medico(medico_t medico)
 {
     if (medico.exist)
     {
-        printf("\n----------------------------------");
+        puts("\n----------------------------------");
         printf("\nCPF:%s", medico.crm);
         printf("\nNome:%s", medico.nome);
         printf("\nEspecialidade:%s", medico.especialidade.nome);
         printf("\nUsuário:%s", medico.login.usuario);
-        printf("\n----------------------------------\n");
+        puts("\n----------------------------------");
     }
     else
-    {
-        printf("\nMedico não existe\n");
-    }
-    pausar_limpar_tela();
-}
+        puts("\nMedico não existe\n");
 
-void gerar_dados(vets_t *dados)
+    pausar_limpar_tela();
+    return EXIT_SUCCESS;
+}
+int gerar_dados(vets_t *dados)
 {
-    printf("\nGerando dados...\n");
-    printf("\nEspecialidades...");
+    puts("\nGerando dados...");
+    puts("Especialidades...");
     //gerar dados de especialidade
     for (int i = 0; i < MAX; i++)
     {
@@ -1030,7 +920,7 @@ void gerar_dados(vets_t *dados)
         sprintf(dados->especialidade_vet[i].cod, "%d%d%d", i, i, i);
         dados->especialidade_vet[i].exist = true;
     }
-    printf("\nFuncionarios...");
+    puts("Funcionarios...");
     //gerar dados de funcionario
     for (int i = 0; i < MAX; i++)
     {
@@ -1040,7 +930,7 @@ void gerar_dados(vets_t *dados)
         sprintf(dados->funcionario_vet[i].login.senha, "%d%d%d", i, i, i);
         dados->funcionario_vet[i].exist = true;
     }
-    printf("\nPacientes...");
+    puts("Pacientes...");
     //gerar dados de paciente
     for (int i = 0; i < MAX; i++)
     {
@@ -1048,10 +938,11 @@ void gerar_dados(vets_t *dados)
         sprintf(dados->paciente_vet[i].cpf, "%d%d", i, i);
         sprintf(dados->paciente_vet[i].login.usuario, "pac%d", i);
         sprintf(dados->paciente_vet[i].login.senha, "%d%d%d", i, i, i);
+        sprintf(dados->paciente_vet[i].telefone, "%d%d%d", i, i, i);
         dados->paciente_vet[i].exist = true;
     }
-    
-    printf("\nMedicos...");
+
+    puts("Medicos...");
     //gerar dados de medico
     for (int i = 0; i < MAX; i++)
     {
@@ -1063,11 +954,12 @@ void gerar_dados(vets_t *dados)
         dados->medico_vet[i].exist = true;
     }
 
-    printf("\nDados gerados com sucesso\n");
+    puts("\nDados gerados com sucesso");
     pausar_limpar_tela();
+    return EXIT_SUCCESS;
 }
 
-void inicializador(vets_t *dados)
+int inicializador(vets_t *dados)
 {
     login_t adm = {{usuario : "adm"}, {senha : "123"}};
     dados->adm = adm;
@@ -1084,9 +976,14 @@ void inicializador(vets_t *dados)
     for (int i = 0; i < MAX; i++)
         dados->especialidade_vet[i].exist = false;
 
-    //inicializar vetor medico
     for (int i = 0; i < MAX; i++)
-        dados->medico_vet[i].exist = false;
+        dados->especialidade_vet[i].exist = false;
+
+    //inicializar vetor agenda
+    for (int i = 0; i < MAX_AGENDA; i++)
+        dados->agenda_vet[i].exist = false;
+
+    return EXIT_SUCCESS;
 }
 
 /*
