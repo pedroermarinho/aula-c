@@ -30,7 +30,17 @@ cada cadastro 2 max;
     } while (0)
 
 #define MAX 2
-#define MAX_AGENDA 14
+#define MAX_AGENDA 8
+
+const char HORAS[8][16] = {
+    "08:00 as 09:00",
+    "09:00 as 10:00",
+    "10:00 as 11:00",
+    "11:00 as 12:00",
+    "13:00 as 14:00",
+    "14:00 as 15:00",
+    "15:00 as 16:00",
+    "16:00 as 17:00"};
 
 typedef enum
 {
@@ -64,10 +74,26 @@ typedef struct
 
 typedef struct
 {
+    char nome[120];
+    char cpf[20];
+    char telefone[20];
+    login_t login;
+    bool exist;
+} paciente_t;
+
+typedef struct
+{
+    paciente_t paciente;
+    bool exist;
+} agenda_t;
+
+typedef struct
+{
     char crm[10];
     char nome[120];
     login_t login;
     especialidade_t especialidade;
+    agenda_t agenda_vet[MAX_AGENDA];
     bool exist;
 } medico_t;
 
@@ -81,29 +107,11 @@ typedef struct
 
 typedef struct
 {
-    char nome[120];
-    char cpf[20];
-    char telefone[20];
-    login_t login;
-    bool exist;
-} paciente_t;
-
-typedef struct
-{
-    medico_t medico;
-    paciente_t paciente;
-    int hora;
-    bool exist;
-} agenda_t;
-
-typedef struct
-{
     login_t adm;
     funcionario_t funcionario_vet[MAX];
     especialidade_t especialidade_vet[MAX];
     medico_t medico_vet[MAX];
     paciente_t paciente_vet[MAX];
-    agenda_t agenda_vet[MAX_AGENDA];
 } vets_t;
 
 //teste
@@ -136,20 +144,21 @@ int update_tipo(tipo_t tipo, vets_t *dados, int tam);
 int delete_tipo(tipo_t tipo, vets_t *dados, int tam);
 
 int create_funcionario(funcionario_t *funcionario);
-int read_funcionario(funcionario_t funcionario);
+bool read_funcionario(funcionario_t funcionario);
 
 int create_paciente(paciente_t *paciente);
-int read_paciente(paciente_t paciente);
+bool read_paciente(paciente_t paciente);
 
 int create_especialidade(especialidade_t *especialidade);
-int read_especialidade(especialidade_t especialidade);
+bool read_especialidade(especialidade_t especialidade);
 
 int create_medico(medico_t *medico, vets_t *dados, int tam_especialidade);
-int read_medico(medico_t medico);
+bool read_medico(medico_t medico);
 
 paciente_t search(paciente_t paciente_vet[], int tam);
 
-void agendar(vets_t *dados);
+bool create_agenda(vets_t *dados);
+int read_agenda(vets_t *dados);
 
 int main()
 {
@@ -263,52 +272,6 @@ bool auth(tipo_t tipo, vets_t *dados, int tam)
     return auth(login1, login2);
 }
 
-paciente_t search(paciente_t paciente_vet[], int tam)
-{
-    char cpf[30];
-    puts("CPF:");
-    ler_string(cpf, sizeof(cpf));
-
-    for (int i = 0; i < tam; i++)
-        if (strcmp(paciente_vet[i].cpf, cpf) == 0)
-            return paciente_vet[i];
-}
-
-void agendar_create(vets_t *dados)
-{
-
-    paciente_t paciente = search(dados->paciente_vet, MAX);
-
-    medico_t medico = dados->medico_vet[read_tipo(MEDICO, dados, MAX)];
-
-    puts("\nSelecione um horario entre as 8 a 17:");
-    int hora;
-    bool valid = true;
-    do
-    {
-        printf(">");
-        scanf("%d", &hora);
-    } while (hora >= 8 && hora <= 17);
-
-    if (paciente.exist && medico.exist)
-    {
-        for (int i = 0; i < MAX_AGENDA; i++)
-        {
-            if (dados->agenda_vet[i].exist)
-            {
-                if (dados->agenda_vet[i].hora = hora)
-                {
-                    if (dados->agenda_vet)
-                    {
-                        
-                    }
-                    
-                }
-            }
-        }
-    }
-}
-
 void menu_login(vets_t *dados)
 {
     do
@@ -390,6 +353,8 @@ void menu_adm(vets_t *dados)
         puts("3- Deletar");
         puts("4- Alterar");
         puts("5- Gerar Dados");
+        puts("6- Agendar");
+        puts("7- Ver Agenda");
         puts("0- Sair");
 
         bool is_valid = true;
@@ -430,6 +395,18 @@ void menu_adm(vets_t *dados)
                 limpar_tela();
                 system("title Gerar Dados");
                 gerar_dados(dados);
+                break;
+                //Agendar
+            case 6:
+                limpar_tela();
+                system("title Agendar");
+                create_agenda(dados);
+                break;
+                //Ver Agenda
+            case 7:
+                limpar_tela();
+                system("title Ver Agenda");
+                read_agenda(dados);
                 break;
                 //Sair
             case 0:
@@ -770,6 +747,80 @@ int read_tipo(tipo_t tipo, vets_t *dados, int tam)
     return op;
 }
 
+paciente_t search(paciente_t paciente_vet[], int tam)
+{
+    char cpf[30];
+    puts("CPF:");
+    ler_string(cpf, sizeof(cpf));
+
+    for (int i = 0; i < tam; i++)
+        if (strcmp(paciente_vet[i].cpf, cpf) == 0)
+            return paciente_vet[i];
+
+    paciente_t paciente_falso = {.exist = false};
+    return paciente_falso;
+}
+
+bool create_agenda(vets_t *dados)
+{
+
+    paciente_t paciente = search(dados->paciente_vet, MAX);
+
+    if (read_paciente(paciente))
+    {
+
+        int medico_id = read_tipo(MEDICO, dados, MAX);
+        if (dados->medico_vet[medico_id].exist)
+        {
+
+            puts("\nSelecione um horario entre as 8 a 17:");
+
+            for (int i = 0; i < 8; i++)
+                if (!dados->medico_vet[medico_id].agenda_vet[i].exist)
+                    printf("%d - %s\n", i, HORAS[i]);
+
+            int hora;
+            bool valid = true;
+            do
+            {
+                printf(">");
+                scanf("%d", &hora);
+            } while (hora < 0 || hora > 7);
+
+            if (!dados->medico_vet[medico_id].agenda_vet[hora].exist)
+            {
+                dados->medico_vet[medico_id].agenda_vet[hora].exist = true;
+                dados->medico_vet[medico_id].agenda_vet[hora].paciente = paciente;
+                puts("Agendamento realizado com sucesso");
+                pausar_limpar_tela();
+                return true;
+            }
+            else
+            {
+                puts("Horario indisponível");
+                pausar_limpar_tela();
+            }
+        }
+    }
+
+    return false;
+}
+int read_agenda(vets_t *dados)
+{
+    for (int i = 0; i < MAX; i++)
+        if (dados->medico_vet[i].exist)
+        {
+            printf("\n-%s", dados->medico_vet[i].nome);
+            for (int j = 0; j < MAX_AGENDA; j++)
+                if (dados->medico_vet[i].agenda_vet[j].exist)
+                {
+                    printf("\n\t*%s - %s", HORAS[j], dados->medico_vet[i].agenda_vet[j].paciente.nome);
+                }
+        }
+    pausar_limpar_tela();
+    return EXIT_SUCCESS;
+}
+
 /*
 crud funcionario
 
@@ -787,7 +838,7 @@ int create_funcionario(funcionario_t *funcionario)
     return EXIT_SUCCESS;
 }
 
-int read_funcionario(funcionario_t funcionario)
+bool read_funcionario(funcionario_t funcionario)
 {
     if (funcionario.exist)
     {
@@ -796,11 +847,16 @@ int read_funcionario(funcionario_t funcionario)
         printf("\nNome:%s", funcionario.nome);
         printf("\nUsuário:%s", funcionario.login.usuario);
         puts("\n----------------------------------\n");
+        pausar_limpar_tela();
+        return true;
     }
     else
+    {
         puts("\nFuncionario não existe\n");
+        pausar_limpar_tela();
+        return false;
+    }
 
-    pausar_limpar_tela();
     return EXIT_SUCCESS;
 }
 
@@ -821,7 +877,7 @@ int create_paciente(paciente_t *paciente)
     return EXIT_SUCCESS;
 }
 
-int read_paciente(paciente_t paciente)
+bool read_paciente(paciente_t paciente)
 {
     if (paciente.exist)
     {
@@ -831,12 +887,15 @@ int read_paciente(paciente_t paciente)
         printf("\nTelefone:%s", paciente.telefone);
         printf("\nUsuário:%s", paciente.login.usuario);
         puts("\n----------------------------------\n");
+        pausar_limpar_tela();
+        return true;
     }
     else
+    {
         puts("\nPaciente não existe\n");
-
-    pausar_limpar_tela();
-    return EXIT_SUCCESS;
+        pausar_limpar_tela();
+        return false;
+    }
 }
 
 /*
@@ -856,7 +915,7 @@ int create_especialidade(especialidade_t *especialidade)
     return EXIT_SUCCESS;
 }
 
-int read_especialidade(especialidade_t especialidade)
+bool read_especialidade(especialidade_t especialidade)
 {
     if (especialidade.exist)
     {
@@ -865,12 +924,15 @@ int read_especialidade(especialidade_t especialidade)
         printf("\nNome:%s", especialidade.nome);
         printf("\nCódigo:%s", especialidade.cod);
         puts("\n----------------------------------");
+        pausar_limpar_tela();
+        return true;
     }
     else
+    {
         printf("\nEspecialidade não existe\n");
-
-    pausar_limpar_tela();
-    return EXIT_SUCCESS;
+        pausar_limpar_tela();
+        return false;
+    }
 }
 
 /*
@@ -892,7 +954,7 @@ int create_medico(medico_t *medico, vets_t *dados, int tam_especialidade)
     return EXIT_SUCCESS;
 }
 
-int read_medico(medico_t medico)
+bool read_medico(medico_t medico)
 {
     if (medico.exist)
     {
@@ -902,12 +964,15 @@ int read_medico(medico_t medico)
         printf("\nEspecialidade:%s", medico.especialidade.nome);
         printf("\nUsuário:%s", medico.login.usuario);
         puts("\n----------------------------------");
+        pausar_limpar_tela();
+        return true;
     }
     else
+    {
         puts("\nMedico não existe\n");
-
-    pausar_limpar_tela();
-    return EXIT_SUCCESS;
+        pausar_limpar_tela();
+        return false;
+    }
 }
 int gerar_dados(vets_t *dados)
 {
@@ -935,7 +1000,7 @@ int gerar_dados(vets_t *dados)
     for (int i = 0; i < MAX; i++)
     {
         sprintf(dados->paciente_vet[i].nome, "paciente %d", i);
-        sprintf(dados->paciente_vet[i].cpf, "%d%d", i, i);
+        sprintf(dados->paciente_vet[i].cpf, "%d%d%d", i, i, i);
         sprintf(dados->paciente_vet[i].login.usuario, "pac%d", i);
         sprintf(dados->paciente_vet[i].login.senha, "%d%d%d", i, i, i);
         sprintf(dados->paciente_vet[i].telefone, "%d%d%d", i, i, i);
@@ -980,8 +1045,11 @@ int inicializador(vets_t *dados)
         dados->especialidade_vet[i].exist = false;
 
     //inicializar vetor agenda
-    for (int i = 0; i < MAX_AGENDA; i++)
-        dados->agenda_vet[i].exist = false;
+    for (int i = 0; i < MAX; i++)
+        for (int j = 0; j < MAX_AGENDA; j++)
+        {
+            dados->medico_vet[i].agenda_vet[j].exist = false;
+        }
 
     return EXIT_SUCCESS;
 }
