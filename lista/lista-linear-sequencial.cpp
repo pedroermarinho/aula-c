@@ -14,15 +14,18 @@ typedef struct
 
 typedef struct
 {
-    registro_t elementos_vet[MAX];
+    registro_t elementos_vet[MAX + 1];
     int numero_elem;
 } lista_t;
 
 void inicializar(lista_t *lista);
 int tamanho(lista_t *lista);
 void exibir(lista_t *lista);
-int buscar_sequencial(lista_t *lista, chave_t chave);
+int busca_sequencial(lista_t *lista, chave_t chave);
+int busca_sentinela(lista_t *lista, chave_t chave);
+int busca_binaria(lista_t *lista, chave_t chave);
 bool inserir(lista_t *lista, registro_t elemento, int index);
+bool inserir_ordenado(lista_t *lista, registro_t elemento);
 bool excluir(lista_t *lista, chave_t chave);
 void reiniciar(lista_t *lista);
 void limpar_tela();
@@ -39,10 +42,13 @@ int main()
 
         puts("1 - tamanho");
         puts("2 - exibir");
-        puts("3 - buscar");
-        puts("4 - inserir");
-        puts("5 - excluir");
-        puts("6 - reiniciar");
+        puts("3 - busca sequencial");
+        puts("4 - busca sentinela");
+        puts("5 - busca binaria");
+        puts("6 - inserir");
+        puts("7 - inserir ordenado");
+        puts("8 - excluir");
+        puts("9 - reiniciar");
         puts("0 - sair");
 
         int op;
@@ -52,61 +58,93 @@ int main()
         switch (op)
         {
         case 1:
-        //tamanho
-            printf("Tamanho:%d",tamanho(lista));
+            //tamanho
+            printf("Tamanho:%d", tamanho(lista));
             break;
-     
+
         case 2:
-        //exibir
+            //exibir
             exibir(lista);
             break;
-        
-        case 3:
-        //buscar
-        {
-            chave_t chave;
-            puts("pesquisar chave:");
-            printf(">");
-            scanf("%d",&chave);
-            int result = buscar_sequencial(lista,chave);
-            result == -1?puts("não encontrado"):printf("resultado:%d",result);
-            break;
-        }
-        case 4:
-        //inserir
-        {
-            registro_t elemento;
-            puts("digite uma chave:");
-            printf(">");
-            scanf("%d",&elemento.chave);
-            int position;
-            puts("digite uma posição:");
-            printf(">");
-            scanf("%d",&position);
 
-            inserir(lista,elemento,position)?puts("inserido"):puts("falha ao inserir");
-            break;
-        }
+        case 3:
+            //buscar sequencial
+            {
+                chave_t chave;
+                puts("pesquisar chave:");
+                printf(">");
+                scanf("%d", &chave);
+                int result = busca_sequencial(lista, chave);
+                result == -1 ? puts("não encontrado") : printf("resultado:%d", result);
+                break;
+            }
+        case 4:
+            //buscar sentinela
+            {
+                chave_t chave;
+                puts("pesquisar chave:");
+                printf(">");
+                scanf("%d", &chave);
+                int result = busca_sentinela(lista, chave);
+                result == -1 ? puts("não encontrado") : printf("resultado:%d", result);
+                break;
+            }
         case 5:
-        //excluir
-        {
-            chave_t chave;
-            puts("digite uma chave:");
-            printf(">");
-            scanf("%d",&chave);
-            excluir(lista,chave)?puts("deletado"):puts("falha ao deletar");
-            break;
-        }
+            //buscar binaria
+            {
+                chave_t chave;
+                puts("pesquisar chave:");
+                printf(">");
+                scanf("%d", &chave);
+                int result = busca_binaria(lista, chave);
+                result == -1 ? puts("não encontrado") : printf("resultado:%d", result);
+                break;
+            }
         case 6:
-        //reiniciar
+            //inserir
+            {
+                registro_t elemento;
+                puts("digite uma chave:");
+                printf(">");
+                scanf("%d", &elemento.chave);
+                int position;
+                puts("digite uma posição:");
+                printf(">");
+                scanf("%d", &position);
+
+                inserir(lista, elemento, position) ? puts("inserido") : puts("falha ao inserir");
+                break;
+            }
+        case 7:
+            //inserir ordenado
+            {
+                registro_t elemento;
+                puts("digite uma chave:");
+                printf(">");
+                scanf("%d", &elemento.chave);
+
+                inserir_ordenado(lista, elemento) ? puts("inserido") : puts("falha ao inserir");
+                break;
+            }
+        case 8:
+            //excluir
+            {
+                chave_t chave;
+                puts("digite uma chave:");
+                printf(">");
+                scanf("%d", &chave);
+                excluir(lista, chave) ? puts("deletado") : puts("falha ao deletar");
+                break;
+            }
+        case 9:
+            //reiniciar
             reiniciar(lista);
             break;
-        
+
         case 0:
-        //sair
+            //sair
             exit(0);
             break;
-        
         }
 
         pausar_limpar_tela();
@@ -147,12 +185,45 @@ void exibir(lista_t *lista)
     printf("\"\n");
 }
 
-int buscar_sequencial(lista_t *lista, chave_t chave)
+int busca_sequencial(lista_t *lista, chave_t chave)
 {
-
     for (int i = 0; i < lista->numero_elem; i++)
         if (chave == lista->elementos_vet[i].chave)
             return i;
+
+    return -1;
+}
+
+int busca_sentinela(lista_t *lista, chave_t chave)
+{
+    int i;
+    lista->elementos_vet[lista->numero_elem].chave = chave;
+
+    for (i = 0; lista->elementos_vet[i].chave != chave; i++)
+        ;
+
+    return i == lista->numero_elem ? -1 : i;
+}
+
+int busca_binaria(lista_t *lista, chave_t chave)
+{
+
+    int esquerda, meio, direita;
+
+    esquerda = 0;
+    direita = lista->numero_elem;
+
+    while (esquerda <= direita)
+    {
+        meio = (esquerda + direita) / 2;
+        if (lista->elementos_vet[meio].chave = chave)
+            return meio;
+
+        if (lista->elementos_vet[meio].chave < chave)
+            esquerda = meio + 1;
+        else
+            direita = meio - 1;
+    }
 
     return -1;
 }
@@ -171,11 +242,24 @@ bool inserir(lista_t *lista, registro_t elemento, int index)
 
     return true;
 }
+bool inserir_ordenado(lista_t *lista, registro_t elemento)
+{
 
+    if (lista->numero_elem >= MAX)
+        return false;
+    int pos;
+
+    for (pos = lista->numero_elem; pos > 0 && lista->elementos_vet[pos - 1].chave > elemento.chave; pos--)
+        lista->elementos_vet[pos] = lista->elementos_vet[pos - 1];
+
+    lista->elementos_vet[pos] = elemento;
+    lista->numero_elem++;
+    return true;
+}
 bool excluir(lista_t *lista, chave_t chave)
 {
 
-    int pos = buscar_sequencial(lista, chave);
+    int pos = busca_binaria(lista, chave);
 
     if (pos == -1)
         return false;
