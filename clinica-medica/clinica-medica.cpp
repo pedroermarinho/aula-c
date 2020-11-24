@@ -13,21 +13,7 @@ cada cadastro 2 max;
 #include <string.h>
 #include <locale.h>
 #include <unistd.h>
-
-/* testes: minunit */
-#define mu_assert(message, test) \
-    do                           \
-    {                            \
-        if (!(test))             \
-            return message;      \
-    } while (0)
-#define mu_run_test(test)       \
-    do                          \
-    {                           \
-        char *message = test(); \
-        if (message)            \
-            return message;     \
-    } while (0)
+#include <malloc.h>
 
 #define MAX 2
 #define MAX_AGENDA 8
@@ -114,9 +100,8 @@ typedef struct
     paciente_t paciente_vet[MAX];
 } vets_t;
 
-//teste
-void main_teste();
-char *all_tests();
+int salvar(vets_t *dados);
+int recuperar(vets_t *dados);
 
 void menu_login(vets_t *dados);
 void menu_adm(vets_t *dados);
@@ -163,13 +148,12 @@ int read_agenda(vets_t *dados);
 int main()
 {
 
-    setlocale(LC_ALL, "Portuguese_Brazil");
+    setlocale(LC_ALL, "portuguese");
 
-    // // main_teste();
-
-    vets_t dados;
-    inicializador(&dados);
-    menu_login(&dados);
+    vets_t* dados = (vets_t*) malloc(sizeof(vets_t));
+    inicializador(dados);
+    recuperar(dados);
+    menu_login(dados);
 
     printf("\n\n");
     return EXIT_SUCCESS;
@@ -188,7 +172,7 @@ void pausar_limpar_tela()
     limpar_tela();
 } //fim procedimento pausar_limpar_tela
 
-char *ler_string(char *string, int tam)
+char *ler_string( char *string, int tam)
 {
     printf(">");
     fflush(stdin);
@@ -211,6 +195,7 @@ char *ler_string(char *string, int tam)
 
     return NULL;
 }
+
 login_t auth()
 {
 
@@ -224,7 +209,7 @@ login_t auth()
     return login;
 }
 
-bool auth(login_t login1, login_t login2)
+bool auth(const login_t login1, const login_t login2)
 {
 
     if (strcmp(login1.usuario, login2.usuario) == 0)
@@ -234,10 +219,10 @@ bool auth(login_t login1, login_t login2)
     return false;
 }
 
-bool auth(tipo_t tipo, vets_t *dados, int tam)
+bool auth(const tipo_t tipo, vets_t *dados,const int tam)
 {
 
-    login_t login1 = auth();
+    const login_t login1 = auth();
     login_t login2 = {{usuario : ""}, {senha : ""}};
 
     switch (tipo)
@@ -272,7 +257,7 @@ bool auth(tipo_t tipo, vets_t *dados, int tam)
     return auth(login1, login2);
 }
 
-void menu_login(vets_t *dados)
+void menu_login( vets_t *dados)
 {
     do
     {
@@ -284,7 +269,6 @@ void menu_login(vets_t *dados)
         puts("1-ADM");
         puts("2-Funcionario");
         puts("3-Medico");
-        //printf("\n4-Paciente");
         puts("0-Sair");
 
         bool is_valid = true;
@@ -317,14 +301,6 @@ void menu_login(vets_t *dados)
                     menu_medico(dados);
                 break;
 
-                //     //paciente
-                // case 4:
-                //     limpar_tela();
-                //     if (auth(PACIENTE, dados, MAX))
-                //     {
-                //     }
-                //     break;
-
             case 0:
                 limpar_tela();
                 exit(EXIT_SUCCESS);
@@ -341,7 +317,7 @@ void menu_login(vets_t *dados)
 
 //Menus adm
 
-void menu_adm(vets_t *dados)
+void menu_adm( vets_t *dados)
 {
     bool continuar = true;
     do
@@ -408,7 +384,8 @@ void menu_adm(vets_t *dados)
                 system("title Ver Agenda");
                 read_agenda(dados);
                 break;
-                //Sair
+                //Salvar
+
             case 0:
                 limpar_tela();
                 continuar = false;
@@ -421,11 +398,11 @@ void menu_adm(vets_t *dados)
     } while (continuar);
 }
 
-void menu_adm_crud(crud_t crud, vets_t *dados)
+void menu_adm_crud(const crud_t crud, vets_t *dados)
 {
     bool continuar = true, is_valid = true;
 
-    int (*crud_func[])(tipo_t, vets_t *, int) = {
+     int (*crud_func[])(tipo_t, vets_t *, int) = {
         create_tipo,
         read_tipo,
         update_tipo,
@@ -496,7 +473,7 @@ void menu_adm_crud(crud_t crud, vets_t *dados)
         } while (!is_valid);
     } while (continuar);
 }
-void menu_funcionario(vets_t *dados)
+void menu_funcionario( vets_t *dados)
 {
     bool continuar = true;
     do
@@ -518,7 +495,7 @@ void menu_funcionario(vets_t *dados)
                 //Cadastro
             case 1:
                 limpar_tela();
-                create_tipo(FUNCIONARIO, dados, MAX);
+                create_tipo(PACIENTE, dados, MAX);
                 break;
                 //Exibir
             case 2:
@@ -538,7 +515,7 @@ void menu_funcionario(vets_t *dados)
     } while (continuar);
 }
 
-void menu_medico(vets_t *dados)
+void menu_medico( vets_t *dados)
 {
     bool continuar = true;
     do
@@ -578,7 +555,7 @@ void menu_medico(vets_t *dados)
 
 //CRUD
 
-int create_tipo(tipo_t tipo, vets_t *dados, int tam)
+int create_tipo(const tipo_t tipo,  vets_t *dados, const int tam)
 {
 
     switch (tipo)
@@ -608,10 +585,11 @@ int create_tipo(tipo_t tipo, vets_t *dados, int tam)
         exit(EXIT_FAILURE);
         break;
     }
+    salvar(dados);
     return EXIT_SUCCESS;
 }
 
-int delete_tipo(tipo_t tipo, vets_t *dados, int tam)
+int delete_tipo(const tipo_t tipo,  vets_t *dados, const int tam)
 {
     int op = 0;
 
@@ -653,10 +631,11 @@ int delete_tipo(tipo_t tipo, vets_t *dados, int tam)
         exit(EXIT_FAILURE);
         break;
     }
+    salvar(dados);
     return EXIT_SUCCESS;
 }
 
-int update_tipo(tipo_t tipo, vets_t *dados, int tam)
+int update_tipo(const tipo_t tipo,  vets_t *dados, const int tam)
 {
     int op = 0;
 
@@ -698,10 +677,11 @@ int update_tipo(tipo_t tipo, vets_t *dados, int tam)
         exit(EXIT_FAILURE);
         break;
     }
+    salvar(dados);
     return EXIT_SUCCESS;
 }
 
-int read_tipo(tipo_t tipo, vets_t *dados, int tam)
+int read_tipo(const tipo_t tipo, vets_t *dados,const int tam)
 {
     int op = 0;
 
@@ -747,7 +727,7 @@ int read_tipo(tipo_t tipo, vets_t *dados, int tam)
     return op;
 }
 
-paciente_t search(paciente_t paciente_vet[], int tam)
+paciente_t search( paciente_t paciente_vet[],const int tam)
 {
     char cpf[30];
     puts("CPF:");
@@ -757,66 +737,62 @@ paciente_t search(paciente_t paciente_vet[], int tam)
         if (strcmp(paciente_vet[i].cpf, cpf) == 0)
             return paciente_vet[i];
 
-    paciente_t paciente_falso = {.exist = false};
+    const paciente_t paciente_falso = {.exist = false};
     return paciente_falso;
 }
 
-bool create_agenda(vets_t *dados)
+bool create_agenda( vets_t *dados)
 {
 
-    paciente_t paciente = search(dados->paciente_vet, MAX);
+    const paciente_t paciente = search(dados->paciente_vet, MAX);
 
-    if (read_paciente(paciente))
+    if (!read_paciente(paciente))
+        return false;
+
+    const int medico_id = read_tipo(MEDICO, dados, MAX);
+
+    if (!dados->medico_vet[medico_id].exist)
+        return false;
+
+    puts("\nSelecione um horario entre as 8 a 17:");
+
+    for (int i = 0; i < 8; i++)
+        if (!dados->medico_vet[medico_id].agenda_vet[i].exist)
+            printf("%d - %s\n", i, HORAS[i]);
+
+    int hora;
+    do
     {
+        printf(">");
+        scanf("%d", &hora);
+    } while (hora < 0 || hora > 7);
 
-        int medico_id = read_tipo(MEDICO, dados, MAX);
-        if (dados->medico_vet[medico_id].exist)
-        {
-
-            puts("\nSelecione um horario entre as 8 a 17:");
-
-            for (int i = 0; i < 8; i++)
-                if (!dados->medico_vet[medico_id].agenda_vet[i].exist)
-                    printf("%d - %s\n", i, HORAS[i]);
-
-            int hora;
-            bool valid = true;
-            do
-            {
-                printf(">");
-                scanf("%d", &hora);
-            } while (hora < 0 || hora > 7);
-
-            if (!dados->medico_vet[medico_id].agenda_vet[hora].exist)
-            {
-                dados->medico_vet[medico_id].agenda_vet[hora].exist = true;
-                dados->medico_vet[medico_id].agenda_vet[hora].paciente = paciente;
-                puts("Agendamento realizado com sucesso");
-                pausar_limpar_tela();
-                return true;
-            }
-            else
-            {
-                puts("Horario indisponível");
-                pausar_limpar_tela();
-            }
-        }
+    if (dados->medico_vet[medico_id].agenda_vet[hora].exist)
+    {
+        puts("Horario indisponível");
+        pausar_limpar_tela();
+        return false;
     }
 
-    return false;
+    dados->medico_vet[medico_id].agenda_vet[hora].exist = true;
+    dados->medico_vet[medico_id].agenda_vet[hora].paciente = paciente;
+    puts("Agendamento realizado com sucesso");
+    pausar_limpar_tela();
+    salvar(dados);
+    return true;
 }
-int read_agenda(vets_t *dados)
+int read_agenda( vets_t *dados)
 {
     for (int i = 0; i < MAX; i++)
-        if (dados->medico_vet[i].exist)
-        {
-            printf("\n-%s", dados->medico_vet[i].nome);
-            for (int j = 0; j < MAX_AGENDA; j++)
-                if (dados->medico_vet[i].agenda_vet[j].exist)
-                {
-                    printf("\n\t*%s - %s", HORAS[j], dados->medico_vet[i].agenda_vet[j].paciente.nome);
-                }
-        }
+    {
+        if (!dados->medico_vet[i].exist)
+            continue;
+            
+        printf("\n- %s", dados->medico_vet[i].nome);
+        for (int j = 0; j < MAX_AGENDA; j++)
+            if (dados->medico_vet[i].agenda_vet[j].exist)
+                printf("\n\t* %s - %s", HORAS[j], dados->medico_vet[i].agenda_vet[j].paciente.nome);
+    }
     pausar_limpar_tela();
     return EXIT_SUCCESS;
 }
@@ -826,7 +802,7 @@ crud funcionario
 
 */
 
-int create_funcionario(funcionario_t *funcionario)
+int create_funcionario( funcionario_t *funcionario)
 {
     puts("----------------------------------");
     puts("\nMatricula:");
@@ -838,26 +814,22 @@ int create_funcionario(funcionario_t *funcionario)
     return EXIT_SUCCESS;
 }
 
-bool read_funcionario(funcionario_t funcionario)
+bool read_funcionario(const funcionario_t funcionario)
 {
-    if (funcionario.exist)
-    {
-        puts("\n----------------------------------");
-        printf("\nMatricula:%s", funcionario.matricula);
-        printf("\nNome:%s", funcionario.nome);
-        printf("\nUsuário:%s", funcionario.login.usuario);
-        puts("\n----------------------------------\n");
-        pausar_limpar_tela();
-        return true;
-    }
-    else
+    if (!funcionario.exist)
     {
         puts("\nFuncionario não existe\n");
         pausar_limpar_tela();
         return false;
     }
 
-    return EXIT_SUCCESS;
+    puts("\n----------------------------------");
+    printf("\nMatricula:%s", funcionario.matricula);
+    printf("\nNome:%s", funcionario.nome);
+    printf("\nUsuário:%s", funcionario.login.usuario);
+    puts("\n----------------------------------\n");
+    pausar_limpar_tela();
+    return true;
 }
 
 /*
@@ -865,7 +837,7 @@ crud paciente
 
 */
 
-int create_paciente(paciente_t *paciente)
+int create_paciente(  paciente_t *paciente)
 {
     puts("\n----------------------------------\n");
     puts("\nCPF:");
@@ -877,25 +849,23 @@ int create_paciente(paciente_t *paciente)
     return EXIT_SUCCESS;
 }
 
-bool read_paciente(paciente_t paciente)
+bool read_paciente(const paciente_t paciente)
 {
-    if (paciente.exist)
-    {
-        puts("\n----------------------------------");
-        printf("\nCPF:%s", paciente.cpf);
-        printf("\nNome:%s", paciente.nome);
-        printf("\nTelefone:%s", paciente.telefone);
-        printf("\nUsuário:%s", paciente.login.usuario);
-        puts("\n----------------------------------\n");
-        pausar_limpar_tela();
-        return true;
-    }
-    else
+    if (!paciente.exist)
     {
         puts("\nPaciente não existe\n");
         pausar_limpar_tela();
         return false;
     }
+
+    puts("\n----------------------------------");
+    printf("\nCPF:%s", paciente.cpf);
+    printf("\nNome:%s", paciente.nome);
+    printf("\nTelefone:%s", paciente.telefone);
+    printf("\nUsuário:%s", paciente.login.usuario);
+    puts("\n----------------------------------\n");
+    pausar_limpar_tela();
+    return true;
 }
 
 /*
@@ -903,7 +873,7 @@ crud especialidade
 
 */
 
-int create_especialidade(especialidade_t *especialidade)
+int create_especialidade( especialidade_t *especialidade)
 {
     puts("\n----------------------------------\n");
     puts("\nCode:");
@@ -915,24 +885,22 @@ int create_especialidade(especialidade_t *especialidade)
     return EXIT_SUCCESS;
 }
 
-bool read_especialidade(especialidade_t especialidade)
+bool read_especialidade( const especialidade_t especialidade)
 {
-    if (especialidade.exist)
-    {
-        puts("\n----------------------------------");
-
-        printf("\nNome:%s", especialidade.nome);
-        printf("\nCódigo:%s", especialidade.cod);
-        puts("\n----------------------------------");
-        pausar_limpar_tela();
-        return true;
-    }
-    else
+    if (!especialidade.exist)
     {
         printf("\nEspecialidade não existe\n");
         pausar_limpar_tela();
         return false;
     }
+
+    puts("\n----------------------------------");
+
+    printf("\nNome:%s", especialidade.nome);
+    printf("\nCódigo:%s", especialidade.cod);
+    puts("\n----------------------------------");
+    pausar_limpar_tela();
+    return true;
 }
 
 /*
@@ -940,7 +908,7 @@ crud medico
 
 */
 
-int create_medico(medico_t *medico, vets_t *dados, int tam_especialidade)
+int create_medico( medico_t *medico,  vets_t *dados, const int tam_especialidade)
 {
     puts("\n----------------------------------");
     puts("\nCRM:");
@@ -954,63 +922,57 @@ int create_medico(medico_t *medico, vets_t *dados, int tam_especialidade)
     return EXIT_SUCCESS;
 }
 
-bool read_medico(medico_t medico)
+bool read_medico(const medico_t medico)
 {
-    if (medico.exist)
-    {
-        puts("\n----------------------------------");
-        printf("\nCPF:%s", medico.crm);
-        printf("\nNome:%s", medico.nome);
-        printf("\nEspecialidade:%s", medico.especialidade.nome);
-        printf("\nUsuário:%s", medico.login.usuario);
-        puts("\n----------------------------------");
-        pausar_limpar_tela();
-        return true;
-    }
-    else
+    if (!medico.exist)
     {
         puts("\nMedico não existe\n");
         pausar_limpar_tela();
         return false;
     }
+
+    puts("\n----------------------------------");
+    printf("\nCPF:%s", medico.crm);
+    printf("\nNome:%s", medico.nome);
+    printf("\nEspecialidade:%s", medico.especialidade.nome);
+    printf("\nUsuário:%s", medico.login.usuario);
+    puts("\n----------------------------------");
+    pausar_limpar_tela();
+    return true;
 }
-int gerar_dados(vets_t *dados)
+
+int gerar_dados( vets_t *dados)
 {
     puts("\nGerando dados...");
-    puts("Especialidades...");
+
     //gerar dados de especialidade
     for (int i = 0; i < MAX; i++)
     {
+        printf("\nEspecialidades...%d", i);
+
         sprintf(dados->especialidade_vet[i].nome, "especialidade %d", i);
         sprintf(dados->especialidade_vet[i].cod, "%d%d%d", i, i, i);
         dados->especialidade_vet[i].exist = true;
-    }
-    puts("Funcionarios...");
-    //gerar dados de funcionario
-    for (int i = 0; i < MAX; i++)
-    {
+
+        printf("\nFuncionarios...%d", i);
+
         sprintf(dados->funcionario_vet[i].nome, "funcionario %d", i);
         sprintf(dados->funcionario_vet[i].matricula, "%d%d", i, i);
         sprintf(dados->funcionario_vet[i].login.usuario, "fun%d", i);
         sprintf(dados->funcionario_vet[i].login.senha, "%d%d%d", i, i, i);
         dados->funcionario_vet[i].exist = true;
-    }
-    puts("Pacientes...");
-    //gerar dados de paciente
-    for (int i = 0; i < MAX; i++)
-    {
+
+        printf("\nPacientes...%d", i);
+
         sprintf(dados->paciente_vet[i].nome, "paciente %d", i);
         sprintf(dados->paciente_vet[i].cpf, "%d%d%d", i, i, i);
         sprintf(dados->paciente_vet[i].login.usuario, "pac%d", i);
         sprintf(dados->paciente_vet[i].login.senha, "%d%d%d", i, i, i);
         sprintf(dados->paciente_vet[i].telefone, "%d%d%d", i, i, i);
         dados->paciente_vet[i].exist = true;
-    }
 
-    puts("Medicos...");
-    //gerar dados de medico
-    for (int i = 0; i < MAX; i++)
-    {
+        printf("\nMedicos...%d", i);
+
         sprintf(dados->medico_vet[i].nome, "medico %d", i);
         sprintf(dados->medico_vet[i].crm, "%d%d", i, i);
         sprintf(dados->medico_vet[i].login.usuario, "med%d", i);
@@ -1024,74 +986,65 @@ int gerar_dados(vets_t *dados)
     return EXIT_SUCCESS;
 }
 
-int inicializador(vets_t *dados)
+int inicializador( vets_t *dados)
 {
-    login_t adm = {{usuario : "adm"}, {senha : "123"}};
+    const  login_t adm = {{usuario : "adm"}, {senha : "123"}};
     dados->adm = adm;
 
-    // inicializar vetor funcionario
     for (int i = 0; i < MAX; i++)
+    {
+        // inicializar vetor funcionario
         dados->funcionario_vet[i].exist = false;
 
-    //inicializar vetor paciente
-    for (int i = 0; i < MAX; i++)
+        //inicializar vetor paciente
         dados->paciente_vet[i].exist = false;
 
-    //inicializar vetor especialidade
-    for (int i = 0; i < MAX; i++)
+        //inicializar vetor especialidade
         dados->especialidade_vet[i].exist = false;
 
-    for (int i = 0; i < MAX; i++)
-        dados->especialidade_vet[i].exist = false;
+        //inicializar vetor medico
+        dados->medico_vet[i].exist = false;
 
-    //inicializar vetor agenda
-    for (int i = 0; i < MAX; i++)
+        //inicializar vetor agenda
         for (int j = 0; j < MAX_AGENDA; j++)
-        {
             dados->medico_vet[i].agenda_vet[j].exist = false;
-        }
+        
+    }
+    return EXIT_SUCCESS;
+}
+int salvar( vets_t *dados)
+{
+
+    FILE *arquivo = fopen("dados.bin", "wb");
+
+    if (arquivo == NULL)
+        return EXIT_FAILURE;
+
+    fwrite(dados, sizeof(vets_t), 1, arquivo);
+
+    fclose(arquivo);
 
     return EXIT_SUCCESS;
 }
 
-/*
-area destinada a teste
-*/
-
-static char *test_auth(void)
+int recuperar( vets_t *dados)
 {
 
-    login_t login1 = {{usuario : "adm"}, {senha : "123"}};
-    login_t login2 = {{usuario : "adm"}, {senha : "123"}};
+    FILE *arquivo = fopen("dados.bin", "rb");
 
-    mu_assert("certo, login1 == login2", auth(login1, login2) == true);
+    if (arquivo == NULL)
+        return EXIT_FAILURE;
 
-    sprintf(login2.senha, "234");
-    mu_assert("erro, login1 != login2", auth(login1, login2) != true);
+    vets_t dados_local;
 
-    return 0;
-}
+    int tam_file = fread(&dados_local, sizeof(vets_t), 1, arquivo);
 
-char *all_tests()
-{
-    mu_run_test(test_auth);
-    return 0;
-}
+    if (tam_file < 1)
+        return EXIT_FAILURE;
 
-void main_teste()
-{
+    *dados = dados_local;
 
-    char *saida;
+    fclose(arquivo);
 
-    saida = all_tests();
-
-    if (0 != saida)
-    {
-        puts(saida);
-        exit(EXIT_FAILURE);
-    }
-
-    puts("TESTES EXECUTADOS COM SUCESSO");
-
-    exit(EXIT_SUCCESS);
+    return EXIT_SUCCESS;
 }
