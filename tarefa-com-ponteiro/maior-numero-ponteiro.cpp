@@ -40,13 +40,10 @@ void maior_numero(int a, int b, int c, int *result)
     *result = a;
 
     if (*result < b)
-    {
         *result = b;
-    }
+    
     if (*result < c)
-    {
         *result = c;
-    }
 }
 void result_msg(int result)
 {

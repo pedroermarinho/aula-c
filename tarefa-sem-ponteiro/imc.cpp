@@ -35,38 +35,36 @@ void cadastrar()
     gets(pessoa.nome);
     printf("\nAltura:\n");
     printf(">");
-    scanf("%f",&pessoa.altura);
+    scanf("%f", &pessoa.altura);
     printf("\nPeso:\n");
     printf(">");
-    scanf("%f",&pessoa.peso);
+    scanf("%f", &pessoa.peso);
     calc_imc(pessoa);
 }
 void calc_imc(pessoa_t pessoa)
 {
-    pessoa.imc = pessoa.peso /(pessoa.altura*pessoa.altura);
+    pessoa.imc = pessoa.peso / (pessoa.altura * pessoa.altura);
     result_msg_imc(pessoa);
     result_msg(pessoa);
 }
 void result_msg_imc(pessoa_t pessoa)
 {
-    printf("\nSeu IMC é %.1f\n",pessoa.imc);
+    printf("\nSeu IMC é %.1f\n", pessoa.imc);
 }
 void result_msg(pessoa_t pessoa)
 {
-    printf("\nOla %s, seu status está logo a baixo\n",pessoa.nome);
-    if (pessoa.imc<18.5)
-    {
-        printf("\nAbaixo do peso\n");
-    }else if(pessoa.imc >= 18.5 && pessoa.imc < 25){
-        printf("\nPeso normal\n");
-    }else if(pessoa.imc >= 25 && pessoa.imc < 30){
-        printf("\nSobrepeso\n");
-    }else if(pessoa.imc >= 30 && pessoa.imc < 35){
-        printf("\nObesidade grau 1\n");
-    }else if(pessoa.imc >= 35 && pessoa.imc < 40){
-        printf("\nObesidade grau 2\n");
-    }else if(pessoa.imc >= 40){
-        printf("\nObesidade grau 3\n");
-    }
+    printf("\nOla %s, seu status está logo a baixo\n", pessoa.nome);
     
+    if (pessoa.imc < 18.5)
+        printf("\nAbaixo do peso\n");
+    else if (pessoa.imc >= 18.5 && pessoa.imc < 25)
+        printf("\nPeso normal\n");
+    else if (pessoa.imc >= 25 && pessoa.imc < 30)
+        printf("\nSobrepeso\n");
+    else if (pessoa.imc >= 30 && pessoa.imc < 35)
+        printf("\nObesidade grau 1\n");
+    else if (pessoa.imc >= 35 && pessoa.imc < 40)
+        printf("\nObesidade grau 2\n");
+    else if (pessoa.imc >= 40)
+        printf("\nObesidade grau 3\n");
 }

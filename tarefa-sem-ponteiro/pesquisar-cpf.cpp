@@ -68,13 +68,11 @@ void pesquisar(pessoa_t pessoa1,pessoa_t pessoa2)
     fflush(stdin);
     gets(cpf);
     if (strcmp(cpf,pessoa1.cpf)==0)
-    {
         result_msg(pessoa1);
-    }
+    
     if (strcmp(cpf,pessoa2.cpf)==0)
-    {
         result_msg(pessoa2);
-    }
+    
     
 }
 void result_msg(pessoa_t pessoa)

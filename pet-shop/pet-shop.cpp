@@ -50,7 +50,6 @@ void update_animal(animal_t animal_vet[], int tam);
 void delete_animal(client_t client_vet[], int tam);
 void delete_animal(animal_t animal_vet[], int tam);
 
-
 int main(void)
 {
     setlocale(LC_ALL, "Portuguese");
@@ -220,15 +219,14 @@ void pesquisar(client_t client_vet[], int tam)
         scanf("%d", &op);
     } while (!(op >= 0 && op < tam));
 
-    if (client_vet[op].exist) // if (true ou false); (1==2) ==> valor => true ou false || 0 - false & 1 - true
-    {
-        limpar_tela();
-        read_client(client_vet[op]);
-    }
-    else
+    if (!client_vet[op].exist) // if (true ou false); (1==2) ==> valor => true ou false || 0 - false & 1 - true
     {
         printf("\nCliente não existe");
+        return;
     }
+
+    limpar_tela();
+    read_client(client_vet[op]);
 }
 
 void create_client(client_t *client)
@@ -254,45 +252,38 @@ void create_client(client_t client_vet[], int tam)
         if (i == 0)
         {
             create_client(&client_vet[i]);
+            continue;
         }
-        else
+
+        printf("\nDeseja cadastrar mais um cliente? 1->sim, 0->nao\n");
+        printf(">");
+        scanf("%d", &op);
+        limpar_tela();
+        if (!op)
         {
-            printf("\nDeseja cadastrar mais um cliente? 1->sim, 0->nao\n");
-            printf(">");
-            scanf("%d", &op);
-            limpar_tela();
-            if (op)
-            {
-                create_client(&client_vet[i]);
-            }
-            else
-            {
-                client_vet[i].exist = false;
-                break;
-            }
+            client_vet[i].exist = false;
+            break;
         }
+
+        create_client(&client_vet[i]);
     }
 }
 
 void read_client(client_t client)
 {
-    if (client.exist)
-    {
-        printf("\nNome:%s", client.nome);
-        printf("\nTelefone:%s", client.telefone);
-        printf("\n\n--Dados dos animais--");
-        read_animal(client.animais, MAX_ANIMAL);
-    }
+    if (!client.exist)
+        return;
+
+    printf("\nNome:%s", client.nome);
+    printf("\nTelefone:%s", client.telefone);
+    printf("\n\n--Dados dos animais--");
+    read_animal(client.animais, MAX_ANIMAL);
 }
 void read_client(client_t client_vet[], int tam)
 {
     for (int i = 0; i < tam; i++)
-    {
         if (client_vet[i].exist)
-        {
             printf("\n%d - Nome:%s", i, client_vet[i].nome);
-        }
-    }
 }
 void update_client(client_t client_vet[], int tam)
 {
@@ -308,14 +299,13 @@ void update_client(client_t client_vet[], int tam)
         scanf("%d", &op);
     } while (!(op >= 0 && op < tam));
 
-    if (client_vet[op].exist) // if (true ou false); (1==2) ==> valor => true ou false || 0 - false & 1 - true
-    {
-        create_client(&client_vet[op]);
-    }
-    else
+    if (!client_vet[op].exist) // if (true ou false); (1==2) ==> valor => true ou false || 0 - false & 1 - true
     {
         printf("\nCliente não existe");
+        return;
     }
+
+    create_client(&client_vet[op]);
 }
 void delete_client(client_t client_vet[], int tam)
 {
@@ -332,15 +322,14 @@ void delete_client(client_t client_vet[], int tam)
 
     } while (!(op >= 0 && op < tam));
 
-    if (client_vet[op].exist)
-    {
-        client_vet[op].exist = false;
-        printf("\nCliente %s deletado\n", client_vet[op].nome);
-    }
-    else
+    if (!client_vet[op].exist)
     {
         printf("\nCliente não existe");
+        return;
     }
+
+    client_vet[op].exist = false;
+    printf("\nCliente %s deletado\n", client_vet[op].nome);
 }
 
 void create_animal(animal_t *animal)
@@ -371,23 +360,20 @@ void create_animal(animal_t animal_vet[], int tam)
         if (i == 0)
         {
             create_animal(&animal_vet[i]);
+            continue;
         }
-        else
+
+        printf("\nDeseja cadastrar mais um animal? 1->sim, 0->nao\n");
+        printf(">");
+        scanf("%d", &op);
+        limpar_tela();
+        if (!op)
         {
-            printf("\nDeseja cadastrar mais um animal? 1->sim, 0->nao\n");
-            printf(">");
-            scanf("%d", &op);
-            limpar_tela();
-            if (op)
-            {
-                create_animal(&animal_vet[i]);
-            }
-            else
-            {
-                animal_vet[i].exist = false;
-                break;
-            }
+            animal_vet[i].exist = false;
+            break;
         }
+
+        create_animal(&animal_vet[i]);
     }
 }
 
@@ -395,24 +381,20 @@ void read_animal(animal_t animal_vet[], int tam)
 {
     for (int i = 0; i < tam; i++)
     {
-        if (animal_vet[i].exist)
-        {
-            printf("\n-----------%d-----------", i);
-            printf("\nNome:%s", animal_vet[i].nome);
-            printf("\nRaça:%s", animal_vet[i].raca);
-            printf("\nPeso:%.2f", animal_vet[i].peso);
-        }
+        if (!animal_vet[i].exist)
+            continue;
+
+        printf("\n-----------%d-----------", i);
+        printf("\nNome:%s", animal_vet[i].nome);
+        printf("\nRaça:%s", animal_vet[i].raca);
+        printf("\nPeso:%.2f", animal_vet[i].peso);
     }
 }
 void read_animal_simples(animal_t animal_vet[], int tam)
 {
     for (int i = 0; i < tam; i++)
-    {
         if (animal_vet[i].exist)
-        {
             printf("\n%d - Nome:%s", i, animal_vet[i].nome);
-        }
-    }
 }
 void update_animal(animal_t animal_vet[], int tam)
 {
@@ -429,15 +411,14 @@ void update_animal(animal_t animal_vet[], int tam)
 
     } while (!(op >= 0 && op < tam));
 
-    if (animal_vet[op].exist)
-    {
-        animal_vet[op].exist = false;
-        printf("\nAnimal %s deletado\n", animal_vet[op].nome);
-    }
-    else
+    if (!animal_vet[op].exist)
     {
         printf("\nAnimal não existe");
+        return;
     }
+
+    animal_vet[op].exist = false;
+    printf("\nAnimal %s deletado\n", animal_vet[op].nome);
 }
 void delete_animal(client_t client_vet[], int tam)
 {
@@ -458,35 +439,33 @@ void delete_animal(client_t client_vet[], int tam)
 
     if (client_vet[op].exist)
     {
-        delete_animal(client_vet[op].animais, MAX_ANIMAL);
-    }
-    else
-    {
         printf("\nCliente não existe");
+        return;
     }
+
+    delete_animal(client_vet[op].animais, MAX_ANIMAL);
 }
-void delete_animal(animal_t animal_vet[], int tam){
-    
+void delete_animal(animal_t animal_vet[], int tam)
+{
 
-        read_animal_simples(animal_vet, tam);
+    read_animal_simples(animal_vet, tam);
 
-        int op;
-        printf("\nEscolha um animal para ser deletado:\n");
+    int op;
+    printf("\nEscolha um animal para ser deletado:\n");
 
-        do
-        {
-            printf(">");
-            scanf("%d", &op);
+    do
+    {
+        printf(">");
+        scanf("%d", &op);
 
-        } while (!(op >= 0 && op < MAX_ANIMAL));
+    } while (!(op >= 0 && op < MAX_ANIMAL));
 
-        if (animal_vet[op].exist)
-        {
-            animal_vet[op].exist = false;
-            printf("\nAnimal %s deletado\n", animal_vet[op].nome);
-        }
-        else
-        {
-            printf("\nAnimal não existe");
-        }
+    if (animal_vet[op].exist)
+    {
+        printf("\nAnimal não existe");
+        return;
+    }
+
+    animal_vet[op].exist = false;
+    printf("\nAnimal %s deletado\n", animal_vet[op].nome);
 }

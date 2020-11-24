@@ -38,13 +38,9 @@ void pesquisar(int num1, int num2)
     printf(">");
     scanf("%d", &pesquisa);
     if (pesquisa == num1 || pesquisa == num2)
-    {
         result_msg(pesquisa);
-    }
     else
-    {
         result_msg();
-    }
 }
 void result_msg(int result)
 {

@@ -9,7 +9,7 @@ Com ponteiro
 #include <locale.h>
 #include <string.h>
 
-typedef struct 
+typedef struct
 {
     char marca[120];
     char modelo[60];
@@ -18,8 +18,8 @@ typedef struct
     float valor;
 } carro_t;
 
-void cadastrar(carro_t *carro1,carro_t *carro2);
-void pesquisar(carro_t carro1,carro_t carro2);
+void cadastrar(carro_t *carro1, carro_t *carro2);
+void pesquisar(carro_t carro1, carro_t carro2);
 void result_msg(carro_t carro);
 
 int main(void)
@@ -27,14 +27,14 @@ int main(void)
     setlocale(LC_ALL, "Portuguese");
     carro_t carro1;
     carro_t carro2;
-    cadastrar(&carro1,&carro2);
+    cadastrar(&carro1, &carro2);
     pesquisar(carro1, carro2);
     getchar();
     return 0;
 }
-void cadastrar(carro_t *carro1,carro_t *carro2)
+void cadastrar(carro_t *carro1, carro_t *carro2)
 {
-    
+
     printf("\n-------------------------\n");
     printf("\nMarca:\n");
     printf(">");
@@ -55,8 +55,8 @@ void cadastrar(carro_t *carro1,carro_t *carro2)
     gets(carro1->placa);
     printf("\nValor:\n");
     printf(">");
-    scanf("%f",&carro1->valor);
-    
+    scanf("%f", &carro1->valor);
+
     printf("\n-------------------------\n");
     printf("\nMarca:\n");
     printf(">");
@@ -77,9 +77,9 @@ void cadastrar(carro_t *carro1,carro_t *carro2)
     gets(carro2->placa);
     printf("\nValor:\n");
     printf(">");
-    scanf("%f",&carro2->valor);    
+    scanf("%f", &carro2->valor);
 }
-void pesquisar(carro_t carro1,carro_t carro2)
+void pesquisar(carro_t carro1, carro_t carro2)
 {
     char placa[20];
     printf("\nSistema de pesquisa\n");
@@ -87,23 +87,19 @@ void pesquisar(carro_t carro1,carro_t carro2)
     printf(">");
     fflush(stdin);
     gets(placa);
-    if (strcmp(placa,carro1.placa)==0)
-    {
+
+    if (strcmp(placa, carro1.placa) == 0)
         result_msg(carro1);
-    }
-    if (strcmp(placa,carro2.placa)==0)
-    {
+    if (strcmp(placa, carro2.placa) == 0)
         result_msg(carro2);
-    }
-    
 }
 void result_msg(carro_t carro)
 {
     printf("\nInformações\n");
-    printf("\nMarca:%s",carro.marca);
-    printf("\nModelo:%s",carro.modelo);
-    printf("\nCor:%s",carro.cor);
-    printf("\nPlaca:%s",carro.placa);
-    printf("\nValor:%.2f",carro.valor);
-    printf("\nIPVA:%.2f",(carro.valor * 0.03));
+    printf("\nMarca:%s", carro.marca);
+    printf("\nModelo:%s", carro.modelo);
+    printf("\nCor:%s", carro.cor);
+    printf("\nPlaca:%s", carro.placa);
+    printf("\nValor:%.2f", carro.valor);
+    printf("\nIPVA:%.2f", (carro.valor * 0.03));
 }

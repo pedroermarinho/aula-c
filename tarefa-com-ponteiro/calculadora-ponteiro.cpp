@@ -36,88 +36,50 @@ void menu()
         int is_valid = 1;
         system("cls");
 
+        void (*func[])(float, float, float *) = {
+            soma,
+            sub,
+            mult,
+            div,
+            pow};
+
         printf("\nMenu de Operações\n");
-        printf("\n1 - soma");
-        printf("\n2 - subtração");
-        printf("\n3 - multiplicação");
-        printf("\n4 - divisão");
-        printf("\n5 - potencia");
-        printf("\n6 - sair");
+        printf("\n0 - soma");
+        printf("\n1 - subtração");
+        printf("\n2 - multiplicação");
+        printf("\n3 - divisão");
+        printf("\n4 - potencia");
+        printf("\n5 - sair");
 
         int op;
-        printf("\nEscolha uma opção:\n");
-        printf(">");
-        scanf("%d", &op);
-        
-        if (op !=6)
+        do
         {
-           cadastrar(&num1,&num2,op);
-        }
-        
-        
 
-        switch (op)
-        {
-            //1 - soma
-        case 1:
-            soma(num1, num2, &result);
-            break;
-            //2 - subtração
-        case 2:
-            sub(num1, num2, &result);
-            break;
-            //3 - multiplicação
-        case 3:
-            mult(num1, num2, &result);
-            break;
-            //4 - divisão
-        case 4:
-            div(num1, num2, &result);
-            break;
-            //5 - potencia
-        case 5:
-            pow(num1, num2, &result);
-            break;
-            //6 - sair
-        case 6:
+            printf("\nEscolha uma opção:\n");
+            printf(">");
+            scanf("%d", &op);
+            /* code */
+        } while (op < 0 || op > 5);
+
+        if (op == 5)
             exit(1);
-            break;
 
-        default:
-            is_valid = 0;
-            break;
-        }
-        if (is_valid)
-        {
-            result_msg(result);
-        }
+        cadastrar(&num1, &num2, op);
+        func[op](num1, num2, &result);
+        result_msg(result);
 
-        system("pause"); 
+        system("pause");
     } while (1);
 }
 
 void cadastrar(float *num1, float *num2, int op)
 {
-    
-    if (op == 5)
-    {
-        printf("\nDigite um número\n");
-        printf(">");
-        scanf("%f",num1);
-        printf("\nDigite o expoente\n");
-        printf(">");
-        scanf("%f",num2);
-    }
-    else
-    {
-        printf("\nDigite um número\n");
-        printf(">");
-        scanf("%f", num1);
-        printf("\nDigite outro número\n");
-        printf(">");
-        scanf("%f", num2);
-    }
- 
+    printf("\nDigite um número\n");
+    printf(">");
+    scanf("%f", num1);
+    printf(op == 5 ?"\nDigite o expoente\n":"\nDigite outro número\n");
+    printf(">");
+    scanf("%f", num2);
 }
 
 void soma(float num1, float num2, float *result)
@@ -142,13 +104,10 @@ void div(float num1, float num2, float *result)
 {
     printf("\nDivisão\n");
     if (num2 == 0)
-    {
         printf("\nNão existe divisão por 0\n");
-    }
     else
-    {
         *result = num1 / num2;
-    }
+    
 }
 
 void pow(float num1, float num2, float *result)
@@ -156,13 +115,10 @@ void pow(float num1, float num2, float *result)
     printf("\nPotencia\n");
     *result = num1;
     for (int i = 1; i < num2; i++)
-    {
         *result *= num1;
-    }
+
     if (num2 == 0)
-    {
         *result = 1;
-    }
 }
 
 void result_msg(float result)

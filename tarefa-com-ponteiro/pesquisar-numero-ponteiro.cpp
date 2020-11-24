@@ -16,8 +16,8 @@ void result_msg();
 int main(void)
 {
     setlocale(LC_ALL, "Portuguese");
-    int num1,num2;
-    cadastrar(&num1,&num2);
+    int num1, num2;
+    cadastrar(&num1, &num2);
     pesquisar(num1, num2);
     getchar();
     return 0;
@@ -25,14 +25,13 @@ int main(void)
 
 void cadastrar(int *num1, int *num2)
 {
-    
+
     printf("\nDigite um número:\n");
     printf(">");
     scanf("%d", num1);
     printf("\nDigite outro número:\n");
     printf(">");
     scanf("%d", num2);
-   
 }
 void pesquisar(int num1, int num2)
 {
@@ -41,13 +40,9 @@ void pesquisar(int num1, int num2)
     printf(">");
     scanf("%d", &pesquisa);
     if (pesquisa == num1 || pesquisa == num2)
-    {
         result_msg(pesquisa);
-    }
     else
-    {
         result_msg();
-    }
 }
 void result_msg(int result)
 {

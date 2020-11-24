@@ -108,17 +108,14 @@ void exibir(pessoa_t pessoa1, pessoa_t pessoa2, pessoa_t pessoa3)
 {
 
     if (pessoa1.is_valid)
-    {
         exibir_info(pessoa1);
-    }
+
     if (pessoa2.is_valid)
-    {
         exibir_info(pessoa2);
-    }
+    
     if (pessoa3.is_valid)
-    {
         exibir_info(pessoa3);
-    }
+    
     printf("\n");
     system("pause");
 }
@@ -135,17 +132,14 @@ void excluir(pessoa_t *pessoa1, pessoa_t *pessoa2, pessoa_t *pessoa3)
     int op;
     printf("\nValores disponíveis:\n");
     if (pessoa1->is_valid)
-    {
         printf("\n1 -> %s", pessoa1->nome);
-    }
+    
     if (pessoa2->is_valid)
-    {
         printf("\n2 -> %s", pessoa2->nome);
-    }
+    
     if (pessoa3->is_valid)
-    {
         printf("\n3 -> %s", pessoa3->nome);
-    }
+    
     printf("\nSelecione uma letra:\n");
     printf(">");
     scanf("%d", &op);
@@ -194,9 +188,8 @@ void pesquisar(pessoa_t pessoa1, pessoa_t pessoa2, pessoa_t pessoa3)
         exibir_info(pessoa3);
     }
     else
-    {
         printf("\nValor não encontrado\n");
-    }
+
     printf("\n");
     system("pause");
 }
@@ -205,30 +198,19 @@ void alterar(pessoa_t *pessoa1, pessoa_t *pessoa2, pessoa_t *pessoa3)
     int op;
     printf("\nValores disponíveis:\n");
     if (pessoa1->is_valid)
-    {
         printf("\n1 -> %s", pessoa1->nome);
-    }
     else
-    {
         printf("\n1 -> A = Sem Dados");
-    }
 
     if (pessoa2->is_valid)
-    {
         printf("\n1 -> %s", pessoa2->nome);
-    }
     else
-    {
         printf("\n2 -> B = Sem Dados");
-    }
+
     if (pessoa3->is_valid)
-    {
         printf("\n1 -> %s", pessoa3->nome);
-    }
     else
-    {
         printf("\n3 -> C = Sem Dados");
-    }
 
     printf("\nSelecione uma letra:\n");
     printf(">");

@@ -84,17 +84,14 @@ void exibir(int num1, int num2, int num3)
 {
 
     if (num1 != 'NULL')
-    {
         printf("\nA ->%d", num1);
-    }
+
     if (num2 != 'NULL')
-    {
         printf("\nB ->%d", num2);
-    }
+
     if (num3 != 'NULL')
-    {
         printf("\nC ->%d", num3);
-    }
+
     printf("\n");
     system("pause");
 }
@@ -102,18 +99,16 @@ void excluir(int *num1, int *num2, int *num3)
 {
     int op;
     printf("\nValores disponíveis:\n");
+
     if (*num1 != 'NULL')
-    {
         printf("\n1 -> A = %d", *num1);
-    }
+
     if (*num2 != 'NULL')
-    {
         printf("\n2 -> B = %d", *num2);
-    }
+    
     if (*num3 != 'NULL')
-    {
         printf("\n3 -> C = %d", *num3);
-    }
+    
     printf("\nSelecione uma letra:\n");
     printf(">");
     scanf("%d", &op);
@@ -146,21 +141,17 @@ void pesquisar(int *num1, int *num2, int *num3)
     scanf("%d", &pesquisa);
 
     if (*num1 != 'NULL' && pesquisa == *num1)
-    {
         printf("\nNúmero %d encontrado na variavel A!!!\n", *num1);
-    }
+    
     else if (*num1 != 'NULL' && pesquisa == *num2)
-    {
         printf("\nNúmero %d encontrado na variavel B!!!\n", *num2);
-    }
+    
     else if (*num1 != 'NULL' && pesquisa == *num3)
-    {
         printf("\nNúmero %d encontrado na variavel C!!!\n", *num3);
-    }
+    
     else
-    {
         printf("\nValor não encontrado\n");
-    }
+    
     printf("\n");
     system("pause");
 }
@@ -169,26 +160,20 @@ void alterar(int *num1, int *num2, int *num3)
     int op;
     printf("\nValores disponíveis:\n");
     if (*num1 != 'NULL')
-    {
         printf("\n1 -> A = %d", *num1);
-    }else
-    {
+    else
         printf("\n1 -> A = Sem Dados");
-    }
     
     if (*num2 != 'NULL')
-    {
         printf("\n2 -> B = %d", *num2);
-    }else{
+    else
         printf("\n2 -> B = Sem Dados");
-    }
+
     if (*num3 != 'NULL')
-    {
+    
         printf("\n3 -> C = %d", *num3);
-    }else
-    {
+    else
         printf("\n3 -> C = Sem Dados");
-    }
     
     printf("\nSelecione uma letra:\n");
     printf(">");

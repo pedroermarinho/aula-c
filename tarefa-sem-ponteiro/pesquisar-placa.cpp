@@ -85,15 +85,12 @@ void pesquisar(carro_t carro1,carro_t carro2)
     printf("\nPlaca:\n");
     printf(">");
     fflush(stdin);
+    
     gets(placa);
     if (strcmp(placa,carro1.placa)==0)
-    {
         result_msg(carro1);
-    }
     if (strcmp(placa,carro2.placa)==0)
-    {
         result_msg(carro2);
-    }
     
 }
 void result_msg(carro_t carro)

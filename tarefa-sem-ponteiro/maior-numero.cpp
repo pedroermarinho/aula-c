@@ -36,13 +36,11 @@ void cadastrar()
 void maior_numero(int num1, int num2,int num3){
     int result =num1;
 
-    if(result<num2){
+    if(result<num2)
         result =num2;
-    }
+    
     if (result<num3)
-    {
         result =num3;
-    }
 
    result_msg(result); 
     
