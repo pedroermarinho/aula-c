@@ -23,7 +23,7 @@ typedef struct
 	int ano;
 	float valor;
 	char placa[15];
-	int disponivel;
+	int disponível;
 } carro_t;
 
 
@@ -364,11 +364,11 @@ int main()
 
 					do
 					{
-						printf("\nEscolhar um carro disponivel para o clente:");
+						printf("\nEscolhar um carro disponível para o clente:");
 						scanf("%d", &carroAtual);
-					} while (carro_vet[carroAtual].disponivel == 0 || (carroAtual > 4 || carroAtual < 0));
+					} while (carro_vet[carroAtual].disponível == 0 || (carroAtual > 4 || carroAtual < 0));
 
-					carro_vet[carroAtual].disponivel = 0;
+					carro_vet[carroAtual].disponível = 0;
 
 					limpar_tela();
 					select_info(cliente_vet[clienteAtual], carro_vet[carroAtual]);
@@ -405,7 +405,7 @@ int main()
 					isDevolucao = 0;
 					for ( i = 0; i < 5; i++)
 					{
-						if (!carro_vet[i].disponivel)
+						if (!carro_vet[i].disponível)
 						{
 							printf("\n------------------------------\n");
 							status_carro(carro_vet[i], i);
@@ -421,7 +421,7 @@ int main()
 						scanf("%d", &op_menu);
 					} while (op_menu > 4 || op_menu < 0);
 
-					carro_vet[op_menu].disponivel = 1;
+					carro_vet[op_menu].disponível = 1;
 				}
 				else
 				{
@@ -507,7 +507,7 @@ carro_t cadastrar_carro()
 	scanf("%f", &carro.valor);
 	printf("Placa (char)\t\t:");
 	scanf("%s", &carro.placa);
-	carro.disponivel = 1;
+	carro.disponível = 1;
 	return carro;
 }
 
@@ -554,12 +554,12 @@ void info_cliente(cliente_t cliente)
 
 void status_carro(carro_t carro, int index)
 {
-	printf("%d -> %s => %s\n", index, carro.modelo, (carro.disponivel ? "disponivel" : "nao disponivel"));
+	printf("%d -> %s => %s\n", index, carro.modelo, (carro.disponível ? "disponível" : "nao disponível"));
 }
 
 void status_carro_simples(carro_t carro)
 {
-	printf("%s => %s\n", carro.modelo, (carro.disponivel ? "disponivel" : "nao disponivel"));
+	printf("%s => %s\n", carro.modelo, (carro.disponível ? "disponível" : "nao disponível"));
 }
 
 cliente_t gerar_cliente(int index)
@@ -584,7 +584,7 @@ carro_t gerar_carro(int index)
 	carro.ano = 2000 + index;
 	carro.valor = 10 + 10 * index;
 	sprintf(carro.placa, "%s %d", "placa", index);
-	carro.disponivel = 1;
+	carro.disponível = 1;
 
 	return carro;
 }

@@ -8,7 +8,7 @@
 //emprestemos: SO PODERAR LIVRO PARA OS ALUNOS MATRICULADOS, O
 //ALUNO PODERÁ EMPRESTAR ATÉ 3 LIVROS. O ADM REALIZA
 //DEVOLUÇÕES LIVROS: PESQUISA o nome aluno, verificar
-//os livros emprestados e devolver o livro deixando disponivel
+//os livros emprestados e devolver o livro deixando disponível
 //no sistema para o proximo aluguel. O adm terá relatorio de livros
 //emprestados, o aluno e o curso. O funcionario realiza o cadastro dos alunos
 //emprestimos livro, devolução livro.
@@ -48,7 +48,7 @@ typedef struct
 {
     char nome_livro[120];
     int isbn;
-    int disponivel;
+    int disponível;
     curso_t curso;
 } livro_t;
 
@@ -636,7 +636,7 @@ void cadastrar_livros()
 
             livro_vet[i].curso = curso_vet[op];
 
-            livro_vet[i].disponivel = 1;
+            livro_vet[i].disponível = 1;
         }
         is_valid_livro = 1;
     }
@@ -657,7 +657,7 @@ void gerar_livros()
             sprintf(livro_vet[i].nome_livro, "Livro %d", i);
             livro_vet[i].isbn = i;
             livro_vet[i].curso = curso_vet[1];
-            livro_vet[i].disponivel = 1;
+            livro_vet[i].disponível = 1;
         }
         is_valid_livro = 1;
         printf("\n_________Dados do livros gerados automaticamente_________\n");
@@ -731,7 +731,7 @@ void exibir_livros_disp()
     int i;
     for (i = 0; i < MAX_LIVROS; i++)
     {
-        if (livro_vet[i].disponivel)
+        if (livro_vet[i].disponível)
         {
             printf("\n%d - %s - %s", i, livro_vet[i].nome_livro, livro_vet[i].curso.area);
         }
@@ -744,7 +744,7 @@ void exibir_livros_nao_disp()
     int i;
     for (i = 0; i < MAX_LIVROS; i++)
     {
-        if (!livro_vet[i].disponivel)
+        if (!livro_vet[i].disponível)
         {
             printf("\n%d - %s - %s", i, livro_vet[i].nome_livro, livro_vet[i].curso.area);
         }
@@ -779,7 +779,7 @@ void emprestimo_livro()
             scanf("%d", &selectLivro);
             aluno_vet[selectAluno].livro_vet[i] = livro_vet[selectLivro];
 
-            livro_vet[selectLivro].disponivel = 0;
+            livro_vet[selectLivro].disponível = 0;
 
             printf("\nDeseja emprestar outro livro? 1 -sim, 0- nao:\n");
             scanf("%d", &continuarSelecao);
@@ -811,7 +811,7 @@ void devolucao_livro()
         printf("_________Selecione o livro que deseja devolver:_________\n");
         scanf("%d", &op);
 
-        livro_vet[op].disponivel = 1;
+        livro_vet[op].disponível = 1;
 
         int i;
         //for para copmpararação do aluno ao livro
@@ -824,7 +824,7 @@ void devolucao_livro()
                 {
                     aluno_vet[i].livro_vet[j].nome_livro[0] = '\0';
                     aluno_vet[i].livro_vet[j].isbn = 0;
-                    aluno_vet[i].livro_vet[j].disponivel = 0;
+                    aluno_vet[i].livro_vet[j].disponível = 0;
                     aluno_vet[i].livro_vet[j].curso.nome_curso[0] = '\0';
                     aluno_vet[i].livro_vet[j].curso.area[0] = '\0';
                 }
